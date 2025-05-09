@@ -4,7 +4,7 @@
  */
 package softdbmanager;
 
-
+//juancin
 
 public class DBManagerMySQL extends DBManager {
 
