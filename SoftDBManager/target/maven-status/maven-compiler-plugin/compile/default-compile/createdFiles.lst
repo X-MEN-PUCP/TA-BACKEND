@@ -1,0 +1,5 @@
+softdbmanager\DBManager.class
+softdbmanager\util\MotorDeBaseDeDatos.class
+softdbmanager\DBManagerMSSQL.class
+softdbmanager\DBManagerMySQL.class
+softdbmanager\util\Cifrado.class
