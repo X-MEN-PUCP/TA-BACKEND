@@ -11,7 +11,7 @@ package pe.edu.pucp.softinv.softpersistence;
 public class SoftPersistence {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        System.out.println("Hello World! hola");
        
     }
 }
