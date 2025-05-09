@@ -1,5 +1,6 @@
 softdbmanager\DBManager.class
 softdbmanager\util\MotorDeBaseDeDatos.class
+softdbmanager\util\Hola.class
 softdbmanager\DBManagerMSSQL.class
 softdbmanager\DBManagerMySQL.class
 softdbmanager\util\Cifrado.class
