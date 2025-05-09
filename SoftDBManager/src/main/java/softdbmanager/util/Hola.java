@@ -8,6 +8,6 @@ package softdbmanager.util;
  *
  * @author salva
  */
-public class misc {
-    //hola
+public class Hola {
+    // soy hola
 }
