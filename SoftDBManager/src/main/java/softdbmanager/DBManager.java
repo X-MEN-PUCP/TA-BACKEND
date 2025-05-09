@@ -1,4 +1,4 @@
-//xd
+//xd, Salavdor estuvo aqui.
 package softdbmanager;
 
 import java.io.FileNotFoundException;

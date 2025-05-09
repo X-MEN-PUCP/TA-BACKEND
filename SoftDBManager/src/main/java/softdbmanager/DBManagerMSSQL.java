@@ -4,7 +4,7 @@
  */
 package softdbmanager;
 
-
+//hola
 public class DBManagerMSSQL extends DBManager{
 
     protected DBManagerMSSQL(){
