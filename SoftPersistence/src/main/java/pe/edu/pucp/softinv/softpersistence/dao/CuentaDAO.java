@@ -10,6 +10,6 @@ import com.mycompany.softmodel.CuentaDTO;
  *
  * @author Mcerv
  */
-public interface LogInDAO {
-    CuentaDTO buscarPorDNI(Integer dni); 
+public interface CuentaDAO {
+    public CuentaDTO buscarPorDNI(Integer dni); 
 }
