@@ -12,4 +12,5 @@ import com.mycompany.softmodel.CuentaDTO;
  */
 public interface LogInDAO {
     CuentaDTO buscarPorDNI(Integer dni); 
+    //holaaaaa?
 }
