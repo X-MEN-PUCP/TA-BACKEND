@@ -46,7 +46,7 @@ public class NuevoUsuarioBuilder {
         return this;
     }
     
-    public PersonaDTO BuilNuevoUsuario(){
+    public PersonaDTO builNuevoUsuario(){
         PersonaDTO persona = new PersonaDTO();
         CuentaDTO cuenta= new CuentaDTO();
         cuenta.setDni(this.getDni());
