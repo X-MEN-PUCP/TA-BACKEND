@@ -16,7 +16,7 @@ public class LogIn {
             
     public CuentaBO iniciarSesion(Integer dni, String contrasenha){
         CuentaDTO cuenta = new CuentaDTO();
-        cuenta=buscarPorDNI(dni, contrasenha);
+//        cuenta=buscarPorDNI(dni, contrasenha);
         if(cuenta!=null){
             if(cuenta.getContrasenha().equals(Cifrado.cifrarMD5(contrasenha))){
                 //buscar la persona por idCuenta y enviar los id que necesita cada cuenta?

@@ -12,10 +12,10 @@ import pe.edu.pucp.softinv.softpersistence.daoImp.Util.Columna;
  *
  * @author Mcerv
  */
-public class LogInDAOImpl extends DAOImplBase implements LogInDAO{
+public class CuentaDAOImpl extends DAOImplBase implements LogInDAO{
     private CuentaDTO cuenta;
     
-    public LogInDAOImpl() {
+    public CuentaDAOImpl() {
         super("Cuenta");
         this.retornarLlavePrimaria = true;
         this.cuenta = null;
@@ -26,9 +26,10 @@ public class LogInDAOImpl extends DAOImplBase implements LogInDAO{
         this.listaColumnas.add(new Columna("ID_CUENTA", true, true));
         this.listaColumnas.add(new Columna("DNI", false, false));
         this.listaColumnas.add(new Columna("CONTRASENHA", false, false));
+        this.listaColumnas.add(new Columna("ROL", false, false));
     }
     
-    public CuentaDTO buscarPorDNI(Integer dni){
-        
-    }
+//    public CuentaDTO buscarPorDNI(Integer dni){
+//        
+//    }
 }
