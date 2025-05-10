@@ -4,7 +4,6 @@
  */
 package com.mycompany.softmodel;
 
-import com.mycompany.softmodel.Util.Turno;
 import java.time.LocalDate;
 import java.time.LocalTime;
 

@@ -4,8 +4,6 @@
  */
 package com.mycompany.softmodel;
 
-import com.mycompany.softmodel.Util.Rol;
-
 /**
  *
  * @author Mcerv

@@ -6,7 +6,7 @@ package com.mycompany.softbo.Util;
 
 import com.mycompany.softmodel.CuentaDTO;
 import com.mycompany.softmodel.PersonaDTO;
-import com.mycompany.softmodel.Util.Genero;
+import com.mycompany.softmodel.Genero;
 import java.util.Date;
 
 /**

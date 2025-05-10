@@ -4,7 +4,6 @@
  */
 package com.mycompany.softmodel;
 
-import com.mycompany.softmodel.Util.Genero;
 import java.util.Date;
 
 
