@@ -6,18 +6,19 @@ package com.mycompany.softbo;
 
 import com.mycompany.softmodel.CuentaDTO;
 import com.mycompany.softmodel.Rol;
+import softdbmanager.util.Cifrado;
 
 /**
  *
  * @author Mcerv
  */
 public class LogIn {
-    private LogIn
+            
     public CuentaBO iniciarSesion(Integer dni, String contrasenha){
         CuentaDTO cuenta = new CuentaDTO();
         cuenta=buscarPorDNI(dni, contrasenha);
         if(cuenta!=null){
-            if(cuenta.getContrasenha().equals(cifrarMD5(contrasenha))){
+            if(cuenta.getContrasenha().equals(Cifrado.cifrarMD5(contrasenha))){
                 //buscar la persona por idCuenta y enviar los id que necesita cada cuenta?
                 switch (cuenta.getRol()) {
                     case Rol.ADMINISTRADOR:
