@@ -21,17 +21,18 @@ public class LogIn {
             if(cuenta.getContrasenha().equals(Cifrado.cifrarMD5(contrasenha))){
                 //buscar la persona por idCuenta y enviar los id que necesita cada cuenta?
                 switch (cuenta.getRol()) {
-                    case Rol.ADMINISTRADOR:
+                    case ADMINISTRADOR:
                         return new CuentaAdmin(cuenta.getIdCuenta());
-                    case Rol.MEDICO:
+                    case MEDICO:
                         return new CuentaMedico(cuenta.getIdCuenta());
-                    case Rol.PACIENTE:
+                    case PACIENTE:
                         return new CuentaPaciente(cuenta.getIdCuenta());
                     default:
                         throw new AssertionError();
                 }
             }else{
                 System.out.print("Contraseña incorrecta\n");
+                
                 return null;
             } 
         }else{
