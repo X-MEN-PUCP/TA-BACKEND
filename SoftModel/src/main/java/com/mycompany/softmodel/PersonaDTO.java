@@ -134,4 +134,17 @@ public class PersonaDTO {
         this.genero = genero;
     }
     
+    
+    public void copiarDesde(PersonaDTO otra) {
+        this.idPersona = otra.getIdPersona();
+        this.cuenta = otra.getCuenta();
+        this.nombres = otra.getNombres();
+        this.apellidos = otra.getApellidos();
+        this.fechaNaciemiento = otra.getFechaNaciemiento();
+        this.correoElectronico = otra.getCorreoElectronico();
+        this.numCelular = otra.getNumCelular();
+        this.genero = otra.getGenero();
+    }
+    
+    
 }

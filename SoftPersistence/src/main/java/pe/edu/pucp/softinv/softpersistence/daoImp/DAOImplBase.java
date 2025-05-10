@@ -111,11 +111,11 @@ public abstract class DAOImplBase {
             }
             this.colocarSQLenStatement(sql);
             switch (tipo_Operacion) {
-                case Tipo_Operacion.INSERTAR ->
+                case INSERTAR ->
                     this.incluirValorDeParametrosParaInsercion();
-                case Tipo_Operacion.MODIFICAR ->
+                case MODIFICAR ->
                     this.incluirValorDeParametrosParaModificacion();
-                case Tipo_Operacion.ELIMINAR ->
+                case ELIMINAR ->
                     this.incluirValorDeParametrosParaEliminacion();
             }
             resultado = this.ejecutarModificacionEnBD();
