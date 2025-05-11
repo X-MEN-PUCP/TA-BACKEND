@@ -6,6 +6,7 @@ package pe.edu.pucp.softinv.softpersistence.daoImp;
 
 import com.mycompany.softmodel.CuentaDTO;
 import com.mycompany.softmodel.Rol;
+import com.mycompany.softmodel.TipoDocumento;
 import java.sql.SQLException;
 import pe.edu.pucp.softinv.softpersistence.daoImp.Util.Columna;
 import pe.edu.pucp.softinv.softpersistence.dao.CuentaDAO;
@@ -25,29 +26,33 @@ public class CuentaDAOImpl extends DAOImplBase implements CuentaDAO{
     
     @Override
     protected void configurarListaDeColumnas() {
-        this.listaColumnas.add(new Columna("ID_CUENTA", true, true));
-        this.listaColumnas.add(new Columna("DNI", false, false));
-        this.listaColumnas.add(new Columna("CONTRASENHA", false, false));
-        this.listaColumnas.add(new Columna("ROL", false, false));
+        this.listaColumnas.add(new Columna("id_cuenta", true, true));
+        this.listaColumnas.add(new Columna("tipo_documento", true, true));
+        this.listaColumnas.add(new Columna("nro_documento", false, false));
+        this.listaColumnas.add(new Columna("contrasena", false, false));
+        this.listaColumnas.add(new Columna("rol", false, false));
     }
     
     @Override
     protected void instanciarObjetoDelResultSet() throws SQLException {
         this.cuenta = new CuentaDTO();
-        this.cuenta.setIdCuenta(this.resultSet.getInt("ID_CUENTA"));
-        this.cuenta.setDni(this.resultSet.getInt("DNI"));
-        this.cuenta.setContrasenha(this.resultSet.getString("CONTRASENHA"));
-        String rol= this.resultSet.getString("ROL");
+        this.cuenta.setIdCuenta(this.resultSet.getInt("id_cuenta"));
+        String tipoDoc = this.resultSet.getString("tipo_documento");
+        this.cuenta.setTipoDocumento(TipoDocumento.valueOf(tipoDoc.toUpperCase()));                
+        this.cuenta.setNumeroDocumento(this.resultSet.getString("nro_documento"));
+        this.cuenta.setContrasenha(this.resultSet.getString("contrasena"));
+        String rol= this.resultSet.getString("rol");
         this.cuenta.setRol(Rol.valueOf(rol.toUpperCase())); //por si algun valor en la bd está en minuscula
     }
     
     @Override
-    public CuentaDTO buscarPorDNI(Integer dni){
+    public CuentaDTO buscarPorNumeroDocumento(String numeroDoc){
         try {
             this.abrirConexion();
-            String sql = "SELECT ID_CUENTA, DNI, CONTRASENHA, ROL FROM Cuenta WHERE DNI = ?";
+            String sql = "SELECT id_cuenta, tipo_documento, nro_documento, "
+                    + "contrasena, rol FROM Cuenta WHERE nro_documento = ?";
             this.colocarSQLenStatement(sql);
-            this.statement.setInt(1, this.cuenta.getDni());
+            this.statement.setString(1, numeroDoc);
             this.ejecutarConsultaEnBD();
             if (this.resultSet.next()) {
                 instanciarObjetoDelResultSet();
@@ -55,7 +60,7 @@ public class CuentaDAOImpl extends DAOImplBase implements CuentaDAO{
                 limpiarObjetoDelResultSet();
             }
         } catch (SQLException ex) {
-            System.err.println("Error al intentar obtenerPorId - " + ex);
+            System.err.println("Error al intentar buscarPorNumeroDocumento - " + ex);
         } finally {
             try {
                 this.cerrarConexion();

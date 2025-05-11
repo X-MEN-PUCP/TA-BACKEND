@@ -49,7 +49,7 @@ public class NuevoUsuarioBuilder {
     public PersonaDTO builNuevoUsuario(){
         PersonaDTO persona = new PersonaDTO();
         CuentaDTO cuenta= new CuentaDTO();
-        cuenta.setDni(this.getDni());
+//        cuenta.setDni(this.getDni());
         cuenta.setContrasenha(this.getContrasenha());
         persona.setCorreoElectronico(this.getCorreoElectronico());
         persona.setNumCelular(this.getNumCelular());

@@ -4,10 +4,11 @@
  */
 package com.mycompany.softbo;
 
-import com.mycompany.softmodel.CuentaDTO;
+
 import com.mycompany.softmodel.Rol;
 import pe.edu.pucp.softinv.softpersistence.dao.CuentaDAO;
 import pe.edu.pucp.softinv.softpersistence.daoImp.CuentaDAOImpl;
+import com.mycompany.softmodel.CuentaDTO;
 import softdbmanager.util.Cifrado;
 
 /**
@@ -18,15 +19,14 @@ public class LogIn {
     private CuentaDAO cuentaDAO;
     
     public LogIn(){
-        cuentaDAO= new CuentaDAOImpl();
+        cuentaDAO = new CuentaDAOImpl();
     }
     
-    public CuentaBO iniciarSesion(Integer dni, String contrasenha){
+    public CuentaBO iniciarSesion(String numeroDoc, String contrasenha){
         CuentaDTO cuenta;
-        cuenta= cuentaDAO.buscarPorDNI(dni);
+        cuenta= cuentaDAO.buscarPorNumeroDocumento(numeroDoc);
         if(cuenta!=null){
-            if(cuenta.getContrasenha().equals(Cifrado.cifrarMD5(contrasenha))){
-                //buscar la persona por idCuenta y enviar los id que necesita cada cuenta?
+            if(cuenta.getContrasenha().equals(contrasenha)){
                 switch (cuenta.getRol()) {
                     case ADMINISTRADOR:
                         return new CuentaAdmin(cuenta.getIdCuenta());
