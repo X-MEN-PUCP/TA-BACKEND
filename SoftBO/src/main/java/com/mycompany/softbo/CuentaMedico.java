@@ -4,8 +4,11 @@
  */
 package com.mycompany.softbo;
 
+import com.mycompany.softmodel.CitaDTO;
 import com.mycompany.softmodel.EspecialidadDTO;
 import com.mycompany.softmodel.MedicoDTO;
+import java.util.ArrayList;
+import java.util.Date;
 import pe.edu.pucp.softinv.softpersistence.dao.MedicoDAO;
 import pe.edu.pucp.softinv.softpersistence.daoImp.MedicoDAOImpl;
 
@@ -31,5 +34,28 @@ public class CuentaMedico extends CuentaBO{
     @Override
     public void QuienSoy(){
         System.out.println("com.mycompany.softbo.CuentaMedico.QuienSoy()");
+    }
+    
+    public ArrayList<CitaDTO> listarCitasProgramadas(Date fecha){
+        ArrayList<CitaDTO> citas = new ArrayList<CitaDTO>();
+        //ya tengo el id_persona en la clase base
+        //busco las citas con estado: Pagado, Id_persona, fecha
+        return citas;
+    }
+    
+    public ArrayList<CitaDTO> listarCitasDisponibles(Date fecha){
+        ArrayList<CitaDTO> citas = new ArrayList<CitaDTO>();
+        //ya tengo el id_persona en la clase base
+        //busco las citas con estado: Disponible, Id_persona, fecha
+        return citas;
+    }
+    
+    public ArrayList<CitaDTO> listarCitas(Date fecha){
+        ArrayList<CitaDTO> citas = new ArrayList<CitaDTO>();
+        ArrayList<CitaDTO> citasProg= this.listarCitasProgramadas(fecha);
+        ArrayList<CitaDTO> citasDis= this.listarCitasDisponibles(fecha);
+        citas.addAll(citasProg);
+        citas.addAll(citasDis);
+        return citas;
     }
 }
