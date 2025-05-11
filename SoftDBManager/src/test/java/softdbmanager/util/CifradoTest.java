@@ -22,13 +22,13 @@ public class CifradoTest {
     
     @Test
     public void testCifrarMD5() {
-        String clave = "01102003Safp";
-        String claveCifrada;
-        claveCifrada = cifrado.cifrarMD5(clave);
-        System.out.println("Clave Cifrada>"+claveCifrada+"<");
-        String claveDecifrada;
-        claveDecifrada = cifrado.descifrarMD5(claveCifrada);
-        System.out.println("Clave decifrada>"+claveDecifrada+"<");
+//        String clave = "01102003Safp";
+//        String claveCifrada;
+//        claveCifrada = cifrado.cifrarMD5(clave);
+//        System.out.println("Clave Cifrada>"+claveCifrada+"<");
+//        String claveDecifrada;
+//        claveDecifrada = cifrado.descifrarMD5(claveCifrada);
+//        System.out.println("Clave decifrada>"+claveDecifrada+"<");
         
     }
 

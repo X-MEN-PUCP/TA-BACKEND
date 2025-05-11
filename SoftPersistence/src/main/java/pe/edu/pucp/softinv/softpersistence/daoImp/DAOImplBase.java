@@ -421,7 +421,7 @@ public abstract class DAOImplBase {
         persona.setFechaNaciemiento(this.resultSet.getDate("fecha_nacimiento")); //5
         persona.setCorreoElectronico(this.resultSet.getString("correoElectronico")); //6
         persona.setNumCelular(this.resultSet.getString("num_celular")); //7
-        persona.setGenero(Genero.valueOf(this.resultSet.getString("GENERO").toUpperCase())); //8
+        //persona.setGenero(Genero.valueOf(this.resultSet.getString("GENERO").toUpperCase())); //8
         CuentaDTO cuenta = new CuentaDTO();
         cuenta.setIdCuenta(this.resultSet.getInt("id_cuenta")); //9
 

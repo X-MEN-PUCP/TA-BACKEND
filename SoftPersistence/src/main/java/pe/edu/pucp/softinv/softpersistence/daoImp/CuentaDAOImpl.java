@@ -53,6 +53,7 @@ public class CuentaDAOImpl extends DAOImplBase implements CuentaDAO{
     @Override
     public CuentaDTO buscarPorNumeroDocumento(String numeroDoc){
         try {
+            System.out.println("Buscando cuenta...");
             this.abrirConexion();
             String sql = "SELECT id_cuenta, tipo_documento, nro_documento, "
                     + "contrasena, rol FROM Cuenta WHERE nro_documento = ?";
@@ -73,6 +74,7 @@ public class CuentaDAOImpl extends DAOImplBase implements CuentaDAO{
                 System.err.println("Error al cerrar la conexión - " + ex);
             }
         }
+        System.out.println("Cuenta encontrada");
         return this.cuenta;
     }
 }

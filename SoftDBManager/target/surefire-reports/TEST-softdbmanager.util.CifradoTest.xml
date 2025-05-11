@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="softdbmanager.util.CifradoTest" time="0.004" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="softdbmanager.util.CifradoTest" time="0.003" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="24"/>
     <property name="sun.cpu.isalist" value="amd64"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.class.path" value="C:\Porgra3\TA\TA-BACKEND\SoftDBManager\target\test-classes;C:\Porgra3\TA\TA-BACKEND\SoftDBManager\target\classes;C:\Users\Mcerv\.m2\repository\com\mysql\mysql-connector-j\8.0.33\mysql-connector-j-8.0.33.jar;C:\Users\Mcerv\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\Mcerv\.m2\repository\commons-codec\commons-codec\1.18.0\commons-codec-1.18.0.jar;C:\Users\Mcerv\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.6.0\junit-jupiter-api-5.6.0.jar;C:\Users\Mcerv\.m2\repository\org\apiguardian\apiguardian-api\1.1.0\apiguardian-api-1.1.0.jar;C:\Users\Mcerv\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\Mcerv\.m2\repository\org\junit\platform\junit-platform-commons\1.6.0\junit-platform-commons-1.6.0.jar;C:\Users\Mcerv\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.6.0\junit-jupiter-params-5.6.0.jar;C:\Users\Mcerv\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.6.0\junit-jupiter-engine-5.6.0.jar;C:\Users\Mcerv\.m2\repository\org\junit\platform\junit-platform-engine\1.6.0\junit-platform-engine-1.6.0.jar;"/>
+    <property name="java.class.path" value="C:\Users\salva\Desktop\Miscaleunus\Prog3\JavaProg3\APP_MEDICA\SoftDBManager\target\test-classes;C:\Users\salva\Desktop\Miscaleunus\Prog3\JavaProg3\APP_MEDICA\SoftDBManager\target\classes;C:\Users\salva\.m2\repository\com\mysql\mysql-connector-j\8.0.33\mysql-connector-j-8.0.33.jar;C:\Users\salva\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\salva\.m2\repository\commons-codec\commons-codec\1.18.0\commons-codec-1.18.0.jar;C:\Users\salva\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.6.0\junit-jupiter-api-5.6.0.jar;C:\Users\salva\.m2\repository\org\apiguardian\apiguardian-api\1.1.0\apiguardian-api-1.1.0.jar;C:\Users\salva\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\salva\.m2\repository\org\junit\platform\junit-platform-commons\1.6.0\junit-platform-commons-1.6.0.jar;C:\Users\salva\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.6.0\junit-jupiter-params-5.6.0.jar;C:\Users\salva\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.6.0\junit-jupiter-engine-5.6.0.jar;C:\Users\salva\.m2\repository\org\junit\platform\junit-platform-engine\1.6.0\junit-platform-engine-1.6.0.jar;"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="user.variant" value=""/>
@@ -14,54 +14,50 @@
     <property name="java.vm.specification.version" value="24"/>
     <property name="user.country" value="PE"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
-    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-24\bin"/>
-    <property name="sun.java.command" value="C:\Users\Mcerv\AppData\Local\Temp\surefire17554461554770862577\surefirebooter-20250509213436279_3.jar C:\Users\Mcerv\AppData\Local\Temp\surefire17554461554770862577 2025-05-09T21-34-34_736-jvmRun1 surefire-20250509213436279_1tmp surefire_0-20250509213436279_2tmp"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-24.0.1\bin"/>
+    <property name="sun.java.command" value="C:\Users\salva\AppData\Local\Temp\surefire7077538131351702863\surefirebooter-20250510213512328_3.jar C:\Users\salva\AppData\Local\Temp\surefire7077538131351702863 2025-05-10T21-35-12_153-jvmRun1 surefire-20250510213512328_1tmp surefire_0-20250510213512328_2tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="C:\Porgra3\TA\TA-BACKEND\SoftDBManager\target\test-classes;C:\Porgra3\TA\TA-BACKEND\SoftDBManager\target\classes;C:\Users\Mcerv\.m2\repository\com\mysql\mysql-connector-j\8.0.33\mysql-connector-j-8.0.33.jar;C:\Users\Mcerv\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\Mcerv\.m2\repository\commons-codec\commons-codec\1.18.0\commons-codec-1.18.0.jar;C:\Users\Mcerv\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.6.0\junit-jupiter-api-5.6.0.jar;C:\Users\Mcerv\.m2\repository\org\apiguardian\apiguardian-api\1.1.0\apiguardian-api-1.1.0.jar;C:\Users\Mcerv\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\Mcerv\.m2\repository\org\junit\platform\junit-platform-commons\1.6.0\junit-platform-commons-1.6.0.jar;C:\Users\Mcerv\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.6.0\junit-jupiter-params-5.6.0.jar;C:\Users\Mcerv\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.6.0\junit-jupiter-engine-5.6.0.jar;C:\Users\Mcerv\.m2\repository\org\junit\platform\junit-platform-engine\1.6.0\junit-platform-engine-1.6.0.jar;"/>
+    <property name="surefire.test.class.path" value="C:\Users\salva\Desktop\Miscaleunus\Prog3\JavaProg3\APP_MEDICA\SoftDBManager\target\test-classes;C:\Users\salva\Desktop\Miscaleunus\Prog3\JavaProg3\APP_MEDICA\SoftDBManager\target\classes;C:\Users\salva\.m2\repository\com\mysql\mysql-connector-j\8.0.33\mysql-connector-j-8.0.33.jar;C:\Users\salva\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\salva\.m2\repository\commons-codec\commons-codec\1.18.0\commons-codec-1.18.0.jar;C:\Users\salva\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.6.0\junit-jupiter-api-5.6.0.jar;C:\Users\salva\.m2\repository\org\apiguardian\apiguardian-api\1.1.0\apiguardian-api-1.1.0.jar;C:\Users\salva\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\salva\.m2\repository\org\junit\platform\junit-platform-commons\1.6.0\junit-platform-commons-1.6.0.jar;C:\Users\salva\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.6.0\junit-jupiter-params-5.6.0.jar;C:\Users\salva\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.6.0\junit-jupiter-engine-5.6.0.jar;C:\Users\salva\.m2\repository\org\junit\platform\junit-platform-engine\1.6.0\junit-platform-engine-1.6.0.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
-    <property name="user.home" value="C:\Users\Mcerv"/>
+    <property name="user.home" value="C:\Users\salva"/>
     <property name="user.language" value="es"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
-    <property name="java.version.date" value="2025-03-18"/>
-    <property name="java.home" value="C:\Program Files\Java\jdk-24"/>
+    <property name="java.version.date" value="2025-04-15"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk-24.0.1"/>
     <property name="file.separator" value="\"/>
-    <property name="basedir" value="C:\Porgra3\TA\TA-BACKEND\SoftDBManager"/>
+    <property name="basedir" value="C:\Users\salva\Desktop\Miscaleunus\Prog3\JavaProg3\APP_MEDICA\SoftDBManager"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Mcerv\AppData\Local\Temp\surefire17554461554770862577\surefirebooter-20250509213436279_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\salva\AppData\Local\Temp\surefire7077538131351702863\surefirebooter-20250510213512328_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
-    <property name="java.runtime.version" value="24+36-3646"/>
-    <property name="user.name" value="Mcerv"/>
+    <property name="java.runtime.version" value="24.0.1+9-30"/>
+    <property name="user.name" value="salva"/>
     <property name="stdout.encoding" value="Cp1252"/>
     <property name="path.separator" value=";"/>
     <property name="os.version" value="10.0"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="file.encoding" value="UTF-8"/>
     <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
-    <property name="maven.ext.class.path" value="C:\Program Files\NetBeans-22\netbeans\java\maven-nblib\netbeans-eventspy.jar"/>
-    <property name="localRepository" value="C:\Users\Mcerv\.m2\repository"/>
+    <property name="maven.ext.class.path" value="C:\Program Files\NetBeans-18\netbeans\java\maven-nblib\netbeans-eventspy.jar"/>
+    <property name="localRepository" value="C:\Users\salva\.m2\repository"/>
     <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
-    <property name="java.io.tmpdir" value="C:\Users\Mcerv\AppData\Local\Temp\"/>
-    <property name="java.version" value="24"/>
-    <property name="user.dir" value="C:\Porgra3\TA\TA-BACKEND\SoftDBManager"/>
+    <property name="java.io.tmpdir" value="C:\Users\salva\AppData\Local\Temp\"/>
+    <property name="java.version" value="24.0.1"/>
+    <property name="user.dir" value="C:\Users\salva\Desktop\Miscaleunus\Prog3\JavaProg3\APP_MEDICA\SoftDBManager"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="sun.os.patch.level" value=""/>
     <property name="native.encoding" value="Cp1252"/>
-    <property name="java.library.path" value="C:\Program Files\Java\jdk-24\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\OracleEX\dbhomeXE\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\java8path;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;c:\MinGw\bin;c:\MinGW\MSYS\1.0\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\bin;;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\Program Files\PowerShell\7\;C:\Program Files\dotnet\;C:\msys64\ucrt64\bin;C:\Users\Mcerv\AppData\Local\Microsoft\WindowsApps;C:\MinGW\bin;C:\Program Files\Java\jdk1.8.0_202\bin;C:\Users\Mcerv\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Mcerv\AppData\Roaming\npm;C:\Users\Mcerv\.dotnet\tools;C:\Users\Mcerv\AppData\Local\GitHubDesktop\bin;."/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-24.0.1\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;c:\MinGw\bin;c:\MinGW\MSYS\1.0\bin;C:\Program Files\Microchip\xc8\v2.36\bin;C:\Program Files\Git\cmd;C:\Windows\Microsoft.NET\Framework64\v4.0.30319;C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Roslyn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Users\salva\AppData\Local\Microsoft\WindowsApps;C:\Users\salva\AppData\Local\Programs\Microsoft VS Code\bin;C:\msys64\ucrt64\bin;C:\Users\salva\AppData\Local\GitHubDesktop\bin;C:\Users\salva\.dotnet\tools;C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Roslyn\;C:\Windows\Microsoft.NET\Framework64\v4.0.30319;;."/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
     <property name="stderr.encoding" value="Cp1252"/>
     <property name="java.vendor" value="Oracle Corporation"/>
-    <property name="java.vm.version" value="24+36-3646"/>
+    <property name="java.vm.version" value="24.0.1+9-30"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="68.0"/>
   </properties>
-  <testcase name="testCifrarMD5" classname="softdbmanager.util.CifradoTest" time="0.003">
-    <system-out><![CDATA[Clave Cifrada>Bw458yjeZ/sB0yta+Ct5iQ==<
-Clave decifrada>01102003Safp<
-]]></system-out>
-  </testcase>
+  <testcase name="testCifrarMD5" classname="softdbmanager.util.CifradoTest" time="0.002"/>
 </testsuite>

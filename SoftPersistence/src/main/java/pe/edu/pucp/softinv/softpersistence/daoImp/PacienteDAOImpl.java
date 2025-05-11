@@ -46,8 +46,10 @@ public class PacienteDAOImpl extends DAOImplBase implements PacienteDAO{
     @Override
     public PacienteDTO buscarPorIdCuenta(int idCuenta){
         try {
+            System.out.println("Buscando paciente...");
             this.abrirConexion();
-            String sql = "SELECT id_persona, id_historia FROM Persona WHERE id_cuenta = ?";
+            //String sql = "SELECT id_persona, id_historia FROM Persona WHERE id_cuenta = ?";
+            String sql = "SELECT * FROM Persona WHERE id_cuenta = ?";
             this.colocarSQLenStatement(sql);
             this.statement.setInt(1, idCuenta);
             this.ejecutarConsultaEnBD();
@@ -65,6 +67,7 @@ public class PacienteDAOImpl extends DAOImplBase implements PacienteDAO{
                 System.err.println("Error al cerrar la conexión - " + ex);
             }
         }
+        System.out.println("Paciente encontrada");
         return this.paciente;
     }
 }
