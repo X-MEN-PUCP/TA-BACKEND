@@ -4,47 +4,47 @@
  */
 package pe.edu.pucp.softinv.softpersistence.daoImp;
 
-import com.mycompany.softmodel.Genero;
-import com.mycompany.softmodel.HistoriaClinicaDTO;
-import com.mycompany.softmodel.PacienteDTO;
-import com.mycompany.softmodel.PersonaDTO;
 import java.sql.SQLException;
-import pe.edu.pucp.softinv.softpersistence.dao.PacienteDAO;
+
+import com.mycompany.softmodel.AdminDTO;
+import com.mycompany.softmodel.EspecialidadDTO;
+import com.mycompany.softmodel.MedicoDTO;
+import com.mycompany.softmodel.PersonaDTO;
+
+import pe.edu.pucp.softinv.softpersistence.dao.AdminDAO;
 
 /**
  *
- * @author Mcerv
+ * @author salva
  */
-public class PacienteDAOImpl extends DAOImplBase implements PacienteDAO{
-    private PacienteDTO paciente;
-    
-    public PacienteDAOImpl(){
+public class AdminDAOImpl extends DAOImplBase implements AdminDAO{
+
+    private AdminDTO admin;
+
+    public AdminDAOImpl() {
         super("Persona");
+        this.retornarLlavePrimaria = true;
+        this.admin = null;
     }
-    
+
     @Override
-    protected void configurarListaDeColumnas(){
-        
+    protected void configurarListaDeColumnas() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     @Override
-    protected void instanciarObjetoDelResultSet() throws SQLException{
+    protected void instanciarObjetoDelResultSet() throws SQLException {
+        admin = new AdminDTO();
         PersonaDTO cuentaVar = new PersonaDTO();
         cuentaVar = this.cargarLecturaPersona();
-        paciente = new PacienteDTO();
-        paciente.copiarDesde(cuentaVar);
-        HistoriaClinicaDTO historia = new HistoriaClinicaDTO();
-        historia.setIdHistoriaClinica(this.resultSet.getInt("id_historia"));
-        paciente.setHistoriaClinica(historia);
+        admin.copiarDesde(cuentaVar);
+        
     }
-    
+
+
     @Override
-    protected void limpiarObjetoDelResultSet() {
-        this.paciente = null;
-    }
-    
-    @Override
-    public PacienteDTO buscarPorIdCuenta(int idCuenta){
+    public AdminDTO buscarPorIdCuenta(int idCuenta) {
+
         try {
             this.abrirConexion();
             String sql = "SELECT id_persona, id_historia FROM Persona WHERE id_cuenta = ?";
@@ -54,7 +54,7 @@ public class PacienteDAOImpl extends DAOImplBase implements PacienteDAO{
             if (this.resultSet.next()) {
                 instanciarObjetoDelResultSet();
             } else {
-                limpiarObjetoDelResultSet();
+                admin = null;
             }
         } catch (SQLException ex) {
             System.err.println("Error al intentar buscarPorIdCuenta en Paciente- " + ex);
@@ -65,6 +65,9 @@ public class PacienteDAOImpl extends DAOImplBase implements PacienteDAO{
                 System.err.println("Error al cerrar la conexión - " + ex);
             }
         }
-        return this.paciente;
+        return this.admin;
+
     }
+       
+    
 }

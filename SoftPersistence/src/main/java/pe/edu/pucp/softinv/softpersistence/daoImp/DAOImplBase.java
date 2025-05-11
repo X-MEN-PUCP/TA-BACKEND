@@ -13,6 +13,12 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.mycompany.softmodel.CuentaDTO;
+import com.mycompany.softmodel.Genero;
+import com.mycompany.softmodel.HistoriaClinicaDTO;
+import com.mycompany.softmodel.PersonaDTO;
+
 import pe.edu.pucp.softinv.softpersistence.daoImp.Util.Tipo_Operacion;
 import pe.edu.pucp.softinv.softpersistence.daoImp.Util.Columna;
 import softdbmanager.DBManager;
@@ -404,4 +410,25 @@ public abstract class DAOImplBase {
         }
 
     }
+
+
+    public PersonaDTO cargarLecturaPersona() throws SQLException {
+        PersonaDTO persona = new PersonaDTO();
+        persona.setIdPersona(this.resultSet.getInt("id_persona")); //1
+        persona.setNombres(this.resultSet.getString("nombres")); //2
+        persona.setApellido_paterno(this.resultSet.getString("apellido_paterno")); //3
+        persona.setApellido_materno(this.resultSet.getString("apellido_materno")); //4
+        persona.setFechaNaciemiento(this.resultSet.getDate("fecha_nacimiento")); //5
+        persona.setCorreoElectronico(this.resultSet.getString("correoElectronico")); //6
+        persona.setNumCelular(this.resultSet.getString("num_celular")); //7
+        persona.setGenero(Genero.valueOf(this.resultSet.getString("GENERO").toUpperCase())); //8
+        CuentaDTO cuenta = new CuentaDTO();
+        cuenta.setIdCuenta(this.resultSet.getInt("id_cuenta")); //9
+
+        persona.setCuenta(cuenta);
+        
+        return persona;
+    }
+
 }
+

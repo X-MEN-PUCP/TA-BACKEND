@@ -16,7 +16,8 @@ public class PersonaDTO {
     private Integer idPersona;
     private CuentaDTO cuenta;
     private String nombres;
-    private String apellidos;
+    private String apellido_peterno;
+    private String apellido_materno;
     private Date fechaNaciemiento;
     private String correoElectronico;
     private String numCelular;
@@ -67,16 +68,30 @@ public class PersonaDTO {
     /**
      * @return the apellidos
      */
-    public String getApellidos() {
-        return apellidos;
+    public String getApellido_paterno() {
+        return apellido_peterno;
     }
 
     /**
      * @param apellidos the apellidos to set
      */
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
+    public void setApellido_paterno(String apellido_paterno) {
+        this.apellido_peterno = apellido_paterno;
     }
+
+    /**
+     * @return the apellido_materno
+     */
+    public String getApellido_materno() {
+        return apellido_materno;
+    }
+    /**
+     * @param apellido_materno the apellido_materno to set
+     */
+    public void setApellido_materno(String apellido_materno) {
+        this.apellido_materno = apellido_materno;
+    }
+
 
     /**
      * @return the fechaNaciemiento
@@ -139,7 +154,8 @@ public class PersonaDTO {
         this.idPersona = otra.getIdPersona();
         this.cuenta = otra.getCuenta();
         this.nombres = otra.getNombres();
-        this.apellidos = otra.getApellidos();
+        this.apellido_peterno = otra.getApellido_paterno();
+        this.apellido_materno = otra.getApellido_materno();
         this.fechaNaciemiento = otra.getFechaNaciemiento();
         this.correoElectronico = otra.getCorreoElectronico();
         this.numCelular = otra.getNumCelular();
