@@ -26,11 +26,11 @@ public class CuentaDAOImpl extends DAOImplBase implements CuentaDAO{
     
     @Override
     protected void configurarListaDeColumnas() {
-        this.listaColumnas.add(new Columna("id_cuenta", true, true));
-        this.listaColumnas.add(new Columna("tipo_documento", true, true));
-        this.listaColumnas.add(new Columna("nro_documento", false, false));
-        this.listaColumnas.add(new Columna("contrasena", false, false));
-        this.listaColumnas.add(new Columna("rol", false, false));
+//        this.listaColumnas.add(new Columna("id_cuenta", true, true));
+//        this.listaColumnas.add(new Columna("tipo_documento", true, true));
+//        this.listaColumnas.add(new Columna("nro_documento", false, false));
+//        this.listaColumnas.add(new Columna("contrasena", false, false));
+//        this.listaColumnas.add(new Columna("rol", false, false));
     }
     
     @Override
@@ -43,6 +43,11 @@ public class CuentaDAOImpl extends DAOImplBase implements CuentaDAO{
         this.cuenta.setContrasenha(this.resultSet.getString("contrasena"));
         String rol= this.resultSet.getString("rol");
         this.cuenta.setRol(Rol.valueOf(rol.toUpperCase())); //por si algun valor en la bd está en minuscula
+    }
+    
+    @Override
+    protected void limpiarObjetoDelResultSet() {
+        this.cuenta = null;
     }
     
     @Override
