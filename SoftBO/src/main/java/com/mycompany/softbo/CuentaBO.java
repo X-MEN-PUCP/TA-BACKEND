@@ -23,4 +23,8 @@ public class CuentaBO {
     protected void setIdPersona(Integer id){
         this.idPersona=id;
     }
+    
+    public void QuienSoy(){
+        
+    }
 }

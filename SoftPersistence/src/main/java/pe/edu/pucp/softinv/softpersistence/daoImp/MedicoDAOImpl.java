@@ -4,8 +4,11 @@
  */
 package pe.edu.pucp.softinv.softpersistence.daoImp;
 
+import com.mycompany.softmodel.EspecialidadDTO;
 import com.mycompany.softmodel.Genero;
 import com.mycompany.softmodel.MedicoDTO;
+import com.mycompany.softmodel.PersonaDTO;
+
 import java.sql.SQLException;
 import pe.edu.pucp.softinv.softpersistence.dao.MedicoDAO;
 import softdbmanager.DBManager;
@@ -17,12 +20,12 @@ import softdbmanager.DBManager;
 public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
     
     
-    MedicoDTO medioo;
+    MedicoDTO medico;
     
     public MedicoDAOImpl() {
         super("Persona");
         this.retornarLlavePrimaria = true;
-        this.medioo = null;
+        this.medico = null;
     }
     
 
@@ -30,37 +33,40 @@ public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
     protected void configurarListaDeColumnas() {
         
     }
-
+    
+    @Override
+    protected void instanciarObjetoDelResultSet() throws SQLException {
+        medico = new MedicoDTO();
+        PersonaDTO cuentaVar = new PersonaDTO();
+        cuentaVar = this.cargarLecturaPersona();
+        medico.copiarDesde(cuentaVar);
+        EspecialidadDTO especialidad= new EspecialidadDTO();
+        especialidad.setIdEspecialidad(this.resultSet.getInt("id_especialidad"));
+        medico.setEspecialidad(especialidad);
+        medico.setCodMedico(this.resultSet.getString("cod_medico"));
+    }
+    
+    @Override
+    protected void limpiarObjetoDelResultSet() {
+        this.medico = null;
+    }
+    
     @Override
     public MedicoDTO buscarPorIdCuenta(int idCuenta) {
-        
         MedicoDTO cuentaVar = null;
         try {
             this.abrirConexion();
-            String sql = "SELECT * FROM persona WHERE id_cuenta = ?";
+            String sql = "SELECT id_persona, id_especialidad FROM Persona WHERE id_cuenta = ?";
             this.colocarSQLenStatement(sql);
             this.statement.setInt(1, idCuenta);
             this.ejecutarConsultaEnBD();
             if (this.resultSet.next()) {
-                
-                cuentaVar = new MedicoDTO();
-                cuentaVar.setIdPersona(this.resultSet.getInt("ID_PERSONA"));
-                cuentaVar.setNombres(this.resultSet.getString("NOMBRES"));
-                cuentaVar.setApellidos(this.resultSet.getString("APELLIDOS"));
-                cuentaVar.setFechaNaciemiento(this.resultSet.getDate("FECHA_NACIMIENTO"));
-                cuentaVar.setNumCelular(this.resultSet.getString("NUM_CELUALAR"));
-                cuentaVar.setGenero(Genero.valueOf(this.resultSet.getString("GENERO").toUpperCase()));
-                //id especialidad es null
-                //cod medico es null
-                //id historia es null
-                //cuentaVar.setGenero.valueOf(this.resultSet.getString("GENERO").toUpperCase()));
-                
-    
+                this.instanciarObjetoDelResultSet();
             }else{
                 return null;
             }
         } catch (SQLException ex) {
-            System.err.println("Error al intentar obtenerPorId - " + ex);
+            System.err.println("Error al intentar obtenerPorId en Medico- " + ex);
         } finally {
             try {
                 if (this.conexion != null) {
@@ -72,6 +78,5 @@ public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
         }
         return cuentaVar;
     }   
-    
     
 }

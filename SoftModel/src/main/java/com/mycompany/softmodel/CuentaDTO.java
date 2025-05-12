@@ -10,7 +10,8 @@ package com.mycompany.softmodel;
  */
 public class CuentaDTO {
     private Integer idCuenta;
-    private Integer dni;
+    private TipoDocumento tipoDocumento;
+    private String numeroDocumento;
     private String contrasenha;
     private Rol rol;
 
@@ -27,19 +28,33 @@ public class CuentaDTO {
     public void setIdCuenta(Integer idCuenta) {
         this.idCuenta = idCuenta;
     }
-
+    
     /**
-     * @return the dni
+     * @return the tipoDocumento
      */
-    public Integer getDni() {
-        return dni;
+    public TipoDocumento getTipoDocumento() {
+        return tipoDocumento;
     }
 
     /**
-     * @param dni the dni to set
+     * @param tipoDocumento the tipoDocumento to set
      */
-    public void setDni(Integer dni) {
-        this.dni = dni;
+    public void setTipoDocumento(TipoDocumento tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
+    }
+    
+    /**
+     * @return the numeroDocumento
+     */
+    public String getNumeroDocumento() {
+        return numeroDocumento;
+    }
+
+    /**
+     * @param numeroDocumento the numeroDocumento to set
+     */
+    public void setNumeroDocumento(String numeroDocumento) {
+        this.numeroDocumento = numeroDocumento;
     }
 
     /**
@@ -68,7 +83,5 @@ public class CuentaDTO {
      */
     public void setRol(Rol rol) {
         this.rol = rol;
-    }
-    
-    
+    } 
 }
