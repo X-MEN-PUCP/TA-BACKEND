@@ -91,7 +91,7 @@ public class HorarioDAOImpl extends DAOImplBase implements HorarioDAO {
 
     @Override
     public ArrayList<HorarioDTO> listarTodos() {
-        ArrayList<HorarioDTO> listaAlmacenes = new ArrayList<>();
+        ArrayList<HorarioDTO> lista = new ArrayList<>();
         try {
             this.conexion = DBManager.getInstance().getConnection();
             String sql = this.generarSQLParaListarTodos();
@@ -103,7 +103,7 @@ public class HorarioDAOImpl extends DAOImplBase implements HorarioDAO {
                 cuentaVar.setFecha(this.resultSet.getDate("fecha").toLocalDate());
                 cuentaVar.setHoraInicio(this.resultSet.getTime("hora_inicio").toLocalTime());
                 cuentaVar.setTurno(Turno.valueOf(this.resultSet.getString("turno").toUpperCase()));
-                listaAlmacenes.add(cuentaVar);
+                lista.add(cuentaVar);
             }
         } catch (SQLException ex) {
             System.err.println("Error al intentar listarTodos - " + ex);
@@ -116,7 +116,7 @@ public class HorarioDAOImpl extends DAOImplBase implements HorarioDAO {
                 System.err.println("Error al cerrar la conexión - " + ex);
             }
         }
-        return listaAlmacenes;
+        return lista;
     }
 
     @Override

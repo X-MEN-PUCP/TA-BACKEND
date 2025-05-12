@@ -453,6 +453,29 @@ public abstract class DAOImplBase {
         sql = sql.concat(sql_predicado);
         return sql;
     }
+    
+    
+    protected String obtenerUnicoResultadoPorColumna(String llave ) {
+        //sentencia SQL a generar es similar a 
+        //SELECT ALMACEN_ID, NOMBRE, ALMACEN_CENTRAL FROM INV_ALMACENES
+        String sql = "SELECT ";
+        String sql_columnas = "";
+        String sql_predicado = "";
+        sql_predicado = sql_predicado.concat(llave);
+                sql_predicado = sql_predicado.concat("=? LIMIT 1");
+        for (Columna columna : this.listaColumnas) {
+            if (!sql_columnas.isBlank()) {
+                sql_columnas = sql_columnas.concat(", ");
+            }
+            sql_columnas = sql_columnas.concat(columna.getNombre());
+        }
+        sql = sql.concat(sql_columnas);
+        sql = sql.concat(" FROM ");
+        sql = sql.concat(this.nombre_tabla);
+        sql = sql.concat(" WHERE ");
+        sql = sql.concat(sql_predicado);
+        return sql;
+    }
 
 }
 

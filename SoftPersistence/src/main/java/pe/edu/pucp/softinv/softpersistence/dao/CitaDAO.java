@@ -18,5 +18,6 @@ public interface CitaDAO {
     public abstract Integer eliminar(Integer id);
     public abstract CitaDTO obtenerPorId(Integer id);
     public abstract ArrayList<CitaDTO> listarTodos();
+    public abstract ArrayList<CitaDTO> listarTodos(String columna);
     
 }
