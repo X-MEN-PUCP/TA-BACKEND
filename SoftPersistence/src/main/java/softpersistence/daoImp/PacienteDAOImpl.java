@@ -9,7 +9,10 @@ import softmodel.modelos.HistoriaClinicaDTO;
 import softmodel.modelos.PacienteDTO;
 import softmodel.modelos.PersonaDTO;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import softpersistence.dao.PacienteDAO;
+import softpersistence.daoImp.Util.Columna;
 
 /**
  *
@@ -24,7 +27,44 @@ public class PacienteDAOImpl extends DAOImplBase implements PacienteDAO{
     
     @Override
     protected void configurarListaDeColumnas(){
+        this.listaColumnas.add(new Columna("id_persona", true, true));
+        this.listaColumnas.add(new Columna("nombres", false, false));
+        this.listaColumnas.add(new Columna("apellido_paterno", false, false));
+        this.listaColumnas.add(new Columna("apellido_materno", false, false));
+        this.listaColumnas.add(new Columna("fecha_nacimiento", false, false));
+        this.listaColumnas.add(new Columna("correoElectronico", false, false));
+        this.listaColumnas.add(new Columna("num_Celular", false, false));
+        this.listaColumnas.add(new Columna("id_cuenta", false, false));
+        this.listaColumnas.add(new Columna("id_historia", false, false));
         
+        
+    }
+    
+    @Override
+    public Integer insertar(PacienteDTO paciente) {
+        this.paciente = paciente;
+        return super.insertar();
+    }
+
+    @Override
+    protected void incluirValorDeParametrosParaInsercion() {
+        try {
+           //historia clinica debe exitir antes
+            java.util.Date fechaNacimientoUtil = this.paciente.getFechaNaciemiento();
+            java.sql.Date fechaSQL = new java.sql.Date(fechaNacimientoUtil.getTime());
+            this.statement.setString(2, this.paciente.getNombres());
+            this.statement.setString(3, this.paciente.getApellido_paterno());
+            this.statement.setString(4, this.paciente.getApellido_materno());
+            this.statement.setDate(5, fechaSQL);  
+            this.statement.setString(6, this.paciente.getCorreoElectronico());
+            this.statement.setString(7, this.paciente.getNumCelular());
+            this.statement.setString(8, this.paciente.getGenero().toString());
+            this.statement.setInt(9, this.paciente.getCuenta().getIdCuenta());
+            this.statement.setInt(9, this.paciente.getHistoriaClinica().getIdHistoriaClinica());
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(PacienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override

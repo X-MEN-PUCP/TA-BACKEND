@@ -12,6 +12,7 @@ import softmodel.modelos.PacienteDTO;
  */
 public interface PacienteDAO {
     public PacienteDTO buscarPorIdCuenta(int idCuenta);
+    public Integer insertar(PacienteDTO paciente);
     
     
 }
