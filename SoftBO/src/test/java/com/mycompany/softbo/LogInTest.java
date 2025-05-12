@@ -4,6 +4,9 @@
  */
 package com.mycompany.softbo;
 
+import softbusiness.business.CuentaBO;
+import softbusiness.business.LogIn;
+
 /**
  *
  * @author Mcerv
