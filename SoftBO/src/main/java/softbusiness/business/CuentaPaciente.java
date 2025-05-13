@@ -16,6 +16,7 @@ import softmodel.modelos.EspecialidadDTO;
 import softmodel.modelos.MedicoDTO;
 import softmodel.modelos.PagosDTO;
 import softmodel.util.Estado;
+import softmodel.util.EstadoPago;
 import softpersistence.dao.CitaDAO;
 import softpersistence.dao.CuentaDAO;
 import softpersistence.dao.EspecialidadDAO;
@@ -121,9 +122,14 @@ public class CuentaPaciente extends CuentaBO{
         PagosDTO pago = pagosDAO.buscarPorIdCita(cita.getIdCita());
         //actualizar fila de pago con los datos del pago y el estado: exitoso, fecha_pago
         
+        //DATOS DE PAGO
+        
+        //estado y hora
+        pago.setEstado(EstadoPago.EXITOSO);
         LocalDate localDate = LocalDate.now(); // fecha actual sin hora
         Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         pago.setFechaPago(date);
+        pagosDAO.modificar(pago);
         return 4;
     }
     
