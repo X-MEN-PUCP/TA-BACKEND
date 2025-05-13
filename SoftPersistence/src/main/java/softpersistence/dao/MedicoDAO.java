@@ -4,6 +4,8 @@
  */
 package softpersistence.dao;
 
+import java.util.ArrayList;
+
 import softmodel.modelos.MedicoDTO;
 
 /**
@@ -13,5 +15,6 @@ import softmodel.modelos.MedicoDTO;
 public interface MedicoDAO {
     
     public MedicoDTO buscarPorIdCuenta(int idCuenta);
+    public ArrayList<MedicoDTO> listarPorIdEspecialidad(int idEspecialidad);
     
 }
