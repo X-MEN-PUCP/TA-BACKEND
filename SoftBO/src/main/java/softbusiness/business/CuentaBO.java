@@ -9,6 +9,8 @@ package softbusiness.business;
  * @author Mcerv
  */
 public class CuentaBO {
+
+    
     private Integer idCuenta;
     private Integer idPersona;
     
@@ -22,6 +24,14 @@ public class CuentaBO {
     
     protected void setIdPersona(Integer id){
         this.idPersona=id;
+    }
+    
+    protected Integer getIdCuenta() {
+        return idCuenta;
+    }
+
+    protected Integer getIdPersona() {
+        return idPersona;
     }
     
     public void QuienSoy(){

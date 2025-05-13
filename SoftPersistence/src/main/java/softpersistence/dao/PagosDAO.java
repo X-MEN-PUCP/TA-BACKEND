@@ -35,6 +35,7 @@ public interface PagosDAO {
     public PagosDTO buscarPorIdCuenta(int idPago);
     public PagosDTO buscarPorIdCita(int idCita);
     public ArrayList<PagosDTO> listarTodos();
+    public Integer eliminar(int idPago);
 
     
 }

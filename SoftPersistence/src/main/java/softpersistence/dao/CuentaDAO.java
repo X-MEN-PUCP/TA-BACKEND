@@ -12,4 +12,7 @@ import softmodel.modelos.CuentaDTO;
  */
 public interface CuentaDAO {
     public CuentaDTO buscarPorNumeroDocumento(String numeroDoc); 
+    public CuentaDTO obtenerPorID(int idCuenta);
+    public Integer eliminar(Integer id);
+    public Integer modificar(CuentaDTO cuenta);
 }

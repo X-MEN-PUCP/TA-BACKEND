@@ -247,8 +247,38 @@ public class PagosDAOImpl extends DAOImplBase implements PagosDAO {
         return lista;
     }
 
-   
-    
+   @Override
+    public Integer eliminar(int id){
+        int resultado = 0;
+        try {
+            this.conexion = DBManager.getInstance().getConnection();
+            this.conexion.setAutoCommit(false);
+            String sql = this.generarSQLParaEliminacion();
+            this.statement = this.conexion.prepareCall(sql);
+            this.statement.setInt(1, id);
+            resultado = this.statement.executeUpdate();
+            this.conexion.commit();
+        } catch (SQLException ex) {
+            System.err.println("Error al intentar eliminar - " + ex);
+            try {
+                if (this.conexion != null) {
+                    this.conexion.rollback();
+                }
+            } catch (SQLException ex1) {
+                System.err.println("Error al hacer rollback - " + ex1);
+            }
+        } finally {
+            try {
+                if (this.conexion != null) {
+                    this.conexion.close();
+                }
+            } catch (SQLException ex) {
+                System.err.println("Error al cerrar la conexión - " + ex);
+            }
+        }
+        return resultado;
+        
+    }
     
    
     

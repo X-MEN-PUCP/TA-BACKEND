@@ -7,6 +7,8 @@ package softmodel.modelos;
 import softmodel.util.MetodoPago;
 import java.time.LocalDate;
 import java.util.Date;
+import softmodel.util.Estado;
+import softmodel.util.EstadoPago;
 
 /**
  *
@@ -25,6 +27,15 @@ public class PagosDTO {
     private double monto; //float?
     private Date fechaReserva;
     private Date fechaPago;
+    private EstadoPago estado;
+
+    public EstadoPago getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoPago estado) {
+        this.estado = estado;
+    }
 
     /**
      * @return the idPago
