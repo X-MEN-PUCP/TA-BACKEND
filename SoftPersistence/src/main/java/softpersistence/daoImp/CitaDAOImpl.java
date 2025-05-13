@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import softpersistence.dao.CitaDAO;
 import softpersistence.daoImp.Util.Columna;
 import softdbmanager.DBManager;
+import softmodel.util.Estado;
 
 /**
  *
@@ -236,5 +237,19 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
     protected void agregarObjetoALaLista(List lista) throws SQLException {
         this.instanciarObjetoDelResultSet();
         lista.add(this.cita);
-    }    
+    }
+
+    @Override
+    public ArrayList<CitaDTO> listarPorIdMedicoYEstado(Integer idMedico, Estado estado){
+        String sql = super.generarSQLParaListarTodosPorColumnaEspecifica("id_medico");
+        sql = sql.concat(" AND estado = ?");
+        try {
+            this.statement.setString(2, estado.toString());
+        } catch (SQLException ex) {
+            Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Consumer incluirValorDeParametros = null;
+        Object parametros = null;
+        return (ArrayList<CitaDTO>) super.listarTodos(sql, idMedico, incluirValorDeParametros, parametros);
+    }
 }

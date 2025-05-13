@@ -7,6 +7,7 @@ package softpersistence.dao;
 import softmodel.modelos.CitaDTO;
 import java.util.ArrayList;
 import java.util.List;
+import softmodel.util.Estado;
 
 /**
  *
@@ -20,5 +21,6 @@ public interface CitaDAO {
     public CitaDTO obtenerPorId(Integer id);
     public ArrayList<CitaDTO> listarTodos();
     public ArrayList<CitaDTO> listarPorIdMedico(Integer idMedico);
+    public ArrayList<CitaDTO> listarPorIdMedicoYEstado(Integer idMedico, Estado estado);
     
 }
