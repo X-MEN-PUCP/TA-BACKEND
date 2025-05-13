@@ -53,7 +53,7 @@ public class CuentaPaciente extends CuentaBO{
     }
     
     public ArrayList<MedicoDTO> listaDeMedicoPorEspecialidad (Integer idEspecialidad){
-        return medicoDAO.listarPorIdEspecialidad(idEspecialidad);//generico
+        return medicoDAO.listarPorIdEspecialidad(idEspecialidad);
     }
     
     public ArrayList<CitaDTO> listarCitasPorEspecialidadYFecha(Integer idEspecialidad, Date fecha){

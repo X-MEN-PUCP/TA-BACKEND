@@ -10,6 +10,9 @@ import softmodel.modelos.MedicoDTO;
 import softmodel.modelos.PersonaDTO;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+
+
 import softpersistence.dao.MedicoDAO;
 import softdbmanager.DBManager;
 
@@ -78,5 +81,35 @@ public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
         }
         return cuentaVar;
     }   
+
+    @Override
+    public ArrayList<MedicoDTO> listarPorIdEspecialidad(int idEspecialidad){
+        ArrayList<MedicoDTO> lista = new ArrayList<>();
+        MedicoDTO medico = new MedicoDTO();
+        try {
+            this.conexion = DBManager.getInstance().getConnection();
+            String sql = this.generarSQLParaListarTodosPorColumnaEspecifica("Medicos");
+            this.statement = this.conexion.prepareCall(sql);
+            this.statement.setInt(1, idEspecialidad);
+            this.resultSet = this.statement.executeQuery();
+            while (this.resultSet.next()) {
+                
+                instanciarObjetoDelResultSet();
+                lista.add(medico);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al intentar listarTodos - " + ex);
+        } finally {
+            try {
+                if (this.conexion != null) {
+                    this.conexion.close();
+                }
+            } catch (SQLException ex) {
+                System.err.println("Error al cerrar la conexión - " + ex);
+            }
+        }
+        return lista;
+
+    }
     
 }
