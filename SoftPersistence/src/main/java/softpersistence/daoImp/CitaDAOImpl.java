@@ -65,7 +65,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
             Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
     protected void incluirValorDeParametrosParaModificacion() {
         try {
@@ -93,7 +93,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
             MedicoDTO medico = new MedicoDTO();
             medico.setIdPersona(this.resultSet.getInt("id_medico"));
             this.cita.setMedico(medico);
-            
+
             this.cita.setObservacionesMedicas(this.resultSet.getString("observaciones_medicas"));
             //Historia
             HistoriaClinicaDTO historia = new HistoriaClinicaDTO();
@@ -229,22 +229,22 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         }
         return resultado;
     }
-    
+
     @Override
-    public ArrayList<CitaDTO> listarPorIdMedico(Integer idMedico){
+    public ArrayList<CitaDTO> listarPorIdMedico(Integer idMedico) {
         String sql = super.generarSQLParaListarTodosPorColumnaEspecifica("id_medico");
         Consumer incluirValorDeParametros = null;
         Object parametros = null;
         return (ArrayList<CitaDTO>) super.listarTodos(sql, idMedico, incluirValorDeParametros, parametros);
     }
-    
+
     @Override
     protected void agregarObjetoALaLista(List lista) throws SQLException {
         this.instanciarObjetoDelResultSet();
         lista.add(this.cita);
     }
-    
-    private String generarSQLParaListarCitasPorMedicoEstadoYFecha(){
+
+    private String generarSQLParaListarCitasPorMedicoEstadoYFecha() {
         /*SELECT c.id_cita, c.id_horario, c.id_medico, c.observaciones_medicas, c.id_historia, c.estado
             FROM Cita c JOIN Horario h ON c.id_horario = h.id_horario
             WHERE c.id_medico = ? AND c.estado = ? AND DATE(h.fecha) = ?*/
@@ -269,7 +269,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
     }
 
     @Override
-    public ArrayList<CitaDTO> listarPorIdMedicoEstadoFecha(Integer idMedico, Estado estado, java.util.Date fecha){
+    public ArrayList<CitaDTO> listarPorIdMedicoEstadoFecha(Integer idMedico, Estado estado, java.util.Date fecha) {
         String sql = this.generarSQLParaListarCitasPorMedicoEstadoYFecha();
         try {
             this.statement.setString(2, estado.toString());
@@ -282,4 +282,60 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         Object parametros = null;
         return (ArrayList<CitaDTO>) super.listarTodos(sql, idMedico, incluirValorDeParametros, parametros);
     }
+
+    @Override
+    public ArrayList<CitaDTO> ReporteResumenGeneral(Integer especialidad, Estado estado, java.util.Date fechaInicio, java.util.Date fechaFin) {
+
+        ArrayList<CitaDTO> lista = new ArrayList<>();
+        try {
+            StringBuilder sql = new StringBuilder("SELECT * FROM Tabla");
+            List<Object> parametros = new ArrayList<>();
+            List<String> condiciones = new ArrayList<>();
+
+            if (especialidad != null) {
+                condiciones.add("id = ?");
+                parametros.add(especialidad);
+            }
+            if (estado != null) {
+                condiciones.add("nombre = ?");
+                parametros.add(estado);
+            }
+            if (fechaInicio != null && fechaFin != null) {
+                condiciones.add("fecha BETWEEN ? AND ?");
+                parametros.add(new java.sql.Date(fechaInicio.getTime()));
+                parametros.add(new java.sql.Date(fechaFin.getTime()));
+            }
+
+            if (!condiciones.isEmpty()) {
+                sql.append(" WHERE ");
+                sql.append(String.join(" AND ", condiciones));
+            }
+
+            this.conexion = DBManager.getInstance().getConnection();
+            this.statement = this.conexion.prepareCall(sql.toString());
+
+            for (int i = 0; i < parametros.size(); i++) {
+                this.statement.setObject(i + 1, parametros.get(i));
+            }
+
+            this.resultSet = this.statement.executeQuery();
+            while (this.resultSet.next()) {
+                this.instanciarObjetoDelResultSet();
+                lista.add(cita);
+            }
+
+        } catch (SQLException ex) {
+            System.err.println("Error al intentar ReporteResumenGeneral - " + ex);
+        } finally {
+            try {
+                if (this.conexion != null) {
+                    this.conexion.close();
+                }
+            } catch (SQLException ex) {
+                System.err.println("Error al cerrar la conexión - " + ex);
+            }
+        }
+        return lista;
+    }
+
 }

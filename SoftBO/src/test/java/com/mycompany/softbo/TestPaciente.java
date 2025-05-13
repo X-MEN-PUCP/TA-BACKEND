@@ -11,8 +11,8 @@ import softbusiness.business.CuentaPaciente;
  * @author salva
  */
 public class TestPaciente {
-    int id = 0;
-    CuentaPaciente paciente = new CuentaPaciente(id);
+    private int id = 0;
+    
     
     
     

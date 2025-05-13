@@ -14,4 +14,7 @@ public class CuentaAdmin extends CuentaBO{
         super.setIdCuenta(id);
     }
     
+    
+    
+    
 }
