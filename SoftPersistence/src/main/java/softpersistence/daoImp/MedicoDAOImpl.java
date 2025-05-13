@@ -88,7 +88,7 @@ public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
         MedicoDTO medico = new MedicoDTO();
         try {
             this.conexion = DBManager.getInstance().getConnection();
-            String sql = this.generarSQLParaListarTodosPorColumnaEspecifica("Medicos");
+            String sql = this.generarSQLParaListarTodosPorColumnaEspecifica("id_Especialidad");//Nombre columna
             this.statement = this.conexion.prepareCall(sql);
             this.statement.setInt(1, idEspecialidad);
             this.resultSet = this.statement.executeQuery();
