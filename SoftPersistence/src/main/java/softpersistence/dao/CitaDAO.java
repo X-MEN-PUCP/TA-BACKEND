@@ -6,6 +6,7 @@ package softpersistence.dao;
 
 import softmodel.modelos.CitaDTO;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -13,11 +14,11 @@ import java.util.ArrayList;
  */
 public interface CitaDAO {
     
-    public abstract Integer insertar(CitaDTO cita);
-    public abstract Integer modificar(CitaDTO cita);
-    public abstract Integer eliminar(Integer id);
-    public abstract CitaDTO obtenerPorId(Integer id);
-    public abstract ArrayList<CitaDTO> listarTodos();
-    public abstract ArrayList<CitaDTO> listarTodos(String columna);
+    public Integer insertar(CitaDTO cita);
+    public Integer modificar(CitaDTO cita);
+    public Integer eliminar(Integer id);
+    public CitaDTO obtenerPorId(Integer id);
+    public ArrayList<CitaDTO> listarTodos();
+    public ArrayList<CitaDTO> listarPorIdMedico(Integer idMedico);
     
 }

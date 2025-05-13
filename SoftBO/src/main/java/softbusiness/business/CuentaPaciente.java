@@ -8,7 +8,16 @@ import softmodel.modelos.CitaDTO;
 import softmodel.modelos.PacienteDTO;
 import java.util.ArrayList;
 import java.util.Date;
+import softmodel.modelos.EspecialidadDTO;
+import softmodel.modelos.MedicoDTO;
+import softmodel.util.Estado;
+import softpersistence.dao.CitaDAO;
+import softpersistence.dao.EspecialidadDAO;
+import softpersistence.dao.MedicoDAO;
 import softpersistence.dao.PacienteDAO;
+import softpersistence.daoImp.CitaDAOImpl;
+import softpersistence.daoImp.EspecialidadDAOImpl;
+import softpersistence.daoImp.MedicoDAOImpl;
 import softpersistence.daoImp.PacienteDAOImpl;
 
 /**
@@ -18,6 +27,9 @@ import softpersistence.daoImp.PacienteDAOImpl;
 public class CuentaPaciente extends CuentaBO{
     private Integer idHistoria;
     private PacienteDAO pacienteDAO;
+    private EspecialidadDAO especialidadDAO;
+    private MedicoDAO medicoDAO;
+    private CitaDAO citaDAO;
     
     public CuentaPaciente(Integer id){
         super.setIdCuenta(id);
@@ -25,44 +37,48 @@ public class CuentaPaciente extends CuentaBO{
         PacienteDTO paciente = pacienteDAO.buscarPorIdCuenta(id);
         this.idHistoria = paciente.getHistoriaClinica().getIdHistoriaClinica();
         super.setIdPersona(paciente.getIdPersona());
+        this.especialidadDAO= new EspecialidadDAOImpl();
+        this.medicoDAO= new MedicoDAOImpl();
+        this.citaDAO = new CitaDAOImpl();
     }
     
     @Override
     public void QuienSoy(){
         System.out.println("com.mycompany.softbo.CuentaPaciente.QuienSoy()");
     }
+
     
-    public ArrayList<CitaDTO> listarCitasPorEspecialidad(String nombreEspecialidad){
-        String nombreMedico = null;
-        Date fecha = null;
-        return listarCitas(nombreEspecialidad, fecha, nombreMedico);
+    public ArrayList<EspecialidadDTO> listaDeEspecialidades(){
+        return especialidadDAO.listarTodos();
     }
     
-    public ArrayList<CitaDTO> listarCitasPorMedico(String nombreMedico){
-        String nombreEspecialidad = null;
-        Date fecha = null;
-        return listarCitas(nombreEspecialidad, fecha, nombreMedico);
+    public ArrayList<MedicoDTO> listaDeMedicoPorEspecialidad (Integer idEspecialidad){
+        return medicoDAO.listarPorIdEspecialidad(idEspecialidad);//generico
     }
     
-    public ArrayList<CitaDTO> listarCitasPorEspecialidadYFecha(String nombreEspecialidad, Date fecha){
-        String nombreMedico = null;
-        return listarCitas(nombreEspecialidad, fecha, nombreMedico);
+    public ArrayList<CitaDTO> listarCitasPorEspecialidadYFecha(Integer idEspecialidad, Date fecha){
+        Integer idMedico = null;
+        return listarCitas(idEspecialidad, fecha, idMedico);
     }
     
-    public ArrayList<CitaDTO> listarCitasPorMedicoYFecha(String nombreMedico, Date fecha){
-        String nombreEspecialidad = null;
-        return listarCitas(nombreEspecialidad, fecha, nombreMedico);
-    }
-    
-    public ArrayList<CitaDTO> listarCitas(String nombreEspecialidad, Date fecha, String nombreMedico){
+    public ArrayList<CitaDTO> listarCitas(Integer idEspecialidad, Date fecha, Integer idMedico){
         ArrayList<CitaDTO> citas = new ArrayList<CitaDTO>();
-        if(nombreMedico!=null){
-            //busca el idPersona por nombre
+        ArrayList<CitaDTO> citasPorMedico;
+        if(idMedico!=null){
             //busca en la tabla de citas por id Persona y filtra por fecha devuelve un ArryList
-        }else if(nombreEspecialidad!=null){
-            //buca el id_especialidad
+            citasPorMedico = citaDAO.listarPorIdMedico(idMedico);//generico
+            citas.addAll(citasPorMedico);
+        }else if(idEspecialidad!=null){
             //busca en el idPersona por Id_especialidad
+            ArrayList<MedicoDTO> medicos = medicoDAO.listarPorIdEspecialidad(idEspecialidad);//generico
             //busca en la tabla de citas por Id Persona y filtra por fecha devuelve un ArryList
+            
+            for(MedicoDTO medico : medicos){
+                Integer idM = medico.getIdPersona();
+                citasPorMedico = citaDAO.listarPorIdMedicoYEstado(idM, Estado.DISPONIBLE);
+                if(!citasPorMedico.isEmpty())
+                    citas.addAll(citasPorMedico);
+            }
         }else{
             //parametros incorrectos
         }

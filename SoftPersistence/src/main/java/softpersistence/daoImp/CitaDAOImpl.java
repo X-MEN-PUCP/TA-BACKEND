@@ -10,6 +10,8 @@ import softmodel.modelos.HorarioDTO;
 import softmodel.modelos.MedicoDTO;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import softpersistence.dao.CitaDAO;
@@ -77,7 +79,6 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
     @Override
     protected void instanciarObjetoDelResultSet() {
         try {
-            
             cita = new CitaDTO();
             cita.setIdCita(this.resultSet.getInt("id_cita"));
             cita.setObservacionesMedicas(this.resultSet.getString("observaciones_medicas"));
@@ -102,7 +103,6 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
     @Override
     public CitaDTO obtenerPorId(Integer citaID) {
         System.out.println(citaID);
-        CitaDTO citaVar = null;
         try {
             this.conexion = DBManager.getInstance().getConnection();
             String sql = this.generarSQLParaObtenerPorId();
@@ -224,31 +224,17 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         return resultado;
     }
     
+    @Override
+    public ArrayList<CitaDTO> listarPorIdMedico(Integer idMedico){
+        String sql = super.generarSQLParaListarTodosPorColumnaEspecifica("id_medico");
+        Consumer incluirValorDeParametros = null;
+        Object parametros = null;
+        return (ArrayList<CitaDTO>) super.listarTodos(sql, idMedico, incluirValorDeParametros, parametros);
+    }
     
     @Override
-    public ArrayList<CitaDTO> listarTodos(String columna) {
-        ArrayList<CitaDTO> lista = new ArrayList<>();
-        try {
-            this.conexion = DBManager.getInstance().getConnection();
-            String sql = this.generarSQLParaListarTodosPorColumnaEspecifica(columna);
-            this.statement = this.conexion.prepareCall(sql);
-            this.resultSet = this.statement.executeQuery();
-            while (this.resultSet.next()) {
-                this.instanciarObjetoDelResultSet();
-                lista.add(cita);
-            }
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar listarTodos - " + ex);
-        } finally {
-            try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return lista;
-    }
-
+    protected void agregarObjetoALaLista(List lista) throws SQLException {
+        this.instanciarObjetoDelResultSet();
+        lista.add(this.cita);
+    }    
 }

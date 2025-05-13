@@ -330,6 +330,11 @@ public abstract class DAOImplBase {
     }
 
     public List listarTodos(String sql, Consumer incluirValorDeParametros, Object parametros) {
+        Integer id = null;
+        return this.listarTodos(sql, id, incluirValorDeParametros, parametros);
+    }
+    
+    public List listarTodos(String sql, Integer id,Consumer incluirValorDeParametros,Object parametros){
         List lista = new ArrayList<>();
         try {
             this.abrirConexion();
@@ -339,6 +344,9 @@ public abstract class DAOImplBase {
             this.colocarSQLenStatement(sql);
             if (incluirValorDeParametros != null) {
                 incluirValorDeParametros.accept(parametros);
+            }
+            if(id!=null){
+                this.statement.setInt(1, id);
             }
             this.ejecutarConsultaEnBD();
             while (this.resultSet.next()) {
@@ -439,7 +447,7 @@ public abstract class DAOImplBase {
         String sql_columnas = "";
         String sql_predicado = "";
         sql_predicado = sql_predicado.concat(llave);
-                sql_predicado = sql_predicado.concat("=?");
+        sql_predicado = sql_predicado.concat("=?");
         for (Columna columna : this.listaColumnas) {
             if (!sql_columnas.isBlank()) {
                 sql_columnas = sql_columnas.concat(", ");
@@ -453,6 +461,7 @@ public abstract class DAOImplBase {
         sql = sql.concat(sql_predicado);
         return sql;
     }
+    
     
     
     protected String obtenerUnicoResultadoPorColumna(String llave ) {
@@ -476,6 +485,30 @@ public abstract class DAOImplBase {
         sql = sql.concat(sql_predicado);
         return sql;
     }
+    
+//        public List listarTodosPorColumnaEspecifica(String columna, int id){
+//            List lista = new ArrayList<>();
+//            try {
+//                this.abrirConexion(); //
+//                String sql = this.generarSQLParaListarTodosPorColumnaEspecifica(columna); 
+//                this.statement = this.conexion.prepareCall(sql);
+//                this.statement.setInt(1, id);
+//                this.resultSet = this.statement.executeQuery();
+//                while (this.resultSet.next()) {
+//                    this.instanciarObjetoDelResultSet();
+//                    lista.add(cita);
+//                }
+//            } catch (SQLException ex) {
+//                System.err.println("Error al intentar listarTodos - " + ex);
+//            } finally {
+//                try {
+//                    this.cerrarConexion();//
+//                } catch (SQLException ex) {
+//                    System.err.println("Error al cerrar la conexión - " + ex);
+//                }
+//            }
+//            return lista;
+//        }
 
 }
 
