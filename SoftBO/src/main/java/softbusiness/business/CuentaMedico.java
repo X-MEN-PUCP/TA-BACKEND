@@ -9,7 +9,10 @@ import softmodel.modelos.EspecialidadDTO;
 import softmodel.modelos.MedicoDTO;
 import java.util.ArrayList;
 import java.util.Date;
+import softmodel.util.Estado;
+import softpersistence.dao.CitaDAO;
 import softpersistence.dao.MedicoDAO;
+import softpersistence.daoImp.CitaDAOImpl;
 import softpersistence.daoImp.MedicoDAOImpl;
 
 /**
@@ -19,9 +22,12 @@ import softpersistence.daoImp.MedicoDAOImpl;
 public class CuentaMedico extends CuentaBO{
     private Integer idEspecialidad;
     private MedicoDAO medicoDAO;
+    private CitaDAO citaDAO;
+    
     public CuentaMedico(Integer id){
       super.setIdCuenta(id);
       medicoDAO = new MedicoDAOImpl();
+      citaDAO = new CitaDAOImpl();
       MedicoDTO medico = medicoDAO.buscarPorIdCuenta(id); //se debería verificar que se encuentre
       this.idEspecialidad = medico.getEspecialidad().getIdEspecialidad();
       super.setIdPersona(medico.getIdPersona());
@@ -40,6 +46,9 @@ public class CuentaMedico extends CuentaBO{
         ArrayList<CitaDTO> citas = new ArrayList<CitaDTO>();
         //ya tengo el id_persona en la clase base
         //busco las citas con estado: Pagado, Id_persona, fecha
+        int id = super.getIdPersona();
+        citas = citaDAO.listarPorIdMedicoEstadoFecha(id, Estado.PAGADO, fecha);
+        
         return citas;
     }
     
@@ -47,6 +56,8 @@ public class CuentaMedico extends CuentaBO{
         ArrayList<CitaDTO> citas = new ArrayList<CitaDTO>();
         //ya tengo el id_persona en la clase base
         //busco las citas con estado: Disponible, Id_persona, fecha
+        int id = super.getIdPersona();
+        citas = citaDAO.listarPorIdMedicoEstadoFecha(id, Estado.DISPONIBLE, fecha);
         return citas;
     }
     

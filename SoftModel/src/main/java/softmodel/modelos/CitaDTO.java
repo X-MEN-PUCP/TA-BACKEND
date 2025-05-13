@@ -13,7 +13,7 @@ import softmodel.util.Estado;
 public class CitaDTO {
     private Integer idCita;
     private HorarioDTO horario;
-    private PersonaDTO medico;
+    private MedicoDTO medico;
     private String observacionesMedicas;
     private HistoriaClinicaDTO historiaClinicaPaciente;
     private Estado estado;
@@ -49,14 +49,14 @@ public class CitaDTO {
     /**
      * @return the medico
      */
-    public PersonaDTO getMedico() {
+    public MedicoDTO getMedico() {
         return medico;
     }
 
     /**
      * @param medico the medico to set
      */
-    public void setMedico(PersonaDTO medico) {
+    public void setMedico(MedicoDTO medico) {
         this.medico = medico;
     }
 

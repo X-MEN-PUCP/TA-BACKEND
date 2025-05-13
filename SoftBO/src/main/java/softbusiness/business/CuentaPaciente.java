@@ -17,15 +17,18 @@ import softmodel.modelos.MedicoDTO;
 import softmodel.modelos.PagosDTO;
 import softmodel.util.Estado;
 import softmodel.util.EstadoPago;
+import softmodel.util.MetodoPago;
 import softpersistence.dao.CitaDAO;
 import softpersistence.dao.CuentaDAO;
 import softpersistence.dao.EspecialidadDAO;
+import softpersistence.dao.HorarioDAO;
 import softpersistence.dao.MedicoDAO;
 import softpersistence.dao.PacienteDAO;
 import softpersistence.dao.PagosDAO;
 import softpersistence.daoImp.CitaDAOImpl;
 import softpersistence.daoImp.CuentaDAOImpl;
 import softpersistence.daoImp.EspecialidadDAOImpl;
+import softpersistence.daoImp.HorarioDAOImpl;
 import softpersistence.daoImp.MedicoDAOImpl;
 import softpersistence.daoImp.PacienteDAOImpl;
 import softpersistence.daoImp.PagosDAOImpl;
@@ -42,6 +45,7 @@ public class CuentaPaciente extends CuentaBO{
     private CitaDAO citaDAO;
     private CuentaDAO cuentaDAO;
     private PagosDAO pagosDAO;
+    private HorarioDAO horarioDAO;
     
     public CuentaPaciente(Integer id){
         super.setIdCuenta(id);
@@ -54,6 +58,7 @@ public class CuentaPaciente extends CuentaBO{
         this.citaDAO = new CitaDAOImpl();
         this.cuentaDAO= new CuentaDAOImpl();
         this.pagosDAO = new PagosDAOImpl();
+        this.horarioDAO = new HorarioDAOImpl();
     }
     
     @Override
@@ -101,7 +106,17 @@ public class CuentaPaciente extends CuentaBO{
     //o tal vez solo debería pasar el id?
     public int reservarCita(CitaDTO cita){
         //actualizar cita (Estado: reservado)
+        cita.setEstado(Estado.RESERVADO);
+        citaDAO.modificar(cita);
         //crear nueva fila de pago (solo id, id_cita, estado: pendiente, fecha_reserva, monto)
+        PagosDTO pago = new PagosDTO();
+        pago.setCita(cita);
+        pago.setEstado(EstadoPago.PENDIENTE);
+        LocalDate localDate = LocalDate.now(); // fecha actual sin hora
+        Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        pago.setFechaReserva(date);
+        pago.setMonto(cita.getMedico().getEspecialidad().getPrecioConsulta());
+        pagosDAO.modificar(pago);
         return 2;
     }
     
@@ -115,7 +130,8 @@ public class CuentaPaciente extends CuentaBO{
         return 3;
     }
     
-    public int pagarCita(CitaDTO cita){
+    public int pagarCita(CitaDTO cita,String titular,String numTarjeta,String cvv, MetodoPago metodo
+    , LocalDate fecha){
         //actualizar cita (Esatado: Pagado)
         cita.setEstado(Estado.PAGADO);
         citaDAO.modificar(cita);
@@ -123,6 +139,11 @@ public class CuentaPaciente extends CuentaBO{
         //actualizar fila de pago con los datos del pago y el estado: exitoso, fecha_pago
         
         //DATOS DE PAGO
+        pago.setTitular(Cifrado.cifrarMD5(titular));
+        pago.setNumTarjeta(Cifrado.cifrarMD5(numTarjeta));
+        pago.setMetodoPago(metodo);
+        pago.setFechaExpiracion(fecha);
+        pago.setCVV(Cifrado.cifrarMD5(cvv));
         
         //estado y hora
         pago.setEstado(EstadoPago.EXITOSO);
@@ -135,6 +156,7 @@ public class CuentaPaciente extends CuentaBO{
     
     public void reprogramarCita(){
         //no se como implemnetarlo
+        
         //también se deberían listar las nuevas citas y volver a elegir? pero 
     }
     
