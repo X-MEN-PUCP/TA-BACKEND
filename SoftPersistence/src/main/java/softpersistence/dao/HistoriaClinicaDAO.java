@@ -4,10 +4,15 @@
  */
 package softpersistence.dao;
 
+import java.util.ArrayList;
+import softmodel.modelos.HistoriaClinicaDTO;
+
 /**
  *
  * @author salva
  */
 public interface HistoriaClinicaDAO {
+    
+    public ArrayList<HistoriaClinicaDTO> listarTodos();
     
 }
