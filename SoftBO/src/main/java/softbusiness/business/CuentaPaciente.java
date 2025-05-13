@@ -62,25 +62,24 @@ public class CuentaPaciente extends CuentaBO{
     }
     
     public ArrayList<CitaDTO> listarCitas(Integer idEspecialidad, Date fecha, Integer idMedico){
-        ArrayList<CitaDTO> citas = new ArrayList<CitaDTO>();
+        ArrayList<CitaDTO> citas = new ArrayList<>();
         ArrayList<CitaDTO> citasPorMedico;
         if(idMedico!=null){
             //busca en la tabla de citas por id Persona y filtra por fecha devuelve un ArryList
-            citasPorMedico = citaDAO.listarPorIdMedico(idMedico);//generico
+            citasPorMedico = citaDAO.listarPorIdMedicoEstadoFecha(idMedico, Estado.DISPONIBLE, fecha);//generico
             citas.addAll(citasPorMedico);
         }else if(idEspecialidad!=null){
             //busca en el idPersona por Id_especialidad
             ArrayList<MedicoDTO> medicos = medicoDAO.listarPorIdEspecialidad(idEspecialidad);//generico
             //busca en la tabla de citas por Id Persona y filtra por fecha devuelve un ArryList
-            
             for(MedicoDTO medico : medicos){
                 Integer idM = medico.getIdPersona();
-                citasPorMedico = citaDAO.listarPorIdMedicoYEstado(idM, Estado.DISPONIBLE);
+                citasPorMedico = citaDAO.listarPorIdMedicoEstadoFecha(idM, Estado.DISPONIBLE, fecha);
                 if(!citasPorMedico.isEmpty())
                     citas.addAll(citasPorMedico);
             }
         }else{
-            //parametros incorrectos
+            System.out.println("Debe seleccionar una especialidad o un médico. Error listar Citas");
         }
         return citas;
     }

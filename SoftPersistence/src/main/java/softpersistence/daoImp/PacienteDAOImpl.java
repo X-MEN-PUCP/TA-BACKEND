@@ -69,8 +69,7 @@ public class PacienteDAOImpl extends DAOImplBase implements PacienteDAO{
     
     @Override
     protected void instanciarObjetoDelResultSet() throws SQLException{
-        PersonaDTO cuentaVar = new PersonaDTO();
-        cuentaVar = this.cargarLecturaPersona();
+        PersonaDTO cuentaVar = this.cargarLecturaPersona();
         paciente = new PacienteDTO();
         paciente.copiarDesde(cuentaVar);
         HistoriaClinicaDTO historia = new HistoriaClinicaDTO();
