@@ -126,6 +126,7 @@ public class HorarioDAOImpl extends DAOImplBase implements HorarioDAO {
             this.conexion = DBManager.getInstance().getConnection();
             this.conexion.setAutoCommit(false);
             String sql = this.generarSQLParaModificacion();
+            this.statement = this.conexion.prepareCall(sql);
             this.statement.setDate(1, java.sql.Date.valueOf(this.cuenta.getFecha()));
             this.statement.setTime(2, java.sql.Time.valueOf(this.cuenta.getHoraInicio()));
             this.statement.setString(3,this.cuenta.getTurno().toString());

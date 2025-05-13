@@ -150,6 +150,7 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO{
             this.conexion = DBManager.getInstance().getConnection();
             this.conexion.setAutoCommit(false);
             String sql = this.generarSQLParaModificacion();
+            this.statement = this.conexion.prepareCall(sql);
             this.incluirValorDeParametrosParaModificacion();
             resultado = this.statement.executeUpdate();
             this.conexion.commit();
