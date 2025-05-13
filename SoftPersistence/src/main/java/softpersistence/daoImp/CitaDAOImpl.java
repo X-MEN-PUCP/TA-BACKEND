@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import softpersistence.dao.CitaDAO;
 import softpersistence.daoImp.Util.Columna;
 import softdbmanager.DBManager;
+import softmodel.modelos.PacienteDTO;
 import softmodel.util.Estado;
 
 /**
@@ -336,6 +337,68 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
             }
         }
         return lista;
+    }
+    
+    
+    @Override
+    public ArrayList<CitaDTO> listarPorMedico(int idMedico){
+        ArrayList<CitaDTO> lista = new ArrayList<>();
+        CitaDTO cita = new CitaDTO();
+        try {
+            this.conexion = DBManager.getInstance().getConnection();
+            String sql = this.generarSQLParaListarTodosPorColumnaEspecifica("id_medico");//Nombre columna
+            this.statement = this.conexion.prepareCall(sql);
+            this.statement.setInt(1, idMedico);
+            this.resultSet = this.statement.executeQuery();
+            while (this.resultSet.next()) {
+                
+                instanciarObjetoDelResultSet();
+                lista.add(cita);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al intentar listarTodos - " + ex);
+        } finally {
+            try {
+                if (this.conexion != null) {
+                    this.conexion.close();
+                }
+            } catch (SQLException ex) {
+                System.err.println("Error al cerrar la conexión - " + ex);
+            }
+        }
+        return lista;
+
+    }
+
+    @Override
+    public ArrayList<CitaDTO> listarPorPaciente(PacienteDTO paciente) {
+        ArrayList<CitaDTO> lista = new ArrayList<>();
+        CitaDTO cita = new CitaDTO();
+        try {
+            this.conexion = DBManager.getInstance().getConnection();
+            String sql = this.generarSQLParaListarTodosPorColumnaEspecifica("id_historia");//Nombre columna
+            this.statement = this.conexion.prepareCall(sql);
+            int idHistoria = paciente.getHistoriaClinica().getIdHistoriaClinica();
+            this.statement.setInt(1, idHistoria);
+            this.resultSet = this.statement.executeQuery();
+            while (this.resultSet.next()) {
+                
+                instanciarObjetoDelResultSet();
+                lista.add(cita);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al intentar listarTodos - " + ex);
+        } finally {
+            try {
+                if (this.conexion != null) {
+                    this.conexion.close();
+                }
+            } catch (SQLException ex) {
+                System.err.println("Error al cerrar la conexión - " + ex);
+            }
+        }
+        return lista;
+        
     }
 
 }
