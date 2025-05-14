@@ -5,6 +5,8 @@
 package softpersistence.daoImp;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.function.Consumer;
 
 import softmodel.modelos.AdminDTO;
 import softmodel.modelos.EspecialidadDTO;
@@ -45,27 +47,13 @@ public class AdminDAOImpl extends DAOImplBase implements AdminDAO{
     @Override
     public AdminDTO buscarPorIdCuenta(int idCuenta) {
 
-        try {
-            this.abrirConexion();
-            String sql = "SELECT id_persona, id_historia FROM Persona WHERE id_cuenta = ?";
-            this.colocarSQLenStatement(sql);
-            this.statement.setInt(1, idCuenta);
-            this.ejecutarConsultaEnBD();
-            if (this.resultSet.next()) {
-                instanciarObjetoDelResultSet();
-            } else {
-                admin = null;
-            }
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar buscarPorIdCuenta en Paciente- " + ex);
-        } finally {
-            try {
-                this.cerrarConexion();
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return this.admin;
+        String sql = this.generarSQLParaListarTodosPorColumnaEspecifica("id_cuenta");//Nombre columna
+        Consumer incluirValorDeParametros = null;
+        Object parametros = null;
+        ArrayList<AdminDTO> admins = (ArrayList<AdminDTO>) super.listarTodos(sql, idCuenta, incluirValorDeParametros, parametros);
+        if(admins.size()>0)
+            return admins.get(0);
+        return null;
 
     }
        

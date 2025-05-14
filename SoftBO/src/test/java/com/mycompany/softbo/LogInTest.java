@@ -14,6 +14,7 @@ import softbusiness.business.LogIn;
 
 import softmodel.modelos.*;
 import java.util.Random;
+import softbusiness.business.CuentaAdmin;
 import softbusiness.business.CuentaMedico;
 import softbusiness.business.CuentaPaciente;
 import softmodel.util.*;
@@ -113,46 +114,73 @@ public class LogInTest {
 //        }
 //    }
     
-    @org.junit.jupiter.api.Test
-    public void testIniciarSesionVistaMedico() throws ParseException {
-        
-        System.out.println("iniciarSesion");
-        String dni = "77751498";
-        String contrasenha = "pass2";
-        CuentaBO cuenta=null;
-        LogIn instance = new LogIn();
-        cuenta = instance.iniciarSesion(dni, contrasenha);
-        if(cuenta!=null){
-            System.out.println("Bienvenido");
-            cuenta.QuienSoy();
-            ArrayList<CitaDTO> citas;
-            ArrayList<CitaDTO> citasProgramadas;
-            ArrayList<CitaDTO> citasDisponibles;
-            if(cuenta instanceof CuentaMedico){
-                CuentaMedico cuentaMedico = (CuentaMedico) cuenta;
-                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date fecha = formato.parse("2025-06-13 00:00:00");
-                citas = cuentaMedico.listarCitas(fecha);
-                System.out.println("Lista citas: "+citas.size());
-                citasProgramadas = cuentaMedico.listarCitasProgramadas(fecha);
-                System.out.println("Lista citas programadas: "+citasProgramadas.size());
-                citasDisponibles = cuentaMedico.listarCitasDisponibles(fecha);
-                System.out.println("Lista citas disponibles : "+citasDisponibles.size());
-            }
-        }
-    }
-    
 //    @org.junit.jupiter.api.Test
-//    public void testIniciarSesionVistaAdministrador() {
+//    public void testIniciarSesionVistaMedico() throws ParseException {
+//        
 //        System.out.println("iniciarSesion");
-//        String dni = "75843948";
-//        String contrasenha = "xd";
+//        String dni = "77751498";
+//        String contrasenha = "pass2";
 //        CuentaBO cuenta=null;
 //        LogIn instance = new LogIn();
 //        cuenta = instance.iniciarSesion(dni, contrasenha);
 //        if(cuenta!=null){
 //            System.out.println("Bienvenido");
 //            cuenta.QuienSoy();
+//            ArrayList<CitaDTO> citas;
+//            ArrayList<CitaDTO> citasProgramadas;
+//            ArrayList<CitaDTO> citasDisponibles;
+//            if(cuenta instanceof CuentaMedico){
+//                CuentaMedico cuentaMedico = (CuentaMedico) cuenta;
+//                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                Date fecha = formato.parse("2025-06-13 00:00:00");
+//                citas = cuentaMedico.listarCitas(fecha);
+//                System.out.println("Lista citas: "+citas.size());
+//                citasProgramadas = cuentaMedico.listarCitasProgramadas(fecha);
+//                System.out.println("Lista citas programadas: "+citasProgramadas.size());
+//                citasDisponibles = cuentaMedico.listarCitasDisponibles(fecha);
+//                System.out.println("Lista citas disponibles : "+citasDisponibles.size());
+//            }
 //        }
 //    }
+    
+    @org.junit.jupiter.api.Test
+    public void testIniciarSesionVistaAdministrador() throws ParseException {
+        System.out.println("iniciarSesion");
+        String dni = "72945356";
+        String contrasenha = "pass3";
+        CuentaBO cuenta=null;
+        LogIn instance = new LogIn();
+        cuenta = instance.iniciarSesion(dni, contrasenha);
+        if(cuenta!=null){
+            System.out.println("Bienvenido");
+            cuenta.QuienSoy();
+            
+            ArrayList<CitaDTO> ReporteResumenGeneral;
+            ArrayList<CitaDTO> ReporteMedico;
+            ArrayList<CitaDTO> reportePaciente;
+            if(cuenta instanceof CuentaAdmin){
+                CuentaAdmin cuentaAdmin = (CuentaAdmin) cuenta;
+                
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date fechaIniDate = formato.parse("2025-06-10 00:00:00");
+                Date fechaFinDate = formato.parse("2025-06-20 00:00:00");
+                PacienteDTO paciente = new PacienteDTO();
+                HistoriaClinicaDTO historia= new HistoriaClinicaDTO();
+                historia.setIdHistoriaClinica(1);
+                paciente.setHistoriaClinica(historia);
+                System.out.println("Generando reporte Resumen...");
+                ReporteResumenGeneral = cuentaAdmin.GenerarReporteResumenGeneral(null, null, fechaIniDate, fechaFinDate);
+                System.out.println("Lista citas: "+ReporteResumenGeneral.size());
+                System.out.println("Generando reporte del medico...");
+                ReporteMedico = cuentaAdmin.ReporteCitasDelMedico(2);
+                System.out.println("Lista citas del medico: "+ReporteMedico.size());
+                System.out.println("Generando reporte del paciente...");
+                reportePaciente = cuentaAdmin.ReporteCitasPaciente(paciente);
+                System.out.println("Lista citas del paciente : "+reportePaciente.size());
+                
+                
+            }
+            
+        }
+    }
 }

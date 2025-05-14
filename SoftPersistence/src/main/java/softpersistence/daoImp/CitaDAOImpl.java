@@ -302,28 +302,28 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
 
         ArrayList<CitaDTO> lista = new ArrayList<>();
         try {
-            StringBuilder sql = new StringBuilder("SELECT * FROM Tabla");
+            StringBuilder sql = new StringBuilder("SELECT c.* FROM Cita c " +
+            "JOIN Horario h ON c.id_horario = h.id_horario " +
+            "JOIN Persona p ON c.id_medico = p.id_persona " +
+            "WHERE 1=1");
             List<Object> parametros = new ArrayList<>();
             List<String> condiciones = new ArrayList<>();
 
             if (especialidad != null) {
-                condiciones.add("id = ?");
+                condiciones.add(" AND p.id_especialidad  = ?");
                 parametros.add(especialidad);
             }
             if (estado != null) {
-                condiciones.add("nombre = ?");
+                condiciones.add("  AND c.estado = ?");
                 parametros.add(estado);
             }
             if (fechaInicio != null && fechaFin != null) {
-                condiciones.add("fecha BETWEEN ? AND ?");
+                condiciones.add(" AND h.fecha BETWEEN ? AND ? ");
                 parametros.add(new java.sql.Date(fechaInicio.getTime()));
                 parametros.add(new java.sql.Date(fechaFin.getTime()));
             }
 
-            if (!condiciones.isEmpty()) {
-                sql.append(" WHERE ");
-                sql.append(String.join(" AND ", condiciones));
-            }
+            sql.append(String.join(" ", condiciones));
 
             this.conexion = DBManager.getInstance().getConnection();
             this.statement = this.conexion.prepareCall(sql.toString());
