@@ -229,7 +229,6 @@ public class LogInTest {
                 cita.setHorario(horario);
                 
                 
-                
 //                insertado=cuentaAdmin.insertarNuevaCita(cita);
 //                System.out.println("Insertado cita "+insertado);
             }
