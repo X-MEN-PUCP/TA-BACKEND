@@ -13,7 +13,7 @@ import java.sql.Date;
  */
 public class NotificacionesDTO {
     
-    Integer idNotificacion;
+    int idNotificacion;
     CuentaDTO cuenta;
     CitaDTO cita;
     String tipo;
@@ -35,7 +35,7 @@ public class NotificacionesDTO {
     }
     
     public NotificacionesDTO() {
-        this.idNotificacion = null;
+        this.idNotificacion = 0;
         this.cuenta = null;
         this.cita = null;
         this.tipo = null;
