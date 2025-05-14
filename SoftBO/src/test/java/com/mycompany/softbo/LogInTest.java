@@ -90,11 +90,14 @@ public class LogInTest {
 
                     if (citas.size() != 0) {
                         System.out.println(citas.get(0).getIdCita() + "Cita");
+                        int historiaVieja = citavieja.getHistoriaClinicaPaciente().getIdHistoriaClinica();
                         citaElegida = citas.get(0);
                         System.out.println("Reprogramando...");
                         Integer reprogramacion = cuentaPaciente.reprogramarCita(citavieja.getIdCita(), citaElegida.getIdCita());
                         System.out.println("Reprogramado: " + reserva);
-                        System.out.println("Cencelando...");
+                        System.out.println("Cancelando...");
+                        citaElegida.getHistoriaClinicaPaciente().setIdHistoriaClinica(historiaVieja);
+                        System.err.println("Historia cita elegida" + citaElegida.getHistoriaClinicaPaciente().getIdHistoriaClinica());
                         Integer cancelar = cuentaPaciente.cancelarCita(citaElegida);
                         System.out.println("Cancelado: " + cancelar);
                         
