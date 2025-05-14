@@ -122,6 +122,7 @@ public class HorarioDAOImpl extends DAOImplBase implements HorarioDAO {
     @Override
     public Integer modificar(HorarioDTO cuenta) {
         int resultado = 0;
+        this.cuenta = cuenta;
         try {
             this.conexion = DBManager.getInstance().getConnection();
             this.conexion.setAutoCommit(false);
@@ -130,6 +131,7 @@ public class HorarioDAOImpl extends DAOImplBase implements HorarioDAO {
             this.statement.setDate(1, java.sql.Date.valueOf(this.cuenta.getFecha()));
             this.statement.setTime(2, java.sql.Time.valueOf(this.cuenta.getHoraInicio()));
             this.statement.setString(3,this.cuenta.getTurno().toString());
+            this.statement.setInt(5,this.cuenta.getIdHorario());
 
             resultado = this.statement.executeUpdate();
             this.conexion.commit();

@@ -61,7 +61,11 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
             this.statement.setInt(1, this.cita.getHorario().getIdHorario());
             this.statement.setInt(2, this.cita.getMedico().getIdPersona());
             this.statement.setString(3, this.cita.getObservacionesMedicas());
-            this.statement.setInt(4, this.cita.getHistoriaClinicaPaciente().getIdHistoriaClinica());
+            if (this.cita.getHistoriaClinicaPaciente() != null) {
+                this.statement.setInt(4, this.cita.getHistoriaClinicaPaciente().getIdHistoriaClinica());
+            } else {
+                this.statement.setNull(4, java.sql.Types.INTEGER);
+            }
             this.statement.setString(5, this.cita.getEstado().toString());
         } catch (SQLException ex) {
             Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -74,7 +78,11 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
             this.statement.setInt(1, this.cita.getHorario().getIdHorario());
             this.statement.setInt(2, this.cita.getMedico().getIdPersona());
             this.statement.setString(3, this.cita.getObservacionesMedicas());
-            this.statement.setInt(4, this.cita.getHistoriaClinicaPaciente().getIdHistoriaClinica());
+            if (this.cita.getHistoriaClinicaPaciente() != null) {
+                this.statement.setInt(4, this.cita.getHistoriaClinicaPaciente().getIdHistoriaClinica());
+            } else {
+                this.statement.setNull(4, java.sql.Types.INTEGER);
+            }
             this.statement.setString(5, this.cita.getEstado().toString());
             this.statement.setInt(6, this.cita.getIdCita());
         } catch (SQLException ex) {
@@ -101,6 +109,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
             HistoriaClinicaDTO historia = new HistoriaClinicaDTO();
             historia.setIdHistoriaClinica(this.resultSet.getInt("id_historia"));
             this.cita.setHistoriaClinicaPaciente(historia);
+
             String estado = this.resultSet.getString("estado");
             this.cita.setEstado(Estado.valueOf(estado.toUpperCase()));
         } catch (SQLException ex) {
@@ -111,6 +120,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
     @Override
     public CitaDTO obtenerPorId(Integer citaID) {
         System.out.println(citaID);
+
         try {
             this.conexion = DBManager.getInstance().getConnection();
             String sql = this.generarSQLParaObtenerPorId();
@@ -171,6 +181,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
     @Override
     public Integer modificar(CitaDTO cita) {
         int resultado = 0;
+        this.cita = cita;
         try {
             super.abrirConexion();
             this.conexion.setAutoCommit(false);
@@ -274,8 +285,8 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         ParametrosCita parametros = new ParametrosCita(idMedico, estado, fecha);
         return (ArrayList<CitaDTO>) super.listarTodos(sql, this::incluirValorDeParametros, parametros);
     }
-    
-    private void incluirValorDeParametros(Object objetoParametros){
+
+    private void incluirValorDeParametros(Object objetoParametros) {
         ParametrosCita parametros = (ParametrosCita) objetoParametros;
         try {
             this.statement.setInt(1, parametros.getIdMedico());
@@ -340,10 +351,9 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         }
         return lista;
     }
-    
-    
+
     @Override
-    public ArrayList<CitaDTO> listarPorMedico(int idMedico){
+    public ArrayList<CitaDTO> listarPorMedico(int idMedico) {
         String sql = this.generarSQLParaListarTodosPorColumnaEspecifica("id_medico");//Nombre columna
         Consumer incluirValorDeParametros = null;
         Object parametros = null;
@@ -362,7 +372,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
             this.statement.setInt(1, idHistoria);
             this.resultSet = this.statement.executeQuery();
             while (this.resultSet.next()) {
-                
+
                 instanciarObjetoDelResultSet();
                 lista.add(cita);
             }
@@ -378,7 +388,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
             }
         }
         return lista;
-        
+
     }
 
 }

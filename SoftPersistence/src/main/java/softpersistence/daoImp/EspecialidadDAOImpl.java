@@ -63,6 +63,7 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO{
 
             this.statement.setString(1, this.especialidad.getNombreEspecialidad());
             this.statement.setDouble(2, this.especialidad.getPrecioConsulta());   
+            this.statement.setInt(3, this.especialidad.getIdEspecialidad());   
 
         } catch (SQLException ex) {
             Logger.getLogger(EspecialidadDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -146,6 +147,7 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO{
     @Override
     public Integer modificar(EspecialidadDTO especialidad) {
         int resultado = 0;
+        this.especialidad = especialidad;
         try {
             this.conexion = DBManager.getInstance().getConnection();
             this.conexion.setAutoCommit(false);

@@ -120,7 +120,7 @@ public class PagosDAOImpl extends DAOImplBase implements PagosDAO {
         pago.setNumTarjeta(this.resultSet.getString("numero_tarjeta"));
         Date fecha = this.resultSet.getDate("fechaExpiracion");
         if(fecha!=null)
-            pago.setFechaExpiracion(fecha.toLocalDate());
+            pago.setFechaExpiracion(new java.sql.Date(fecha.getTime()).toLocalDate());
         else
             pago.setFechaExpiracion(null);
         pago.setCVV(this.resultSet.getString("CVV"));
