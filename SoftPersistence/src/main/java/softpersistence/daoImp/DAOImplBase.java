@@ -343,6 +343,7 @@ public abstract class DAOImplBase {
             }
             this.colocarSQLenStatement(sql);
             if (incluirValorDeParametros != null) {
+                this.colocarSQLenStatement(sql);
                 incluirValorDeParametros.accept(parametros);
             }
             if(id!=null){

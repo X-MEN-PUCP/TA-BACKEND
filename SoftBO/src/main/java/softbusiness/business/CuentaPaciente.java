@@ -106,9 +106,11 @@ public class CuentaPaciente extends CuentaBO{
     //o tal vez solo debería pasar el id?
     public int reservarCita(CitaDTO cita){
         //actualizar cita (Estado: reservado)
+        System.out.println("Modificando estado de cita");
         cita.setEstado(Estado.RESERVADO);
         citaDAO.modificar(cita);
         //crear nueva fila de pago (solo id, id_cita, estado: pendiente, fecha_reserva, monto)
+        System.out.println("Modifica estado de cita");
         PagosDTO pago = new PagosDTO();
         pago.setCita(cita);
         pago.setEstado(EstadoPago.PENDIENTE);
@@ -116,8 +118,7 @@ public class CuentaPaciente extends CuentaBO{
         Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         pago.setFechaReserva(date);
         pago.setMonto(cita.getMedico().getEspecialidad().getPrecioConsulta());
-        pagosDAO.modificar(pago);
-        return 2;
+        return pagosDAO.modificar(pago);
     }
     
     public int cancelarCita(CitaDTO cita){

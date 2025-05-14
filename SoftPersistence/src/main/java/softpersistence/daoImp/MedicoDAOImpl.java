@@ -11,6 +11,8 @@ import softmodel.modelos.PersonaDTO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 
 import softpersistence.dao.MedicoDAO;
@@ -57,7 +59,7 @@ public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
         EspecialidadDTO especialidad= new EspecialidadDTO();
         especialidad.setIdEspecialidad(this.resultSet.getInt("id_especialidad"));
         medico.setEspecialidad(especialidad);
-        medico.setCodMedico(this.resultSet.getString("cod_medico"));
+        medico.setCodMedico(this.resultSet.getInt("cod_medico"));
     }
     
     @Override
@@ -91,36 +93,20 @@ public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
             }
         }
         return cuentaVar;
-    }   
+    }
+    
+    @Override
+    protected void agregarObjetoALaLista(List lista) throws SQLException {
+        this.instanciarObjetoDelResultSet();
+        lista.add(this.medico);
+    }
 
     @Override
     public ArrayList<MedicoDTO> listarPorIdEspecialidad(int idEspecialidad){
-        ArrayList<MedicoDTO> lista = new ArrayList<>();
-        MedicoDTO medico = new MedicoDTO();
-        try {
-            this.conexion = DBManager.getInstance().getConnection();
-            String sql = this.generarSQLParaListarTodosPorColumnaEspecifica("id_Especialidad");//Nombre columna
-            this.statement = this.conexion.prepareCall(sql);
-            this.statement.setInt(1, idEspecialidad);
-            this.resultSet = this.statement.executeQuery();
-            while (this.resultSet.next()) {
-                
-                instanciarObjetoDelResultSet();
-                lista.add(medico);
-            }
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar listarTodos - " + ex);
-        } finally {
-            try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return lista;
-
+        String sql = this.generarSQLParaListarTodosPorColumnaEspecifica("id_Especialidad");//Nombre columna
+        Consumer incluirValorDeParametros = null;
+        Object parametros = null;
+        return (ArrayList<MedicoDTO>) super.listarTodos(sql, idEspecialidad, incluirValorDeParametros, parametros);
     }
     
 }

@@ -56,6 +56,7 @@ public class LogInTest {
             ArrayList<MedicoDTO> medicos;
             if(cuenta instanceof CuentaPaciente){
                 CuentaPaciente cuentaPaciente = (CuentaPaciente) cuenta;
+                //listar cita
                 especialidades = cuentaPaciente.listaDeEspecialidades();
                 Random rand = new Random();
                 int indice = rand.nextInt(especialidades.size());
@@ -70,7 +71,13 @@ public class LogInTest {
                 SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date fecha = formato.parse("2025-06-13 00:00:00");
                 citas = cuentaPaciente.listarCitas(idEspecialidad, fecha, idMedico);
-                System.out.println(citas.get(0));
+                System.out.println(citas.get(0).getIdCita());
+                CitaDTO citaElegida = citas.get(0);
+                //reservar cita
+                System.out.println("Reservando");
+                
+                Integer reserva = cuentaPaciente.reservarCita(citaElegida);
+                System.out.println("Reserva: " + reserva);
             }
         }
     }

@@ -21,6 +21,7 @@ import softpersistence.daoImp.Util.Columna;
 import softdbmanager.DBManager;
 import softmodel.modelos.PacienteDTO;
 import softmodel.util.Estado;
+import softpersistence.daoImp.Util.ParametrosCita;
 
 /**
  *
@@ -32,7 +33,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
     private final boolean retornarLlavePrimaria;
 
     public CitaDAOImpl() {
-        super("CITAS");
+        super("Cita");
         this.retornarLlavePrimaria = true;
         this.cita = null;
     }
@@ -73,9 +74,9 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
 
             this.statement.setInt(1, this.cita.getHorario().getIdHorario());
             this.statement.setInt(2, this.cita.getMedico().getIdPersona());
-            this.statement.setString(4, this.cita.getObservacionesMedicas());
+            this.statement.setString(3, this.cita.getObservacionesMedicas());
             this.statement.setInt(4, this.cita.getHistoriaClinicaPaciente().getIdHistoriaClinica());
-
+            this.statement.setString(5, this.cita.getEstado().toString());
         } catch (SQLException ex) {
             Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -272,16 +273,19 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
     @Override
     public ArrayList<CitaDTO> listarPorIdMedicoEstadoFecha(Integer idMedico, Estado estado, java.util.Date fecha) {
         String sql = this.generarSQLParaListarCitasPorMedicoEstadoYFecha();
+        ParametrosCita parametros = new ParametrosCita(idMedico, estado, fecha);
+        return (ArrayList<CitaDTO>) super.listarTodos(sql, this::incluirValorDeParametros, parametros);
+    }
+    
+    private void incluirValorDeParametros(Object objetoParametros){
+        ParametrosCita parametros = (ParametrosCita) objetoParametros;
         try {
-            this.statement.setString(2, estado.toString());
-            Date sqlDate = new Date(fecha.getTime());
-            this.statement.setDate(3, sqlDate);
+            this.statement.setInt(1, parametros.getIdMedico());
+            this.statement.setString(2, parametros.getEstado().toString());
+            this.statement.setDate(3, parametros.getFecha());
         } catch (SQLException ex) {
             Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Consumer incluirValorDeParametros = null;
-        Object parametros = null;
-        return (ArrayList<CitaDTO>) super.listarTodos(sql, idMedico, incluirValorDeParametros, parametros);
     }
 
     @Override

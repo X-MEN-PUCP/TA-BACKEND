@@ -10,7 +10,7 @@ package softmodel.modelos;
  */
 public class MedicoDTO extends PersonaDTO{
     private EspecialidadDTO especialidad;
-    private String codMedico;
+    private Integer codMedico;
 
     /**
      * @return the especialidad
@@ -29,14 +29,14 @@ public class MedicoDTO extends PersonaDTO{
     /**
      * @return the codMedico
      */
-    public String getCodMedico() {
+    public Integer getCodMedico() {
         return codMedico;
     }
 
     /**
      * @param codMedico the codMedico to set
      */
-    public void setCodMedico(String codMedico) {
+    public void setCodMedico(Integer codMedico) {
         this.codMedico = codMedico;
     }
     
