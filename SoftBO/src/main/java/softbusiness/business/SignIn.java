@@ -4,7 +4,7 @@
  */
 package softbusiness.business;
 
-import softbusiness.util.NuevoUsuarioBuilder;
+import softbusiness.util.NuevoUsuarioPacienteBuilder;
 import softmodel.modelos.PersonaDTO;
 
 /**

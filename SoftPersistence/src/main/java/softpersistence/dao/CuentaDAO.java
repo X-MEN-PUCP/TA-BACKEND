@@ -15,4 +15,5 @@ public interface CuentaDAO {
     public CuentaDTO obtenerPorID(int idCuenta);
     public Integer eliminar(Integer id);
     public Integer modificar(CuentaDTO cuenta);
+    public Integer insertar(CuentaDTO cuenta);
 }

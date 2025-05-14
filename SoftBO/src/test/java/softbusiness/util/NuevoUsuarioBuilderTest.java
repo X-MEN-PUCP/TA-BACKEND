@@ -7,6 +7,7 @@ package softbusiness.util;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import softmodel.modelos.PersonaDTO;
+import softmodel.util.TipoDocumento;
 
 public class NuevoUsuarioBuilderTest {
 
@@ -15,7 +16,7 @@ public class NuevoUsuarioBuilderTest {
         String dni = "04412417";
         String contrasenha = "123456";
 
-        NuevoUsuarioBuilder builder = new NuevoUsuarioBuilder(dni, contrasenha);
+        NuevoUsuarioPacienteBuilder builder = new NuevoUsuarioPacienteBuilder(TipoDocumento.DNI, dni, contrasenha);
         PersonaDTO persona = builder.builNuevoUsuario();
 
         assertNotNull(persona.getNombres());

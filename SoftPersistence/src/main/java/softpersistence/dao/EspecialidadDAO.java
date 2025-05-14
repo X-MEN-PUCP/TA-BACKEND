@@ -13,10 +13,10 @@ import softmodel.modelos.EspecialidadDTO;
  */
 public interface EspecialidadDAO {
     
-    public abstract Integer insertar(EspecialidadDTO especialidad);
-    public abstract Integer modificar(EspecialidadDTO especialidad);
-    public abstract Integer eliminar(Integer id);
-    public abstract EspecialidadDTO obtenerPorId(Integer id);
-    public abstract ArrayList<EspecialidadDTO> listarTodos();
-    
+    public Integer insertar(EspecialidadDTO especialidad);
+    public Integer modificar(EspecialidadDTO especialidad);
+    public Integer eliminar(Integer id);
+    public EspecialidadDTO obtenerPorId(Integer id);
+    public ArrayList<EspecialidadDTO> listarTodos();
+    public EspecialidadDTO buscarPorNombre(String nombreEspe);
 }

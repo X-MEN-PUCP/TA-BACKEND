@@ -6,6 +6,7 @@ package softpersistence.daoImp;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import softdbmanager.DBManager;
@@ -39,35 +40,16 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO{
     }
 
     @Override
-    public Integer insertar(EspecialidadDTO especialidad) {
-        this.especialidad = especialidad;
-        return super.insertar();
-    }
-
-    @Override
-    protected void incluirValorDeParametrosParaInsercion() {
-        try {
-
-            this.statement.setString(1, this.especialidad.getNombreEspecialidad());
-            this.statement.setDouble(2, this.especialidad.getPrecioConsulta());            
-
-
-        } catch (SQLException ex) {
-            Logger.getLogger(EspecialidadDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    protected void incluirValorDeParametrosParaInsercion() throws SQLException {
+        this.statement.setString(1, this.especialidad.getNombreEspecialidad());
+        this.statement.setDouble(2, this.especialidad.getPrecioConsulta());
     }
     
     @Override
-    protected void incluirValorDeParametrosParaModificacion() {
-        try {
-
-            this.statement.setString(1, this.especialidad.getNombreEspecialidad());
-            this.statement.setDouble(2, this.especialidad.getPrecioConsulta());   
-            this.statement.setInt(3, this.especialidad.getIdEspecialidad());   
-
-        } catch (SQLException ex) {
-            Logger.getLogger(EspecialidadDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    protected void incluirValorDeParametrosParaModificacion() throws SQLException {
+        this.statement.setString(1, this.especialidad.getNombreEspecialidad());
+        this.statement.setDouble(2, this.especialidad.getPrecioConsulta());   
+        this.statement.setInt(3, this.especialidad.getIdEspecialidad());   
     }
 
     @Override
@@ -143,6 +125,12 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO{
         }
         return lista;
     }
+    
+    @Override
+    public Integer insertar(EspecialidadDTO especialidad) {
+        this.especialidad = especialidad;
+        return super.insertar();
+    }
 
     @Override
     public Integer modificar(EspecialidadDTO especialidad) {
@@ -209,4 +197,34 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO{
         return resultado;
     }
     
+    @Override
+    public EspecialidadDTO buscarPorNombre(String nombreEspe){
+        try {
+            super.abrirConexion();
+            String sql = this.generarSQLParaListarTodosPorColumnaEspecifica("nombreEspecialidad");//Nombre columna
+            this.statement = this.conexion.prepareCall(sql);
+            this.statement.setString(1, nombreEspe);
+            System.out.println(sql);
+
+            this.resultSet = this.statement.executeQuery();
+            if (this.resultSet.next()) {
+                System.out.println("Encontró");
+                this.instanciarObjetoDelResultSet();
+                return especialidad;
+
+            } else {
+                System.out.println("No Encontró nada");
+                return null;
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al intentar buscarPorNombre - " + ex);
+        } finally {
+            try {
+                super.cerrarConexion();
+            } catch (SQLException ex) {
+                System.err.println("Error al cerrar la conexión - " + ex);
+            }
+        }
+        return especialidad;
+    }
 }

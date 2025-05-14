@@ -18,5 +18,5 @@ public interface HorarioDAO {
     public abstract Integer modificar(HorarioDTO horario);
     public abstract Integer eliminar(Integer id);
     public abstract ArrayList<HorarioDTO> listarTodos();
-    
+    public HorarioDTO buscarHorario(HorarioDTO horario);
 }

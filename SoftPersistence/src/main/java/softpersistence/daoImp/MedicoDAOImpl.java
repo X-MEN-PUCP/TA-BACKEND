@@ -49,7 +49,22 @@ public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
         this.listaColumnas.add(new Columna("cod_medico", false, false));        
         this.listaColumnas.add(new Columna("id_cuenta", false, false));
     }
-    
+    @Override
+    protected void incluirValorDeParametrosParaInsercion() throws SQLException {
+        java.util.Date fechaNacimientoUtil = this.medico.getFechaNaciemiento();
+        java.sql.Date fechaSQL = new java.sql.Date(fechaNacimientoUtil.getTime());
+        this.statement.setString(1, this.medico.getNombres()); 
+        this.statement.setString(2, this.medico.getApellido_paterno());
+        this.statement.setString(3, this.medico.getApellido_materno());
+        this.statement.setDate(4, fechaSQL);
+        this.statement.setString(5, this.medico.getCorreoElectronico());
+            this.statement.setString(6, this.medico.getNumCelular());
+        this.statement.setString(7, this.medico.getGenero().toString());
+        this.statement.setInt(8, this.medico.getEspecialidad().getIdEspecialidad());
+        this.statement.setInt(9, this.medico.getCodMedico());
+        this.statement.setInt(10, this.medico.getCuenta().getIdCuenta());
+    }
+
     @Override
     protected void instanciarObjetoDelResultSet() throws SQLException {
         medico = new MedicoDTO();
@@ -76,7 +91,7 @@ public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
         ArrayList<MedicoDTO> medicos = (ArrayList<MedicoDTO>) super.listarTodos(sql, idCuenta, incluirValorDeParametros, parametros);
         if(medicos.size()>0)
             return medicos.get(0);
-        return null;
+        return medico;
     }
     
     @Override

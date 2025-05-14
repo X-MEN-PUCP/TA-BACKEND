@@ -7,6 +7,9 @@ package softpersistence.daoImp;
 import softmodel.modelos.HorarioDTO;
 import softmodel.util.Turno;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -187,5 +190,45 @@ public class HorarioDAOImpl extends DAOImplBase implements HorarioDAO {
         }
         return resultado;
     }
-
+    
+    private String generarSQLHoarario(){
+        //SELECT * FROM tu_tabla WHERE fecha = ? AND turno = ? AND horaInicio = ?;
+        String sql = "SELECT ";
+        String sql_columnas = "";
+        String sql_predicado = " fecha = ? and turno = ? and hora_inicio=?";
+        for (Columna columna : this.listaColumnas) {
+            if (!sql_columnas.isBlank()) {
+                sql_columnas = sql_columnas.concat(", ");
+            }
+            sql_columnas = sql_columnas.concat(columna.getNombre());
+        }
+        sql = sql.concat(sql_columnas);
+        sql = sql.concat(" FROM ");
+        sql = sql.concat(this.nombre_tabla);
+        sql = sql.concat(" WHERE ");
+        sql = sql.concat(sql_predicado);
+        return sql;
+    }
+    
+    @Override
+    public HorarioDTO buscarHorario(HorarioDTO horario){
+        String sql = this.generarSQLHoarario();
+        ArrayList<HorarioDTO> horar= (ArrayList<HorarioDTO>) super.listarTodos(sql, this::incluirValorDeParametros, horario);
+        if(horar.size()>0)
+            return horar.get(0);
+        return horario;
+    }
+    
+    private void incluirValorDeParametros(Object objetoParametros){
+        HorarioDTO parametros = (HorarioDTO) objetoParametros;
+        try {
+            LocalDate fecha = parametros.getFecha();
+            this.statement.setDate(1, java.sql.Date.valueOf(fecha));
+            LocalTime horaInicio = parametros.getHoraInicio();
+            this.statement.setTime(2, java.sql.Time.valueOf(horaInicio));
+            this.statement.setString(3, parametros.getTurno().toString());
+        } catch (SQLException ex) {
+            Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

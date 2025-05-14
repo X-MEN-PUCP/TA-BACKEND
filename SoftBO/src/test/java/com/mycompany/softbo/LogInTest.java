@@ -7,6 +7,7 @@ package com.mycompany.softbo;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import softbusiness.business.CuentaBO;
@@ -17,6 +18,8 @@ import java.util.Random;
 import softbusiness.business.CuentaAdmin;
 import softbusiness.business.CuentaMedico;
 import softbusiness.business.CuentaPaciente;
+import softbusiness.util.NuevoUsuarioMedicoBuilder;
+import softbusiness.util.NuevoUsuarioPacienteBuilder;
 import softmodel.util.*;
 /**
  *
@@ -178,12 +181,7 @@ public class LogInTest {
             ArrayList<CitaDTO> ReporteMedico;
             ArrayList<CitaDTO> reportePaciente;
             
-            MedicoDTO medico = new MedicoDTO();
-            CuentaDTO cuent = new CuentaDTO();
-            cuent.setIdCuenta(75843948);
-            cuent.setContrasenha("pass7");
-            EspecialidadDTO especialidad = new EspecialidadDTO();
-            CitaDTO cita = new CitaDTO();
+            
             if(cuenta instanceof CuentaAdmin){
                 CuentaAdmin cuentaAdmin = (CuentaAdmin) cuenta;
                 
@@ -204,11 +202,32 @@ public class LogInTest {
                 reportePaciente = cuentaAdmin.ReporteCitasPaciente(paciente);
                 System.out.println("Lista citas del paciente : "+reportePaciente.size());
                 
+                //También se podría listar las especialidades y elegir una
                 
+                //Nueva especialidad
+                EspecialidadDTO especialidad = new EspecialidadDTO();
+                especialidad.setNombreEspecialidad("Reumatología");
+                especialidad.setPrecioConsulta(75);
                 
-//                Integer insertado = cuentaAdmin.insertarNuevoMedico(medico);
-//                System.out.println("Insertado médico "+insertado);
-//                cuentaAdmin.insertarNuevaCita(cita);
+                NuevoUsuarioMedicoBuilder usuario = new NuevoUsuarioMedicoBuilder(TipoDocumento.DNI,"75843948", "pass7");
+                MedicoDTO medico = usuario.conGenero(Genero.MASCULINO).builNuevoUsuario();
+                medico.setEspecialidad(especialidad);
+                medico.setCodMedico(34589);
+                Date fechaNacimiento = formato.parse("1985-06-13 00:00:00");
+                medico.setFechaNaciemiento(fechaNacimiento);
+                Integer insertado = cuentaAdmin.insertarNuevoMedico(medico);
+                System.out.println("Insertado médico "+insertado);
+                CitaDTO cita = new CitaDTO();
+                HorarioDTO horario = new HorarioDTO();
+                LocalDate fechaHorario = LocalDate.now();
+                horario.setFecha(fechaHorario);
+                horario.setTurno(Turno.MANHANA);
+                LocalTime horaHorario = LocalTime.now();
+                horario.setHoraInicio(horaHorario);
+                cita.setMedico(medico);
+                cita.setEstado(Estado.DISPONIBLE);
+                cita.setHorario(horario);
+//                insertado=cuentaAdmin.insertarNuevaCita(cita);
 //                System.out.println("Insertado cita "+insertado);
             }
         }

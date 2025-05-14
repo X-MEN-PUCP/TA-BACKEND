@@ -36,6 +36,13 @@ public class CuentaDAOImpl extends DAOImplBase implements CuentaDAO{
         this.listaColumnas.add(new Columna("contrasena", false, false));
         this.listaColumnas.add(new Columna("rol", false, false));
     }
+    @Override
+    protected void incluirValorDeParametrosParaInsercion() throws SQLException {
+        this.statement.setString(1, cuenta.getTipoDocumento().toString());
+        this.statement.setString(2,cuenta.getNumeroDocumento());
+        this.statement.setString(3,cuenta.getContrasenha());
+        this.statement.setString(4,cuenta.getRol().toString());
+    }
     
     @Override
     protected void incluirValorDeParametrosParaModificacion() throws SQLException{
@@ -219,4 +226,10 @@ public class CuentaDAOImpl extends DAOImplBase implements CuentaDAO{
         return resultado;
     }
     
+    
+    @Override
+    public Integer insertar(CuentaDTO cuenta) {
+        this.cuenta = cuenta;
+        return super.insertar();
+    }
 }

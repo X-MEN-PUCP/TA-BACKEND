@@ -1,16 +1,34 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package softbusiness.util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import softmodel.modelos.CuentaDTO;
+import softmodel.modelos.EspecialidadDTO;
+import softmodel.modelos.MedicoDTO;
+import softmodel.modelos.PacienteDTO;
+import softmodel.util.Genero;
+import softmodel.util.Rol;
+import softmodel.util.TipoDocumento;
+
+
+
 import java.net.HttpURLConnection;
 import java.net.URL;
-import softmodel.modelos.CuentaDTO;
-import softmodel.modelos.PersonaDTO;
-import softmodel.util.Genero;
-import org.json.JSONObject;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import org.json.JSONObject; 
 
-public class NuevoUsuarioBuilder {
-
+/**
+ *
+ * @author Mcerv
+ */
+public class NuevoUsuarioMedicoBuilder {
+    private TipoDocumento tipo;
     private String dni;
     private String contrasenha;
     private String nombres;
@@ -19,14 +37,15 @@ public class NuevoUsuarioBuilder {
     private String correoElectronico;
     private String numCelular;
     private Genero genero;
+//    private Date fechaNacimiento;
 
-    public NuevoUsuarioBuilder(String dni, String contrasenha) {
+    public NuevoUsuarioMedicoBuilder(TipoDocumento tipo, String dni, String contrasenha) {
         this.dni = dni;
         this.contrasenha = contrasenha;
         this.correoElectronico = null;
         this.numCelular = null;
         this.genero = null;
-
+        this.tipo = tipo;
         try {
             String urlStr = "https://www.facturaloconlwp.com/api/persona/dni/" + dni;
             URL url = new URL(urlStr);
@@ -51,39 +70,57 @@ public class NuevoUsuarioBuilder {
                     this.apellidoPaterno = apellidos.length > 0 ? apellidos[0] : "";
                     this.apellidoMaterno = apellidos.length > 1 ? apellidos[1] : "";
                 }
+                
+//                if (json.has("birthdate")) {
+//                String birthdateStr = json.optString("birthdate", "");
+//                    if (!birthdateStr.isEmpty()) {
+//                        try {
+//                            // Suponiendo que la fecha viene en formato "YYYY-MM-DD"
+//                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//                            Date birthdate = sdf.parse(birthdateStr);
+//                            // Asignar a la propiedad de la fecha de nacimiento
+//                            this.fechaNacimiento = birthdate;
+//                        } catch (ParseException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public NuevoUsuarioBuilder conCorreoElectronico(String correoElectronico) {
+    public NuevoUsuarioMedicoBuilder conCorreoElectronico(String correoElectronico) {
         this.correoElectronico = correoElectronico;
         return this;
     }
 
-    public NuevoUsuarioBuilder conNumCelular(String numCelular) {
+    public NuevoUsuarioMedicoBuilder conNumCelular(String numCelular) {
         this.numCelular = numCelular;
         return this;
     }
 
-    public NuevoUsuarioBuilder conGenero(Genero genero) {
+    public NuevoUsuarioMedicoBuilder conGenero(Genero genero) {
         this.genero = genero;
         return this;
-    }
+    }    
 
-    public PersonaDTO builNuevoUsuario() {
-        PersonaDTO persona = new PersonaDTO();
+    public MedicoDTO builNuevoUsuario() {
+        MedicoDTO persona = new MedicoDTO();
         CuentaDTO cuenta = new CuentaDTO();
-        cuenta.setContrasenha(this.contrasenha);
-        cuenta.setNumeroDocumento(this.dni);
+        cuenta.setContrasenha(this.getContrasenha());
+        cuenta.setNumeroDocumento(this.getDni());
+        cuenta.setRol(Rol.MEDICO);
+        cuenta.setTipoDocumento(this.tipo);
         persona.setCuenta(cuenta);
-        persona.setCorreoElectronico(this.correoElectronico);
-        persona.setNumCelular(this.numCelular);
-        persona.setGenero(this.genero);
-        persona.setNombres(this.nombres);
-        persona.setApellido_paterno(this.apellidoPaterno);
-        persona.setApellido_materno(this.apellidoMaterno);
+        persona.setCorreoElectronico(this.getCorreoElectronico());
+        persona.setNumCelular(this.getNumCelular());
+        persona.setGenero(this.getGenero());
+        persona.setNombres(this.getNombres());
+        persona.setApellido_paterno(this.getApellidoPaterno());
+        persona.setApellido_materno(this.getApellidoMaterno());
+//        persona.setFechaNaciemiento(this.fechaNacimiento);
         return persona;
     }
 
