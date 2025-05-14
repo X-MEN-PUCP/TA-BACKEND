@@ -14,6 +14,7 @@ import softbusiness.business.LogIn;
 
 import softmodel.modelos.*;
 import java.util.Random;
+import softbusiness.business.CuentaAdmin;
 import softbusiness.business.CuentaMedico;
 import softbusiness.business.CuentaPaciente;
 import softmodel.util.*;
@@ -113,46 +114,59 @@ public class LogInTest {
 //        }
 //    }
     
-    @org.junit.jupiter.api.Test
-    public void testIniciarSesionVistaMedico() throws ParseException {
-        
-        System.out.println("iniciarSesion");
-        String dni = "77751498";
-        String contrasenha = "pass2";
-        CuentaBO cuenta=null;
-        LogIn instance = new LogIn();
-        cuenta = instance.iniciarSesion(dni, contrasenha);
-        if(cuenta!=null){
-            System.out.println("Bienvenido");
-            cuenta.QuienSoy();
-            ArrayList<CitaDTO> citas;
-            ArrayList<CitaDTO> citasProgramadas;
-            ArrayList<CitaDTO> citasDisponibles;
-            if(cuenta instanceof CuentaMedico){
-                CuentaMedico cuentaMedico = (CuentaMedico) cuenta;
-                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date fecha = formato.parse("2025-06-13 00:00:00");
-                citas = cuentaMedico.listarCitas(fecha);
-                System.out.println("Lista citas: "+citas.size());
-                citasProgramadas = cuentaMedico.listarCitasProgramadas(fecha);
-                System.out.println("Lista citas programadas: "+citasProgramadas.size());
-                citasDisponibles = cuentaMedico.listarCitasDisponibles(fecha);
-                System.out.println("Lista citas disponibles : "+citasDisponibles.size());
-            }
-        }
-    }
-    
 //    @org.junit.jupiter.api.Test
-//    public void testIniciarSesionVistaAdministrador() {
+//    public void testIniciarSesionVistaMedico() throws ParseException {
+//        
 //        System.out.println("iniciarSesion");
-//        String dni = "75843948";
-//        String contrasenha = "xd";
+//        String dni = "77751498";
+//        String contrasenha = "pass2";
 //        CuentaBO cuenta=null;
 //        LogIn instance = new LogIn();
 //        cuenta = instance.iniciarSesion(dni, contrasenha);
 //        if(cuenta!=null){
 //            System.out.println("Bienvenido");
 //            cuenta.QuienSoy();
+//            ArrayList<CitaDTO> citas;
+//            ArrayList<CitaDTO> citasProgramadas;
+//            ArrayList<CitaDTO> citasDisponibles;
+//            if(cuenta instanceof CuentaMedico){
+//                CuentaMedico cuentaMedico = (CuentaMedico) cuenta;
+//                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                Date fecha = formato.parse("2025-06-13 00:00:00");
+//                citas = cuentaMedico.listarCitas(fecha);
+//                System.out.println("Lista citas: "+citas.size());
+//                citasProgramadas = cuentaMedico.listarCitasProgramadas(fecha);
+//                System.out.println("Lista citas programadas: "+citasProgramadas.size());
+//                citasDisponibles = cuentaMedico.listarCitasDisponibles(fecha);
+//                System.out.println("Lista citas disponibles : "+citasDisponibles.size());
+//            }
 //        }
 //    }
+    
+    @org.junit.jupiter.api.Test
+    public void testIniciarSesionVistaAdministrador() {
+        System.out.println("iniciarSesion");
+        String dni = "72945356";
+        String contrasenha = "pass3";
+        CuentaBO cuenta=null;
+        LogIn instance = new LogIn();
+        cuenta = instance.iniciarSesion(dni, contrasenha);
+        if(cuenta!=null){
+            System.out.println("Bienvenido");
+            cuenta.QuienSoy();
+            MedicoDTO medico = new MedicoDTO();
+            CuentaDTO cuent = new CuentaDTO();
+            cuent.setIdCuenta(75843948);
+            cuent.setContrasenha("pass7");
+            EspecialidadDTO especialidad = new EspecialidadDTO();
+            CitaDTO cita = new CitaDTO();
+            if(cuenta instanceof CuentaAdmin){
+                CuentaAdmin cuentaAdmin = (CuentaAdmin) cuenta;
+                Integer insertado = cuentaAdmin.insertarNuevoMedico(medico);
+                System.out.println("Insertado médico "+insertado);
+                cuentaAdmin.insertarNuevaCita(cita);
+                System.out.println("Insertado cita "+insertado);
+            }
+        }
+    }
 }

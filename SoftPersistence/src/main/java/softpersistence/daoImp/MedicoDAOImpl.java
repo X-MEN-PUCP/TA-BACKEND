@@ -68,8 +68,6 @@ public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
         this.medico = null;
     }
     
-    
-    
     @Override
     public MedicoDTO buscarPorIdCuenta(int idCuenta) {
         String sql = this.generarSQLParaListarTodosPorColumnaEspecifica("id_cuenta");//Nombre columna
@@ -127,4 +125,9 @@ public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
         return medico;
     }
     
+    @Override
+    public Integer insertar(MedicoDTO medico) {
+        this.medico = medico;
+        return super.insertar();
+    }
 }
