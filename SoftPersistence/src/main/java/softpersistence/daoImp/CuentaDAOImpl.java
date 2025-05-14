@@ -44,6 +44,7 @@ public class CuentaDAOImpl extends DAOImplBase implements CuentaDAO{
         this.statement.setString(2,cuenta.getNumeroDocumento());
         this.statement.setString(3,cuenta.getContrasenha());
         this.statement.setString(4,cuenta.getRol().toString());
+        this.statement.setInt(5, cuenta.getIdCuenta());
         
     }
     
