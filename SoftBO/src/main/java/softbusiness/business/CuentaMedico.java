@@ -33,17 +33,13 @@ public class CuentaMedico extends CuentaBO{
       super.setIdPersona(medico.getIdPersona());
     }
     
-    public void mostrarCitas(){
-        
-    }
-    
     @Override
     public void QuienSoy(){
         System.out.println("com.mycompany.softbo.CuentaMedico.QuienSoy()");
     }
     
     public ArrayList<CitaDTO> listarCitasProgramadas(Date fecha){
-        ArrayList<CitaDTO> citas = new ArrayList<CitaDTO>();
+        ArrayList<CitaDTO> citas;
         //ya tengo el id_persona en la clase base
         //busco las citas con estado: Pagado, Id_persona, fecha
         int id = super.getIdPersona();
@@ -53,7 +49,7 @@ public class CuentaMedico extends CuentaBO{
     }
     
     public ArrayList<CitaDTO> listarCitasDisponibles(Date fecha){
-        ArrayList<CitaDTO> citas = new ArrayList<CitaDTO>();
+        ArrayList<CitaDTO> citas;
         //ya tengo el id_persona en la clase base
         //busco las citas con estado: Disponible, Id_persona, fecha
         int id = super.getIdPersona();
@@ -62,7 +58,7 @@ public class CuentaMedico extends CuentaBO{
     }
     
     public ArrayList<CitaDTO> listarCitas(Date fecha){
-        ArrayList<CitaDTO> citas = new ArrayList<CitaDTO>();
+        ArrayList<CitaDTO> citas = new ArrayList<>();
         ArrayList<CitaDTO> citasProg= this.listarCitasProgramadas(fecha);
         ArrayList<CitaDTO> citasDis= this.listarCitasDisponibles(fecha);
         citas.addAll(citasProg);

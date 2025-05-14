@@ -160,7 +160,7 @@ public class CuentaDAOImpl extends DAOImplBase implements CuentaDAO{
         this.cuenta = cuenta;
         int resultado = 0;
         try {
-            this.conexion = DBManager.getInstance().getConnection();
+            this.abrirConexion();
             this.conexion.setAutoCommit(false);
             String sql = this.generarSQLParaModificacion();
             this.statement = this.conexion.prepareCall(sql);
@@ -178,9 +178,7 @@ public class CuentaDAOImpl extends DAOImplBase implements CuentaDAO{
             }
         } finally {
             try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
+                this.cerrarConexion();
             } catch (SQLException ex) {
                 System.err.println("Error al cerrar la conexión - " + ex);
             }

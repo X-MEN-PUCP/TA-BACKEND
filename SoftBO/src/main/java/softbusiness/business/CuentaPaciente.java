@@ -150,24 +150,26 @@ public class CuentaPaciente extends CuentaBO{
         LocalDate localDate = LocalDate.now(); // fecha actual sin hora
         Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         pago.setFechaPago(date);
-        pagosDAO.modificar(pago);
-        return 4;
+        return pagosDAO.modificar(pago);
     }
     
-    public void reprogramarCita(){
-        //no se como implemnetarlo
-        
-        //también se deberían listar las nuevas citas y volver a elegir? pero 
+    public int reprogramarCita(Integer idCitaAnterior, Integer idCitaNueva){
+        CitaDTO citaAnterior = citaDAO.obtenerPorId(idCitaAnterior);
+        CitaDTO citaNueva = citaDAO.obtenerPorId(idCitaNueva);
+        citaAnterior.setEstado(Estado.DISPONIBLE);
+        citaNueva.setEstado(Estado.PAGADO);
+        citaDAO.modificar(citaAnterior);
+        citaDAO.modificar(citaNueva);
+        PagosDTO pago = pagosDAO.buscarPorIdCita(idCitaAnterior);
+        pago.setCita(citaNueva);
+        return pagosDAO.modificar(pago);
     }
     
     public int actualizarContrasenha(String contrasenha){
         //solo es actualizar la tabla cuenta, ya se tiene el id en la cuenta base
-        CuentaDTO cuenta = new CuentaDTO();
+        CuentaDTO cuenta;
         cuenta = cuentaDAO.obtenerPorID(super.getIdCuenta());
         cuenta.setContrasenha(Cifrado.cifrarMD5(contrasenha));
-        cuentaDAO.modificar(cuenta);
-        
-        
-        return 5;
+        return cuentaDAO.modificar(cuenta);
     } //se debería actualizar tmb celular y correo?
 }

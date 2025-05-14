@@ -429,7 +429,7 @@ public abstract class DAOImplBase {
         persona.setFechaNaciemiento(this.resultSet.getDate("fecha_nacimiento")); //5
         persona.setCorreoElectronico(this.resultSet.getString("correoElectronico")); //6
         persona.setNumCelular(this.resultSet.getString("num_celular")); //7
-        //persona.setGenero(Genero.valueOf(this.resultSet.getString("GENERO").toUpperCase())); //8
+        persona.setGenero(Genero.valueOf(this.resultSet.getString("genero").toUpperCase())); //8
         CuentaDTO cuenta = new CuentaDTO();
         cuenta.setIdCuenta(this.resultSet.getInt("id_cuenta")); //9
 
@@ -443,7 +443,8 @@ public abstract class DAOImplBase {
     protected String generarSQLParaListarTodosPorColumnaEspecifica(String llave ) {
         //sentencia SQL a generar es similar a 
         //SELECT ALMACEN_ID, NOMBRE, ALMACEN_CENTRAL FROM INV_ALMACENES
-        String sql = "SELECT ";
+        String sql = "";
+        sql=sql.concat("SELECT ");
         String sql_columnas = "";
         String sql_predicado = "";
         sql_predicado = sql_predicado.concat(llave);

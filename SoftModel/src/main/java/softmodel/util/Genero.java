@@ -9,5 +9,5 @@ package softmodel.util;
  * @author Mcerv
  */
 public enum Genero {
-    F, M, OTROS
+    FEMENINO, MASCULINO, OTROS
 }

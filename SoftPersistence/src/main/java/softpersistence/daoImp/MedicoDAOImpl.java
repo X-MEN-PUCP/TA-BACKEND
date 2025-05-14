@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import softpersistence.dao.MedicoDAO;
 import softdbmanager.DBManager;
+import softpersistence.daoImp.Util.Columna;
 
 /**
  *
@@ -34,7 +35,17 @@ public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
 
     @Override
     protected void configurarListaDeColumnas() {
-        
+        this.listaColumnas.add(new Columna("id_persona", true, true));
+        this.listaColumnas.add(new Columna("nombres", false, false));
+        this.listaColumnas.add(new Columna("apellido_paterno", false, false));
+        this.listaColumnas.add(new Columna("apellido_materno", false, false));
+        this.listaColumnas.add(new Columna("fecha_nacimiento", false, false));
+        this.listaColumnas.add(new Columna("correoElectronico", false, false));
+        this.listaColumnas.add(new Columna("num_Celular", false, false));
+        this.listaColumnas.add(new Columna("genero", false, false));
+        this.listaColumnas.add(new Columna("id_especialidad", false, false));        
+        this.listaColumnas.add(new Columna("cod_medico", false, false));        
+        this.listaColumnas.add(new Columna("id_cuenta", false, false));
     }
     
     @Override

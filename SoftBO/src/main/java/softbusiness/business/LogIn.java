@@ -26,14 +26,14 @@ public class LogIn {
         CuentaDTO cuenta;
         cuenta= cuentaDAO.buscarPorNumeroDocumento(numeroDoc);
         if(cuenta!=null){
-            if(cuenta.getContrasenha().equals(contrasenha)){
+            if(Cifrado.descifrarMD5(cuenta.getContrasenha()).equals(contrasenha)){
                 switch (cuenta.getRol()) {
                     case ADMINISTRADOR:
-                        return new CuentaAdmin(cuenta.getIdCuenta());
+                        return (CuentaAdmin) new CuentaAdmin(cuenta.getIdCuenta());
                     case MEDICO:
-                        return new CuentaMedico(cuenta.getIdCuenta());
+                        return (CuentaMedico) new CuentaMedico(cuenta.getIdCuenta());
                     case PACIENTE:
-                        return new CuentaPaciente(cuenta.getIdCuenta());
+                        return (CuentaPaciente)new CuentaPaciente(cuenta.getIdCuenta());
                     default:
                         throw new AssertionError();
                 }
