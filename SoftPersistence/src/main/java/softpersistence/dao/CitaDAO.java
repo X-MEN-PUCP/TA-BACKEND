@@ -8,6 +8,7 @@ import java.sql.Date;
 import softmodel.modelos.CitaDTO;
 import java.util.ArrayList;
 import java.util.List;
+import softmodel.modelos.PacienteDTO;
 import softmodel.util.Estado;
 
 /**
@@ -23,4 +24,10 @@ public interface CitaDAO {
     public ArrayList<CitaDTO> listarTodos();
     public ArrayList<CitaDTO> listarPorIdMedico(Integer idMedico);
     public ArrayList<CitaDTO> listarPorIdMedicoEstadoFecha(Integer idMedico, Estado estado, java.util.Date fecha);
+
+    
+    public ArrayList<CitaDTO> ReporteResumenGeneral(Integer especialidad, Estado estado, java.util.Date fechaInicio, java.util.Date fechaFin);
+    public ArrayList<CitaDTO> listarPorMedico(int idMedico);
+    public ArrayList<CitaDTO> listarPorPaciente(PacienteDTO paciente);
+
 }
