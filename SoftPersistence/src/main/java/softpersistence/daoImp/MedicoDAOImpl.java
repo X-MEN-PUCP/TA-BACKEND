@@ -68,32 +68,17 @@ public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
         this.medico = null;
     }
     
+    
+    
     @Override
     public MedicoDTO buscarPorIdCuenta(int idCuenta) {
-        MedicoDTO cuentaVar = null;
-        try {
-            this.abrirConexion();
-            String sql = "SELECT id_persona, id_especialidad FROM Persona WHERE id_cuenta = ?";
-            this.colocarSQLenStatement(sql);
-            this.statement.setInt(1, idCuenta);
-            this.ejecutarConsultaEnBD();
-            if (this.resultSet.next()) {
-                this.instanciarObjetoDelResultSet();
-            }else{
-                return null;
-            }
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar obtenerPorId en Medico- " + ex);
-        } finally {
-            try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return cuentaVar;
+        String sql = this.generarSQLParaListarTodosPorColumnaEspecifica("id_cuenta");//Nombre columna
+        Consumer incluirValorDeParametros = null;
+        Object parametros = null;
+        ArrayList<MedicoDTO> medicos = (ArrayList<MedicoDTO>) super.listarTodos(sql, idCuenta, incluirValorDeParametros, parametros);
+        if(medicos.size()>0)
+            return medicos.get(0);
+        return null;
     }
     
     @Override

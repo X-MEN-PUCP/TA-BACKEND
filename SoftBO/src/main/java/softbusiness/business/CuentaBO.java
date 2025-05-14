@@ -16,6 +16,7 @@ public class CuentaBO {
     
     public CuentaBO(){
         this.idCuenta=null;
+        this.idPersona=null;
     }
     
     protected void setIdCuenta(Integer id){
