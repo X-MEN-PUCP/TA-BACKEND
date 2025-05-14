@@ -342,32 +342,10 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
     
     @Override
     public ArrayList<CitaDTO> listarPorMedico(int idMedico){
-        ArrayList<CitaDTO> lista = new ArrayList<>();
-        CitaDTO cita = new CitaDTO();
-        try {
-            this.conexion = DBManager.getInstance().getConnection();
-            String sql = this.generarSQLParaListarTodosPorColumnaEspecifica("id_medico");//Nombre columna
-            this.statement = this.conexion.prepareCall(sql);
-            this.statement.setInt(1, idMedico);
-            this.resultSet = this.statement.executeQuery();
-            while (this.resultSet.next()) {
-                
-                instanciarObjetoDelResultSet();
-                lista.add(cita);
-            }
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar listarTodos - " + ex);
-        } finally {
-            try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return lista;
-
+        String sql = this.generarSQLParaListarTodosPorColumnaEspecifica("id_medico");//Nombre columna
+        Consumer incluirValorDeParametros = null;
+        Object parametros = null;
+        return (ArrayList<CitaDTO>) super.listarTodos(sql, idMedico, incluirValorDeParametros, parametros);
     }
 
     @Override
