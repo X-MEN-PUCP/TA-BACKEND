@@ -29,6 +29,10 @@ public class LogInTest {
     /**
      * Test of iniciarSesion method, of class LogIn.
      */
+    
+    
+    /*==============================================================*/
+    //TEST INICIAR SESSIÓN
 //    @org.junit.jupiter.api.Test
 //    public void testIniciarSesion() {
 //        System.out.println("iniciarSesion");
@@ -42,6 +46,10 @@ public class LogInTest {
 //            cuenta.QuienSoy();
 //        }
 //    }
+//    
+    
+    /*==============================================================*/
+    //TEST PACIENTE
     
 //    @org.junit.jupiter.api.Test
 //     public void testIniciarSesionVistaPaciente() throws ParseException {
@@ -114,6 +122,11 @@ public class LogInTest {
 //        }
 //    }
     
+     
+     
+     /*==============================================================*/
+    //TEST MEDICO
+     
 //    @org.junit.jupiter.api.Test
 //    public void testIniciarSesionVistaMedico() throws ParseException {
 //        
@@ -142,6 +155,12 @@ public class LogInTest {
 //            }
 //        }
 //    }
+     
+     
+     
+     
+     /*==============================================================*/
+    //TEST ADMINISTRADOR
     
     @org.junit.jupiter.api.Test
     public void testIniciarSesionVistaAdministrador() throws ParseException {
@@ -194,4 +213,10 @@ public class LogInTest {
             }
         }
     }
+    
+    /*======================================*/
+    //FIN TEST
+    /*======================================*/
+    
+    
 }
