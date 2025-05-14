@@ -144,7 +144,7 @@ public class LogInTest {
 //    }
     
     @org.junit.jupiter.api.Test
-    public void testIniciarSesionVistaAdministrador() {
+    public void testIniciarSesionVistaAdministrador() throws ParseException {
         System.out.println("iniciarSesion");
         String dni = "72945356";
         String contrasenha = "pass3";
@@ -154,6 +154,11 @@ public class LogInTest {
         if(cuenta!=null){
             System.out.println("Bienvenido");
             cuenta.QuienSoy();
+            
+            ArrayList<CitaDTO> ReporteResumenGeneral;
+            ArrayList<CitaDTO> ReporteMedico;
+            ArrayList<CitaDTO> reportePaciente;
+            
             MedicoDTO medico = new MedicoDTO();
             CuentaDTO cuent = new CuentaDTO();
             cuent.setIdCuenta(75843948);
@@ -162,10 +167,30 @@ public class LogInTest {
             CitaDTO cita = new CitaDTO();
             if(cuenta instanceof CuentaAdmin){
                 CuentaAdmin cuentaAdmin = (CuentaAdmin) cuenta;
-                Integer insertado = cuentaAdmin.insertarNuevoMedico(medico);
-                System.out.println("Insertado médico "+insertado);
-                cuentaAdmin.insertarNuevaCita(cita);
-                System.out.println("Insertado cita "+insertado);
+                
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date fechaIniDate = formato.parse("2025-06-10 00:00:00");
+                Date fechaFinDate = formato.parse("2025-06-20 00:00:00");
+                PacienteDTO paciente = new PacienteDTO();
+                HistoriaClinicaDTO historia= new HistoriaClinicaDTO();
+                historia.setIdHistoriaClinica(1);
+                paciente.setHistoriaClinica(historia);
+                System.out.println("Generando reporte Resumen...");
+                ReporteResumenGeneral = cuentaAdmin.GenerarReporteResumenGeneral(null, null, fechaIniDate, fechaFinDate);
+                System.out.println("Lista citas: "+ReporteResumenGeneral.size());
+                System.out.println("Generando reporte del medico...");
+                ReporteMedico = cuentaAdmin.ReporteCitasDelMedico(2);
+                System.out.println("Lista citas del medico: "+ReporteMedico.size());
+                System.out.println("Generando reporte del paciente...");
+                reportePaciente = cuentaAdmin.ReporteCitasPaciente(paciente);
+                System.out.println("Lista citas del paciente : "+reportePaciente.size());
+                
+                
+                
+//                Integer insertado = cuentaAdmin.insertarNuevoMedico(medico);
+//                System.out.println("Insertado médico "+insertado);
+//                cuentaAdmin.insertarNuevaCita(cita);
+//                System.out.println("Insertado cita "+insertado);
             }
         }
     }

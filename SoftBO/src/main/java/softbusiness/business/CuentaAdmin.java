@@ -4,8 +4,11 @@
  */
 package softbusiness.business;
 
+import java.util.ArrayList;
 import softmodel.modelos.CitaDTO;
 import softmodel.modelos.MedicoDTO;
+import softmodel.modelos.PacienteDTO;
+import softmodel.util.Estado;
 import softpersistence.dao.CitaDAO;
 import softpersistence.dao.CuentaDAO;
 import softpersistence.dao.MedicoDAO;
@@ -39,4 +42,31 @@ public class CuentaAdmin extends CuentaBO{
     public int insertarNuevaCita(CitaDTO cita){
         return citaDAO.insertar(cita);
     }
+    
+    
+    
+    public ArrayList<CitaDTO> GenerarReporteResumenGeneral(Integer especialidad, Estado estado, java.util.Date fechaInicio, java.util.Date fechaFin){
+        ArrayList<CitaDTO> lista = new ArrayList<>();
+        lista = citaDAO.ReporteResumenGeneral(especialidad, estado, fechaInicio, fechaFin);
+        
+        return lista;
+    }
+    
+    public ArrayList<CitaDTO> ReporteCitasDelMedico(int idMedico){
+        ArrayList<CitaDTO> lista = new ArrayList<>();
+        lista = citaDAO.listarPorMedico(idMedico);
+        
+        return lista;
+    }
+    
+    public ArrayList<CitaDTO> ReporteCitasPaciente(PacienteDTO paciente){
+        ArrayList<CitaDTO> lista = new ArrayList<>();
+        lista = citaDAO.listarPorPaciente( paciente);
+        
+        return lista;
+    }
+    
+            
+           
+
 }
