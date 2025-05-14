@@ -4,48 +4,39 @@
  */
 package softbusiness.business;
 
-import java.util.ArrayList;
 import softmodel.modelos.CitaDTO;
-import softmodel.modelos.PacienteDTO;
-import softmodel.util.Estado;
+import softmodel.modelos.MedicoDTO;
 import softpersistence.dao.CitaDAO;
+import softpersistence.dao.CuentaDAO;
+import softpersistence.dao.MedicoDAO;
 import softpersistence.daoImp.CitaDAOImpl;
+import softpersistence.daoImp.CuentaDAOImpl;
+import softpersistence.daoImp.MedicoDAOImpl;
 
 /**
  *
  * @author Mcerv
  */
 public class CuentaAdmin extends CuentaBO{
-    
-    private CitaDAO citaDao;
+    private CitaDAO citaDAO;
+    private MedicoDAO medicoDAO;
     
     public CuentaAdmin(Integer id){
         super.setIdCuenta(id);
-        this.citaDao =new CitaDAOImpl();
+        this.citaDAO= new CitaDAOImpl();
+        this.medicoDAO= new MedicoDAOImpl();
     }
     
-    
-    public ArrayList<CitaDTO> GenerarReporteResumenGeneral(Integer especialidad, Estado estado, java.util.Date fechaInicio, java.util.Date fechaFin){
-        ArrayList<CitaDTO> lista = new ArrayList<>();
-        lista = citaDao.ReporteResumenGeneral(especialidad, estado, fechaInicio, fechaFin);
-        
-        return lista;
+    @Override
+    public void QuienSoy(){
+        System.out.println("com.mycompany.softbo.CuentaAdmin.QuienSoy()");
     }
     
-    public ArrayList<CitaDTO> ReporteCitasDelMedico(int idMedico){
-        ArrayList<CitaDTO> lista = new ArrayList<>();
-        lista = citaDao.listarPorMedico(idMedico);
-        
-        return lista;
+    public int insertarNuevoMedico(MedicoDTO medico){
+        return medicoDAO.insertar(medico);
     }
     
-    public ArrayList<CitaDTO> ReporteCitasPaciente(PacienteDTO paciente){
-        ArrayList<CitaDTO> lista = new ArrayList<>();
-        lista = citaDao.listarPorPaciente( paciente);
-        
-        return lista;
+    public int insertarNuevaCita(CitaDTO cita){
+        return citaDAO.insertar(cita);
     }
-    
-    
-    
 }
