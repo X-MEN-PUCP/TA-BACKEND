@@ -178,75 +178,75 @@ public class LogInTest {
      /*==============================================================*/
     //TEST ADMINISTRADOR
     
-//    @org.junit.jupiter.api.Test
-//    public void testIniciarSesionVistaAdministrador() throws ParseException {
-//        System.out.println("iniciarSesion");
-//        String dni = "72945356";
-//        String contrasenha = "pass3";
-//        CuentaBO cuenta=null;
-//        LogIn instance = new LogIn();
-//        cuenta = instance.iniciarSesion(dni, contrasenha);
-//        if(cuenta!=null){
-//            System.out.println("Bienvenido");
-//            cuenta.QuienSoy();
-//            
-//            ArrayList<CitaDTO> ReporteResumenGeneral;
-//            ArrayList<CitaDTO> ReporteMedico;
-//            ArrayList<CitaDTO> reportePaciente;
-//            
-//            
-//            if(cuenta instanceof CuentaAdmin){
-//                CuentaAdmin cuentaAdmin = (CuentaAdmin) cuenta;
-//                
-//                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//                Date fechaIniDate = formato.parse("2025-06-10 00:00:00");
-//                Date fechaFinDate = formato.parse("2025-06-20 00:00:00");
-//                PacienteDTO paciente = new PacienteDTO();
-//                HistoriaClinicaDTO historia= new HistoriaClinicaDTO();
-//                historia.setIdHistoriaClinica(1);
-//                paciente.setHistoriaClinica(historia);
-//                System.out.println("Generando reporte Resumen...");
-//                ReporteResumenGeneral = cuentaAdmin.GenerarReporteResumenGeneral(null, null, fechaIniDate, fechaFinDate);
-//                System.out.println("Lista citas: "+ReporteResumenGeneral.size());
-//                System.out.println("Generando reporte del medico...");
-//                ReporteMedico = cuentaAdmin.ReporteCitasDelMedico(2);
-//                System.out.println("Lista citas del medico: "+ReporteMedico.size());
-//                System.out.println("Generando reporte del paciente...");
-//                reportePaciente = cuentaAdmin.ReporteCitasPaciente(paciente);
-//                System.out.println("Lista citas del paciente : "+reportePaciente.size());
-//                
-//                //También se podría listar las especialidades y elegir una
-//                
-//                //Nueva especialidad
-//                EspecialidadDTO especialidad = new EspecialidadDTO();
-//                especialidad.setNombreEspecialidad("Reumatología");
-//                especialidad.setPrecioConsulta(75);
-//                
-//                NuevoUsuarioMedicoBuilder usuario = new NuevoUsuarioMedicoBuilder(TipoDocumento.DNI,"72077872", "pass9");
-//                MedicoDTO medico = usuario.conGenero(Genero.MASCULINO).builNuevoUsuario();
-//                medico.setEspecialidad(especialidad);
-//                medico.setCodMedico(34589);
-//                Date fechaNacimiento = formato.parse("1985-06-13 00:00:00");
-//                medico.setFechaNaciemiento(fechaNacimiento);
-//                Integer insertado = cuentaAdmin.insertarNuevoMedico(medico);
-//                System.out.println("Insertado médico "+insertado);
-//                CitaDTO cita = new CitaDTO();
-//                HorarioDTO horario = new HorarioDTO();
-//                LocalDate fechaHorario = LocalDate.now();
-//                horario.setFecha(fechaHorario);
-//                horario.setTurno(Turno.MANHANA);
-//                LocalTime horaHorario = LocalTime.now();
-//                horario.setHoraInicio(horaHorario);
-//                cita.setMedico(medico);
-//                cita.setEstado(Estado.DISPONIBLE);
-//                cita.setHorario(horario);
-//                
-//                
-////                insertado=cuentaAdmin.insertarNuevaCita(cita);
-////                System.out.println("Insertado cita "+insertado);
-//            }
-//        }
-//    }
+    @org.junit.jupiter.api.Test
+    public void testIniciarSesionVistaAdministrador() throws ParseException {
+        System.out.println("iniciarSesion");
+        String dni = "72945356";
+        String contrasenha = "pass3";
+        CuentaBO cuenta=null;
+        LogIn instance = new LogIn();
+        cuenta = instance.iniciarSesion(dni, contrasenha);
+        if(cuenta!=null){
+            System.out.println("Bienvenido");
+            cuenta.QuienSoy();
+            
+            ArrayList<CitaDTO> ReporteResumenGeneral;
+            ArrayList<CitaDTO> ReporteMedico;
+            ArrayList<CitaDTO> reportePaciente;
+            
+            
+            if(cuenta instanceof CuentaAdmin){
+                CuentaAdmin cuentaAdmin = (CuentaAdmin) cuenta;
+                
+                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date fechaIniDate = formato.parse("2025-06-10 00:00:00");
+                Date fechaFinDate = formato.parse("2025-06-20 00:00:00");
+                PacienteDTO paciente = new PacienteDTO();
+                HistoriaClinicaDTO historia= new HistoriaClinicaDTO();
+                historia.setIdHistoriaClinica(1);
+                paciente.setHistoriaClinica(historia);
+                System.out.println("Generando reporte Resumen...");
+                ReporteResumenGeneral = cuentaAdmin.GenerarReporteResumenGeneral(null, null, fechaIniDate, fechaFinDate);
+                System.out.println("Lista citas: "+ReporteResumenGeneral.size());
+                System.out.println("Generando reporte del medico...");
+                ReporteMedico = cuentaAdmin.ReporteCitasDelMedico(2);
+                System.out.println("Lista citas del medico: "+ReporteMedico.size());
+                System.out.println("Generando reporte del paciente...");
+                reportePaciente = cuentaAdmin.ReporteCitasPaciente(paciente);
+                System.out.println("Lista citas del paciente : "+reportePaciente.size());
+                
+                //También se podría listar las especialidades y elegir una
+                
+                //Nueva especialidad
+                EspecialidadDTO especialidad = new EspecialidadDTO();
+                especialidad.setNombreEspecialidad("Reumatología");
+                especialidad.setPrecioConsulta(75);
+                
+                NuevoUsuarioMedicoBuilder usuario = new NuevoUsuarioMedicoBuilder(TipoDocumento.DNI,"72077872", "pass9");
+                MedicoDTO medico = usuario.conGenero(Genero.MASCULINO).builNuevoUsuario();
+                medico.setEspecialidad(especialidad);
+                medico.setCodMedico(34589);
+                Date fechaNacimiento = formato.parse("1985-06-13 00:00:00");
+                medico.setFechaNaciemiento(fechaNacimiento);
+                Integer insertado = cuentaAdmin.insertarNuevoMedico(medico);
+                System.out.println("Insertado médico "+insertado);
+                CitaDTO cita = new CitaDTO();
+                HorarioDTO horario = new HorarioDTO();
+                LocalDate fechaHorario = LocalDate.now();
+                horario.setFecha(fechaHorario);
+                horario.setTurno(Turno.MANHANA);
+                LocalTime horaHorario = LocalTime.now();
+                horario.setHoraInicio(horaHorario);
+                cita.setMedico(medico);
+                cita.setEstado(Estado.DISPONIBLE);
+                cita.setHorario(horario);
+                
+                
+//                insertado=cuentaAdmin.insertarNuevaCita(cita);
+//                System.out.println("Insertado cita "+insertado);
+            }
+        }
+    }
     
     /*======================================*/
     //FIN TEST
