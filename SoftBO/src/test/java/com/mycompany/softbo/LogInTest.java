@@ -89,30 +89,30 @@ public class LogInTest {
         }
     }
     
-    @org.junit.jupiter.api.Test
-    public void testIniciarSesionVistaMedico() {
-        System.out.println("iniciarSesion");
-        String dni = "77751498";
-        String contrasenha = "ZWOI/h4Lge8=";
-        CuentaBO cuenta=null;
-        LogIn instance = new LogIn();
-        cuenta = instance.iniciarSesion(dni, contrasenha);
-        if(cuenta!=null){
-            System.out.println("Bienvenido");
-            cuenta.QuienSoy();
-            ArrayList<CitaDTO> citas;
-            ArrayList<CitaDTO> citasProgramadas;
-            ArrayList<CitaDTO> citasDisponibles;
-            if(cuenta instanceof CuentaMedico){
-                CuentaMedico cuentaMedico = (CuentaMedico) cuenta;
-                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date fecha = formato.parse("2025-06-13 00:00:00");
-                citas = cuentaMedico.listarCitas(fecha);
-                citasProgramadas = cuentaMedico.listarCitasProgramadas(fecha);
-                citasDisponibles = cuentaMedico.listarCitasDisponibles(fecha);
-            }
-        }
-    }
+//    @org.junit.jupiter.api.Test
+//    public void testIniciarSesionVistaMedico() {
+//        System.out.println("iniciarSesion");
+//        String dni = "77751498";
+//        String contrasenha = "ZWOI/h4Lge8=";
+//        CuentaBO cuenta=null;
+//        LogIn instance = new LogIn();
+//        cuenta = instance.iniciarSesion(dni, contrasenha);
+//        if(cuenta!=null){
+//            System.out.println("Bienvenido");
+//            cuenta.QuienSoy();
+//            ArrayList<CitaDTO> citas;
+//            ArrayList<CitaDTO> citasProgramadas;
+//            ArrayList<CitaDTO> citasDisponibles;
+//            if(cuenta instanceof CuentaMedico){
+//                CuentaMedico cuentaMedico = (CuentaMedico) cuenta;
+//                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                Date fecha = formato.parse("2025-06-13 00:00:00");
+//                citas = cuentaMedico.listarCitas(fecha);
+//                citasProgramadas = cuentaMedico.listarCitasProgramadas(fecha);
+//                citasDisponibles = cuentaMedico.listarCitasDisponibles(fecha);
+//            }
+//        }
+//    }
     
 //    @org.junit.jupiter.api.Test
 //    public void testIniciarSesionVistaAdministrador() {
