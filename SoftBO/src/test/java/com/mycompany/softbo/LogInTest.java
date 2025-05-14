@@ -209,7 +209,7 @@ public class LogInTest {
                 especialidad.setNombreEspecialidad("Reumatología");
                 especialidad.setPrecioConsulta(75);
                 
-                NuevoUsuarioMedicoBuilder usuario = new NuevoUsuarioMedicoBuilder(TipoDocumento.DNI,"75843948", "pass7");
+                NuevoUsuarioMedicoBuilder usuario = new NuevoUsuarioMedicoBuilder(TipoDocumento.DNI,"72077872", "pass9");
                 MedicoDTO medico = usuario.conGenero(Genero.MASCULINO).builNuevoUsuario();
                 medico.setEspecialidad(especialidad);
                 medico.setCodMedico(34589);
@@ -227,6 +227,9 @@ public class LogInTest {
                 cita.setMedico(medico);
                 cita.setEstado(Estado.DISPONIBLE);
                 cita.setHorario(horario);
+                
+                
+                
 //                insertado=cuentaAdmin.insertarNuevaCita(cita);
 //                System.out.println("Insertado cita "+insertado);
             }

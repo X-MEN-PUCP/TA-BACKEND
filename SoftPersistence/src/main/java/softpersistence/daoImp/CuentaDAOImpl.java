@@ -31,7 +31,7 @@ public class CuentaDAOImpl extends DAOImplBase implements CuentaDAO{
     @Override
     protected void configurarListaDeColumnas() {
         this.listaColumnas.add(new Columna("id_cuenta", true, true));
-        this.listaColumnas.add(new Columna("tipo_documento", true, true));
+        this.listaColumnas.add(new Columna("tipo_documento", false, false));
         this.listaColumnas.add(new Columna("nro_documento", false, false));
         this.listaColumnas.add(new Columna("contrasena", false, false));
         this.listaColumnas.add(new Columna("rol", false, false));
