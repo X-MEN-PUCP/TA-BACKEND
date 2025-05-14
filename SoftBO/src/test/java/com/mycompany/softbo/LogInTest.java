@@ -43,20 +43,20 @@ public class LogInTest {
 //    }
     
     @org.junit.jupiter.api.Test
-    public void testIniciarSesionVistaPaciente() throws ParseException {
+     public void testIniciarSesionVistaPaciente() throws ParseException {
         System.out.println("iniciarSesion");
         String dni = "74073698";
         String contrasenha = "pass1";
-        CuentaBO cuenta=null;
+        CuentaBO cuenta = null;
         LogIn instance = new LogIn();
         cuenta = instance.iniciarSesion(dni, contrasenha);
-        if(cuenta!=null){
+        if (cuenta != null) {
             System.out.println("Bienvenido");
             cuenta.QuienSoy();
             ArrayList<CitaDTO> citas;
             ArrayList<EspecialidadDTO> especialidades;
             ArrayList<MedicoDTO> medicos;
-            if(cuenta instanceof CuentaPaciente){
+            if (cuenta instanceof CuentaPaciente) {
                 CuentaPaciente cuentaPaciente = (CuentaPaciente) cuenta;
                 //listar cita
                 especialidades = cuentaPaciente.listaDeEspecialidades();
@@ -64,27 +64,53 @@ public class LogInTest {
                 int indice = rand.nextInt(especialidades.size());
                 EspecialidadDTO especialidad = especialidades.get(indice);
                 Integer idEspecialidad = especialidad.getIdEspecialidad();
-                System.out.println(idEspecialidad+"Especialidad");
-                medicos=cuentaPaciente.listaDeMedicoPorEspecialidad(idEspecialidad);
+                System.out.println(idEspecialidad + "Especialidad");
+                medicos = cuentaPaciente.listaDeMedicoPorEspecialidad(idEspecialidad);
                 indice = rand.nextInt(medicos.size());
                 MedicoDTO medico = medicos.get(indice);
                 Integer idMedico = medico.getIdPersona();
-                System.out.println(idMedico+"Medico");
+                System.out.println(idMedico + "Medico");
                 SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date fecha = formato.parse("2025-06-13 00:00:00");
                 citas = cuentaPaciente.listarCitas(idEspecialidad, fecha, idMedico);
-                if(citas.size()!=0){
-                    System.out.println(citas.get(0).getIdCita()+"Cita");
+                CitaDTO citavieja;
+                if (citas.size() != 0) {
+                    System.out.println(citas.get(0).getIdCita() + "Cita");
                     CitaDTO citaElegida = citas.get(0);
+                    citavieja = citaElegida;
                     System.out.println("Reservando");
                     Integer reserva = cuentaPaciente.reservarCita(citaElegida);
                     System.out.println("Reserva: " + reserva);
                     LocalDate hoy = LocalDate.now();
                     cuentaPaciente.pagarCita(citaElegida, "Yo", "145456", "454", MetodoPago.VISA, hoy);
-                }else{
+                    //Reprogramar y cancelar
+                    citas = cuentaPaciente.listarCitas(idEspecialidad, fecha, idMedico);
+
+                    if (citas.size() != 0) {
+                        System.out.println(citas.get(0).getIdCita() + "Cita");
+                        int historiaVieja = citavieja.getHistoriaClinicaPaciente().getIdHistoriaClinica();
+                        citaElegida = citas.get(0);
+                        System.out.println("Reprogramando...");
+                        Integer reprogramacion = cuentaPaciente.reprogramarCita(citavieja.getIdCita(), citaElegida.getIdCita());
+                        System.out.println("Reprogramado: " + reserva);
+                        System.out.println("Cencelando...");
+                        System.out.println("Cancelando...");
+                        citaElegida.getHistoriaClinicaPaciente().setIdHistoriaClinica(historiaVieja);
+                        System.err.println("Historia cita elegida" + citaElegida.getHistoriaClinicaPaciente().getIdHistoriaClinica());
+                        Integer cancelar = cuentaPaciente.cancelarCita(citaElegida);
+                        System.out.println("Cancelado: " + cancelar);
+
+
+                    } else {
+                        System.out.println("No hay citas disponibles");
+                    }
+
+                } else {
                     System.out.println("No hay citas disponibles");
                 }
-                
+
+                System.out.println("Fin de los test");
+
             }
         }
     }
