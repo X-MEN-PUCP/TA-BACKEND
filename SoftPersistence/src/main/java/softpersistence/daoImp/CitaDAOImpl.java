@@ -60,9 +60,9 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
 
             this.statement.setInt(1, this.cita.getHorario().getIdHorario());
             this.statement.setInt(2, this.cita.getMedico().getIdPersona());
-            this.statement.setString(4, this.cita.getObservacionesMedicas());
+            this.statement.setString(3, this.cita.getObservacionesMedicas());
             this.statement.setInt(4, this.cita.getHistoriaClinicaPaciente().getIdHistoriaClinica());
-
+            this.statement.setString(5, this.cita.getEstado().toString());
         } catch (SQLException ex) {
             Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -71,12 +71,12 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
     @Override
     protected void incluirValorDeParametrosParaModificacion() {
         try {
-
             this.statement.setInt(1, this.cita.getHorario().getIdHorario());
             this.statement.setInt(2, this.cita.getMedico().getIdPersona());
             this.statement.setString(3, this.cita.getObservacionesMedicas());
             this.statement.setInt(4, this.cita.getHistoriaClinicaPaciente().getIdHistoriaClinica());
             this.statement.setString(5, this.cita.getEstado().toString());
+            this.statement.setInt(6, this.cita.getIdCita());
         } catch (SQLException ex) {
             Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -172,7 +172,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
     public Integer modificar(CitaDTO cita) {
         int resultado = 0;
         try {
-            this.conexion = DBManager.getInstance().getConnection();
+            super.abrirConexion();
             this.conexion.setAutoCommit(false);
             String sql = this.generarSQLParaModificacion();
             this.statement = this.conexion.prepareCall(sql);
@@ -190,9 +190,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
             }
         } finally {
             try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
+                this.cerrarConexion();
             } catch (SQLException ex) {
                 System.err.println("Error al cerrar la conexión - " + ex);
             }

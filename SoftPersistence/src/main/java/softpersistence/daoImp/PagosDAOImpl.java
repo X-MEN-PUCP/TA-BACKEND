@@ -6,7 +6,9 @@ package softpersistence.daoImp;
 
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import softdbmanager.DBManager;
@@ -55,17 +57,18 @@ public class PagosDAOImpl extends DAOImplBase implements PagosDAO {
            //historia clinica debe exitir antes
             java.util.Date fechaReserva = this.pago.getFechaReserva();
             java.sql.Date fechaSQL = new java.sql.Date(fechaReserva.getTime());
-            this.statement.setInt(2, this.pago.getCita().getIdCita());
-            this.statement.setString(3, this.pago.getMetodoPago().toString());
-            this.statement.setString(4, this.pago.getTitular());
-            this.statement.setString(5, this.pago.getCorreoElectronico());
-            this.statement.setString(6, this.pago.getNumTarjeta());
-            this.statement.setDate(7, null);
-            this.statement.setString(8, this.pago.getCVV());
-            this.statement.setString(9, this.pago.getDireccionFactura());
-            this.statement.setDouble(10, this.pago.getMonto());
-            this.statement.setDate(11, fechaSQL);
-            this.statement.setDate(12, null);
+            this.statement.setInt(1, this.pago.getCita().getIdCita());
+            if(this.pago.getMetodoPago() != null)this.statement.setString(2, this.pago.getMetodoPago().toString());
+            else this.statement.setString(2, null);
+            this.statement.setString(3, this.pago.getTitular());
+            this.statement.setString(4, this.pago.getCorreoElectronico());
+            this.statement.setString(5, this.pago.getNumTarjeta());
+            this.statement.setDate(6, null);
+            this.statement.setString(7, this.pago.getCVV());
+            this.statement.setString(8, this.pago.getDireccionFactura());
+            this.statement.setDouble(9, this.pago.getMonto());
+            this.statement.setDate(10, fechaSQL);
+            this.statement.setDate(11, null);
             
         } catch (SQLException ex) {
             Logger.getLogger(PacienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -78,17 +81,19 @@ public class PagosDAOImpl extends DAOImplBase implements PagosDAO {
            //historia clinica debe exitir antes
             java.util.Date fechaReserva = this.pago.getFechaReserva();
             java.sql.Date fechaSQL = new java.sql.Date(fechaReserva.getTime());
-            this.statement.setInt(2, this.pago.getCita().getIdCita());
-            this.statement.setString(3, this.pago.getMetodoPago().toString());
-            this.statement.setString(4, this.pago.getTitular());
-            this.statement.setString(5, this.pago.getCorreoElectronico());
-            this.statement.setString(6, this.pago.getNumTarjeta());
-            this.statement.setDate(7, null);
-            this.statement.setString(8, this.pago.getCVV());
-            this.statement.setString(9, this.pago.getDireccionFactura());
-            this.statement.setDouble(10, this.pago.getMonto());
-            this.statement.setDate(11, fechaSQL);
-            this.statement.setDate(12, null);
+            this.statement.setInt(1, this.pago.getCita().getIdCita());
+            if(this.pago.getMetodoPago() != null)this.statement.setString(2, this.pago.getMetodoPago().toString());
+            else this.statement.setString(2, null);
+            this.statement.setString(3, this.pago.getTitular());
+            this.statement.setString(4, this.pago.getCorreoElectronico());
+            this.statement.setString(5, this.pago.getNumTarjeta());
+            this.statement.setDate(6, null);
+            this.statement.setString(7, this.pago.getCVV());
+            this.statement.setString(8, this.pago.getDireccionFactura());
+            this.statement.setDouble(9, this.pago.getMonto());
+            this.statement.setDate(10, fechaSQL);
+            this.statement.setDate(11, null);
+            this.statement.setInt(12, this.pago.getIdPago());
             
         } catch (SQLException ex) {
             Logger.getLogger(PacienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -102,11 +107,22 @@ public class PagosDAOImpl extends DAOImplBase implements PagosDAO {
         CitaDTO cita = new CitaDTO();
         cita.setIdCita(this.resultSet.getInt("id_cita"));
         pago.setCita(cita);
-        pago.setMetodoPago(MetodoPago.valueOf(this.resultSet.getString("metodo_de_pago")));
+        MetodoPago metodo = null;
+        String metodoDePago=this.resultSet.getString("metodo_de_pago");
+        if(metodoDePago==null){
+            pago.setMetodoPago(metodo);
+        }else{
+            pago.setMetodoPago(MetodoPago.valueOf(metodoDePago));
+        }
+        
         pago.setTitular(this.resultSet.getString("titular"));
         pago.setCorreoElectronico(this.resultSet.getString("correoElectronico"));
         pago.setNumTarjeta(this.resultSet.getString("numero_tarjeta"));
-        pago.setFechaExpiracion(this.resultSet.getDate("fechaExpiracion").toLocalDate());
+        Date fecha = this.resultSet.getDate("fechaExpiracion");
+        if(fecha!=null)
+            pago.setFechaExpiracion(fecha.toLocalDate());
+        else
+            pago.setFechaExpiracion(null);
         pago.setCVV(this.resultSet.getString("CVV"));
         pago.setDireccionFactura(this.resultSet.getString("direccionFactura"));
         pago.setMonto(this.resultSet.getDouble("monto"));
@@ -128,6 +144,7 @@ public class PagosDAOImpl extends DAOImplBase implements PagosDAO {
     @Override
     public Integer modificar(PagosDTO pago) {
         int resultado = 0;
+        this.pago = pago;
         try {
             this.conexion = DBManager.getInstance().getConnection();
             this.conexion.setAutoCommit(false);

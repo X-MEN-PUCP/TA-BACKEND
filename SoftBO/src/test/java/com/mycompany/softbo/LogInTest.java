@@ -6,6 +6,7 @@ package com.mycompany.softbo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import softbusiness.business.CuentaBO;
@@ -62,22 +63,27 @@ public class LogInTest {
                 int indice = rand.nextInt(especialidades.size());
                 EspecialidadDTO especialidad = especialidades.get(indice);
                 Integer idEspecialidad = especialidad.getIdEspecialidad();
-                System.out.println(idEspecialidad);
+                System.out.println(idEspecialidad+"Especialidad");
                 medicos=cuentaPaciente.listaDeMedicoPorEspecialidad(idEspecialidad);
                 indice = rand.nextInt(medicos.size());
                 MedicoDTO medico = medicos.get(indice);
                 Integer idMedico = medico.getIdPersona();
-                System.out.println(idMedico);
+                System.out.println(idMedico+"Medico");
                 SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date fecha = formato.parse("2025-06-13 00:00:00");
                 citas = cuentaPaciente.listarCitas(idEspecialidad, fecha, idMedico);
-                System.out.println(citas.get(0).getIdCita());
-                CitaDTO citaElegida = citas.get(0);
-                //reservar cita
-                System.out.println("Reservando");
+                if(citas.size()!=0){
+                    System.out.println(citas.get(0).getIdCita()+"Cita");
+                    CitaDTO citaElegida = citas.get(0);
+                    System.out.println("Reservando");
+                    Integer reserva = cuentaPaciente.reservarCita(citaElegida);
+                    System.out.println("Reserva: " + reserva);
+                    LocalDate hoy = LocalDate.now();
+                    cuentaPaciente.pagarCita(citaElegida, "Yo", "145456", "454", MetodoPago.VISA, hoy);
+                }else{
+                    System.out.println("No hay citas disponibles");
+                }
                 
-                Integer reserva = cuentaPaciente.reservarCita(citaElegida);
-                System.out.println("Reserva: " + reserva);
             }
         }
     }

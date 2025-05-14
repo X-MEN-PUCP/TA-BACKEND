@@ -13,6 +13,7 @@ import java.util.Date;
 import softdbmanager.util.Cifrado;
 import softmodel.modelos.CuentaDTO;
 import softmodel.modelos.EspecialidadDTO;
+import softmodel.modelos.HistoriaClinicaDTO;
 import softmodel.modelos.MedicoDTO;
 import softmodel.modelos.PagosDTO;
 import softmodel.util.Estado;
@@ -108,17 +109,27 @@ public class CuentaPaciente extends CuentaBO{
         //actualizar cita (Estado: reservado)
         System.out.println("Modificando estado de cita");
         cita.setEstado(Estado.RESERVADO);
+        Integer id = super.getIdCuenta();
+        PacienteDTO paciente = pacienteDAO.buscarPorIdCuenta(id);
+        HistoriaClinicaDTO historia= paciente.getHistoriaClinica();
+        cita.setHistoriaClinicaPaciente(historia);
         citaDAO.modificar(cita);
         //crear nueva fila de pago (solo id, id_cita, estado: pendiente, fecha_reserva, monto)
+        MedicoDTO medico = medicoDAO.obtenerPorId(cita.getMedico().getIdPersona());
+        EspecialidadDTO especialidad= new EspecialidadDTO();
+        EspecialidadDAOImpl espdao = new EspecialidadDAOImpl();
+        especialidad = espdao.obtenerPorId(medico.getEspecialidad().getIdEspecialidad());
         System.out.println("Modifica estado de cita");
         PagosDTO pago = new PagosDTO();
+        
         pago.setCita(cita);
+        //pago.setMetodoPago(null);
         pago.setEstado(EstadoPago.PENDIENTE);
         LocalDate localDate = LocalDate.now(); // fecha actual sin hora
         Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         pago.setFechaReserva(date);
-        pago.setMonto(cita.getMedico().getEspecialidad().getPrecioConsulta());
-        return pagosDAO.modificar(pago);
+        pago.setMonto(especialidad.getPrecioConsulta());
+        return pagosDAO.insertar(pago);
     }
     
     public int cancelarCita(CitaDTO cita){

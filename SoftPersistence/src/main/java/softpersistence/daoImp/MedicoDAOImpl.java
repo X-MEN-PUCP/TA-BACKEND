@@ -57,7 +57,8 @@ public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
         cuentaVar = this.cargarLecturaPersona();
         medico.copiarDesde(cuentaVar);
         EspecialidadDTO especialidad= new EspecialidadDTO();
-        especialidad.setIdEspecialidad(this.resultSet.getInt("id_especialidad"));
+        EspecialidadDAOImpl espdao = new EspecialidadDAOImpl();
+        especialidad = espdao.obtenerPorId(this.resultSet.getInt("id_especialidad"));
         medico.setEspecialidad(especialidad);
         medico.setCodMedico(this.resultSet.getInt("cod_medico"));
     }
@@ -107,6 +108,38 @@ public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
         Consumer incluirValorDeParametros = null;
         Object parametros = null;
         return (ArrayList<MedicoDTO>) super.listarTodos(sql, idEspecialidad, incluirValorDeParametros, parametros);
+    }
+    
+    @Override
+    public MedicoDTO obtenerPorId(Integer id) {
+        System.out.println(id);
+        try {
+            super.abrirConexion();
+            String sql = this.generarSQLParaObtenerPorId();
+            this.statement = this.conexion.prepareCall(sql);
+            this.statement.setInt(1, id);
+            System.out.println(sql);
+
+            this.resultSet = this.statement.executeQuery();
+            if (this.resultSet.next()) {
+                System.out.println("Encontró");
+                this.instanciarObjetoDelResultSet();
+                return medico;
+
+            } else {
+                System.out.println("No Encontró nada");
+                return null;
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al intentar obtenerPorId - " + ex);
+        } finally {
+            try {
+                super.cerrarConexion();
+            } catch (SQLException ex) {
+                System.err.println("Error al cerrar la conexión - " + ex);
+            }
+        }
+        return medico;
     }
     
 }
