@@ -5,23 +5,23 @@
 package softbusiness.business;
 
 import java.util.ArrayList;
-import softmodel.modelos.CitaDTO;
-import softmodel.modelos.CuentaDTO;
-import softmodel.modelos.EspecialidadDTO;
-import softmodel.modelos.HorarioDTO;
-import softmodel.modelos.MedicoDTO;
-import softmodel.modelos.PacienteDTO;
-import softmodel.util.Estado;
-import softpersistence.dao.CitaDAO;
-import softpersistence.dao.CuentaDAO;
-import softpersistence.dao.EspecialidadDAO;
-import softpersistence.dao.HorarioDAO;
-import softpersistence.dao.MedicoDAO;
-import softpersistence.daoImp.CitaDAOImpl;
-import softpersistence.daoImp.CuentaDAOImpl;
-import softpersistence.daoImp.EspecialidadDAOImpl;
-import softpersistence.daoImp.HorarioDAOImpl;
-import softpersistence.daoImp.MedicoDAOImpl;
+import pe.edu.pucp.softmodel.modelos.CitaDTO;
+import pe.edu.pucp.softmodel.modelos.CuentaDTO;
+import pe.edu.pucp.softmodel.modelos.EspecialidadDTO;
+import pe.edu.pucp.softmodel.modelos.HorarioDTO;
+import pe.edu.pucp.softmodel.modelos.MedicoDTO;
+import pe.edu.pucp.softmodel.modelos.PacienteDTO;
+import pe.edu.pucp.softmodel.util.Estado;
+import pe.edu.pucp.softpersistence.dao.CitaDAO;
+import pe.edu.pucp.softpersistence.dao.CuentaDAO;
+import pe.edu.pucp.softpersistence.dao.EspecialidadDAO;
+import pe.edu.pucp.softpersistence.dao.HorarioDAO;
+import pe.edu.pucp.softpersistence.dao.MedicoDAO;
+import pe.edu.pucp.softpersistence.daoImp.CitaDAOImpl;
+import pe.edu.pucp.softpersistence.daoImp.CuentaDAOImpl;
+import pe.edu.pucp.softpersistence.daoImp.EspecialidadDAOImpl;
+import pe.edu.pucp.softpersistence.daoImp.HorarioDAOImpl;
+import pe.edu.pucp.softpersistence.daoImp.MedicoDAOImpl;
 
 /**
  *

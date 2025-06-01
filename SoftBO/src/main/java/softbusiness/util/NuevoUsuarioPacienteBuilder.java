@@ -7,13 +7,13 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import softmodel.modelos.CuentaDTO;
-import softmodel.modelos.PersonaDTO;
-import softmodel.util.Genero;
+import pe.edu.pucp.softmodel.modelos.CuentaDTO;
+import pe.edu.pucp.softmodel.modelos.PersonaDTO;
+import pe.edu.pucp.softmodel.util.Genero;
 import org.json.JSONObject;
-import softmodel.modelos.PacienteDTO;
-import softmodel.util.Rol;
-import softmodel.util.TipoDocumento;
+import pe.edu.pucp.softmodel.modelos.PacienteDTO;
+import pe.edu.pucp.softmodel.util.Rol;
+import pe.edu.pucp.softmodel.util.TipoDocumento;
 
 public class NuevoUsuarioPacienteBuilder {
     private Rol rol;

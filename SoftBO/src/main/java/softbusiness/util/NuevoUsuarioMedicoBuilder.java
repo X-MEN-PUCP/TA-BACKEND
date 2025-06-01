@@ -6,13 +6,13 @@ package softbusiness.util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import softmodel.modelos.CuentaDTO;
-import softmodel.modelos.EspecialidadDTO;
-import softmodel.modelos.MedicoDTO;
-import softmodel.modelos.PacienteDTO;
-import softmodel.util.Genero;
-import softmodel.util.Rol;
-import softmodel.util.TipoDocumento;
+import pe.edu.pucp.softmodel.modelos.CuentaDTO;
+import pe.edu.pucp.softmodel.modelos.EspecialidadDTO;
+import pe.edu.pucp.softmodel.modelos.MedicoDTO;
+import pe.edu.pucp.softmodel.modelos.PacienteDTO;
+import pe.edu.pucp.softmodel.util.Genero;
+import pe.edu.pucp.softmodel.util.Rol;
+import pe.edu.pucp.softmodel.util.TipoDocumento;
 
 
 

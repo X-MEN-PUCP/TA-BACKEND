@@ -5,11 +5,11 @@
 package softbusiness.business;
 
 
-import softmodel.util.Rol;
-import softpersistence.dao.CuentaDAO;
-import softpersistence.daoImp.CuentaDAOImpl;
-import softmodel.modelos.CuentaDTO;
-import softdbmanager.util.Cifrado;
+import pe.edu.pucp.softmodel.util.Rol;
+import pe.edu.pucp.softpersistence.dao.CuentaDAO;
+import pe.edu.pucp.softpersistence.daoImp.CuentaDAOImpl;
+import pe.edu.pucp.softmodel.modelos.CuentaDTO;
+import pe.edu.pucp.softdbmanager.util.Cifrado;
 
 /**
  *

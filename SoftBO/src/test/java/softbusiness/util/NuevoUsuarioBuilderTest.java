@@ -6,8 +6,8 @@ package softbusiness.util;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import softmodel.modelos.PersonaDTO;
-import softmodel.util.TipoDocumento;
+import pe.edu.pucp.softmodel.modelos.PersonaDTO;
+import pe.edu.pucp.softmodel.util.TipoDocumento;
 
 public class NuevoUsuarioBuilderTest {
 

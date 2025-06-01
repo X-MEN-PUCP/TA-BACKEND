@@ -4,6 +4,17 @@
  */
 package com.mycompany.softbo;
 
+import pe.edu.pucp.softmodel.util.TipoDocumento;
+import pe.edu.pucp.softmodel.util.Estado;
+import pe.edu.pucp.softmodel.util.Genero;
+import pe.edu.pucp.softmodel.util.Turno;
+import pe.edu.pucp.softmodel.util.MetodoPago;
+import pe.edu.pucp.softmodel.modelos.CitaDTO;
+import pe.edu.pucp.softmodel.modelos.PacienteDTO;
+import pe.edu.pucp.softmodel.modelos.MedicoDTO;
+import pe.edu.pucp.softmodel.modelos.HistoriaClinicaDTO;
+import pe.edu.pucp.softmodel.modelos.HorarioDTO;
+import pe.edu.pucp.softmodel.modelos.EspecialidadDTO;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -13,14 +24,12 @@ import java.util.Date;
 import softbusiness.business.CuentaBO;
 import softbusiness.business.LogIn;
 
-import softmodel.modelos.*;
 import java.util.Random;
 import softbusiness.business.CuentaAdmin;
 import softbusiness.business.CuentaMedico;
 import softbusiness.business.CuentaPaciente;
 import softbusiness.util.NuevoUsuarioMedicoBuilder;
 import softbusiness.util.NuevoUsuarioPacienteBuilder;
-import softmodel.util.*;
 /**
  *
  * @author Mcerv

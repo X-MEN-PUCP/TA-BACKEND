@@ -6,33 +6,33 @@ package softbusiness.business;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import softmodel.modelos.CitaDTO;
-import softmodel.modelos.PacienteDTO;
+import pe.edu.pucp.softmodel.modelos.CitaDTO;
+import pe.edu.pucp.softmodel.modelos.PacienteDTO;
 import java.util.ArrayList;
 import java.util.Date;
-import softdbmanager.util.Cifrado;
-import softmodel.modelos.CuentaDTO;
-import softmodel.modelos.EspecialidadDTO;
-import softmodel.modelos.HistoriaClinicaDTO;
-import softmodel.modelos.MedicoDTO;
-import softmodel.modelos.PagosDTO;
-import softmodel.util.Estado;
-import softmodel.util.EstadoPago;
-import softmodel.util.MetodoPago;
-import softpersistence.dao.CitaDAO;
-import softpersistence.dao.CuentaDAO;
-import softpersistence.dao.EspecialidadDAO;
-import softpersistence.dao.HorarioDAO;
-import softpersistence.dao.MedicoDAO;
-import softpersistence.dao.PacienteDAO;
-import softpersistence.dao.PagosDAO;
-import softpersistence.daoImp.CitaDAOImpl;
-import softpersistence.daoImp.CuentaDAOImpl;
-import softpersistence.daoImp.EspecialidadDAOImpl;
-import softpersistence.daoImp.HorarioDAOImpl;
-import softpersistence.daoImp.MedicoDAOImpl;
-import softpersistence.daoImp.PacienteDAOImpl;
-import softpersistence.daoImp.PagosDAOImpl;
+import pe.edu.pucp.softdbmanager.util.Cifrado;
+import pe.edu.pucp.softmodel.modelos.CuentaDTO;
+import pe.edu.pucp.softmodel.modelos.EspecialidadDTO;
+import pe.edu.pucp.softmodel.modelos.HistoriaClinicaDTO;
+import pe.edu.pucp.softmodel.modelos.MedicoDTO;
+import pe.edu.pucp.softmodel.modelos.PagoDTO;
+import pe.edu.pucp.softmodel.util.Estado;
+import pe.edu.pucp.softmodel.util.EstadoPago;
+import pe.edu.pucp.softmodel.util.MetodoPago;
+import pe.edu.pucp.softpersistence.dao.CitaDAO;
+import pe.edu.pucp.softpersistence.dao.CuentaDAO;
+import pe.edu.pucp.softpersistence.dao.EspecialidadDAO;
+import pe.edu.pucp.softpersistence.dao.HorarioDAO;
+import pe.edu.pucp.softpersistence.dao.MedicoDAO;
+import pe.edu.pucp.softpersistence.dao.PacienteDAO;
+import pe.edu.pucp.softpersistence.daoImp.CitaDAOImpl;
+import pe.edu.pucp.softpersistence.daoImp.CuentaDAOImpl;
+import pe.edu.pucp.softpersistence.daoImp.EspecialidadDAOImpl;
+import pe.edu.pucp.softpersistence.daoImp.HorarioDAOImpl;
+import pe.edu.pucp.softpersistence.daoImp.MedicoDAOImpl;
+import pe.edu.pucp.softpersistence.daoImp.PacienteDAOImpl;
+import pe.edu.pucp.softpersistence.daoImp.PagoDAOImpl;
+import pe.edu.pucp.softpersistence.dao.PagoDAO;
 
 /**
  *
@@ -46,7 +46,7 @@ public class CuentaPaciente extends CuentaBO {
     private MedicoDAO medicoDAO;
     private CitaDAO citaDAO;
     private CuentaDAO cuentaDAO;
-    private PagosDAO pagosDAO;
+    private PagoDAO pagosDAO;
     private HorarioDAO horarioDAO;
 
     public CuentaPaciente(Integer id) {
@@ -59,7 +59,7 @@ public class CuentaPaciente extends CuentaBO {
         this.medicoDAO = new MedicoDAOImpl();
         this.citaDAO = new CitaDAOImpl();
         this.cuentaDAO = new CuentaDAOImpl();
-        this.pagosDAO = new PagosDAOImpl();
+        this.pagosDAO = new PagoDAOImpl();
         this.horarioDAO = new HorarioDAOImpl();
     }
 
@@ -127,7 +127,7 @@ public class CuentaPaciente extends CuentaBO {
         EspecialidadDAOImpl espdao = new EspecialidadDAOImpl();
         especialidad = espdao.obtenerPorId(medico.getEspecialidad().getIdEspecialidad());
         System.out.println("Modifica estado de cita");
-        PagosDTO pago = new PagosDTO();
+        PagoDTO pago = new PagoDTO();
 
         pago.setCita(cita);
         //pago.setMetodoPago(null);
@@ -145,7 +145,7 @@ public class CuentaPaciente extends CuentaBO {
         System.out.println("ID HISTORIA " + cita.getHistoriaClinicaPaciente().getIdHistoriaClinica());
         int cancel = cita.getIdCita();
         citaDAO.modificar(cita);
-        PagosDTO pago = pagosDAO.buscarPorIdCita(cita.getIdCita());
+        PagoDTO pago = pagosDAO.buscarPorIdCita(cita.getIdCita());
         //eliminar fila de pago
         pagosDAO.eliminar(pago.getIdPago());
         return cancel;
@@ -156,7 +156,7 @@ public class CuentaPaciente extends CuentaBO {
         //actualizar cita (Esatado: Pagado)
         cita.setEstado(Estado.PAGADO);
         citaDAO.modificar(cita);
-        PagosDTO pago = pagosDAO.buscarPorIdCita(cita.getIdCita());
+        PagoDTO pago = pagosDAO.buscarPorIdCita(cita.getIdCita());
         //actualizar fila de pago con los datos del pago y el estado: exitoso, fecha_pago
 
         //DATOS DE PAGO
@@ -190,7 +190,7 @@ public class CuentaPaciente extends CuentaBO {
         citaDAO.modificar(citaAnterior);
         
         citaDAO.modificar(citaNueva);
-        PagosDTO pago = pagosDAO.buscarPorIdCita(idCitaAnterior);
+        PagoDTO pago = pagosDAO.buscarPorIdCita(idCitaAnterior);
         pago.setCita(citaNueva);
         return pagosDAO.modificar(pago);
     }

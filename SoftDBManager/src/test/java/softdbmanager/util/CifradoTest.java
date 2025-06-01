@@ -4,6 +4,7 @@
  */
 package softdbmanager.util;
 
+import pe.edu.pucp.softdbmanager.util.Cifrado;
 import java.util.Properties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
