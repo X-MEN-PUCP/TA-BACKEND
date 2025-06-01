@@ -19,13 +19,13 @@ import softdbmanager.DBManager;
 
 public class HorarioDAOImpl extends DAOImplBase implements HorarioDAO {
 
-    HorarioDTO cuenta;
+    HorarioDTO horario;
     private final boolean retornarLlavePrimaria;
 
     public HorarioDAOImpl() {
         super("Horario");
         this.retornarLlavePrimaria = true;
-        this.cuenta = null;
+        this.horario = null;
     }
 
     @Override
@@ -37,158 +37,59 @@ public class HorarioDAOImpl extends DAOImplBase implements HorarioDAO {
     }
 
     @Override
-    public Integer insertar(HorarioDTO cuenta) {
-        this.cuenta = cuenta;
+    public Integer insertar(HorarioDTO horario) {
+        this.horario = horario;
         return super.insertar();
     }
 
     @Override
     protected void incluirValorDeParametrosParaInsercion() {
         try {
-            this.statement.setDate(1, java.sql.Date.valueOf(this.cuenta.getFecha()));
-            this.statement.setTime(2, java.sql.Time.valueOf(this.cuenta.getHoraInicio()));
-            this.statement.setString(3,this.cuenta.getTurno().toString());
+            this.statement.setDate(1, java.sql.Date.valueOf(this.horario.getFecha()));
+            this.statement.setTime(2, java.sql.Time.valueOf(this.horario.getHoraInicio()));
+            this.statement.setString(3,this.horario.getTurno().toString());
         } catch (SQLException ex) {
             Logger.getLogger(HorarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    @Override
-    public HorarioDTO obtenerPorId(Integer cuentaID) {
-        System.out.println(cuentaID);
-        HorarioDTO cuentaVar = null;
+    
+    protected void incluirValorDeParametrosParaModificacion() {
         try {
-            this.conexion = DBManager.getInstance().getConnection();
-            String sql = this.generarSQLParaObtenerPorId();
-            this.statement = this.conexion.prepareCall(sql);
-            this.statement.setInt(1, cuentaID);
-            System.out.println(sql);
-
-            this.resultSet = this.statement.executeQuery();
-            if (this.resultSet.next()) {
-                //System.out.println("Encontró");
-                cuentaVar = new HorarioDTO();
-                cuentaVar.setIdHorario(this.resultSet.getInt("id_horario"));
-                cuentaVar.setFecha(this.resultSet.getDate("fecha").toLocalDate());
-                cuentaVar.setHoraInicio(this.resultSet.getTime("hora_inicio").toLocalTime());
-                cuentaVar.setTurno(Turno.valueOf(this.resultSet.getString("turno").toUpperCase()));
-                return cuentaVar;
-
-            } else {
-                //System.out.println("No Encontró nada");
-                return null;
-            }
+            this.statement.setDate(1, java.sql.Date.valueOf(this.horario.getFecha()));
+            this.statement.setTime(2, java.sql.Time.valueOf(this.horario.getHoraInicio()));
+            this.statement.setString(3,this.horario.getTurno().toString());
+            this.statement.setInt(4, this.horario.getIdHorario());
         } catch (SQLException ex) {
-            System.err.println("Error al intentar obtenerPorId - " + ex);
-        } finally {
-            try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
+            Logger.getLogger(HorarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return cuentaVar;
+    }
+    
+    @Override
+    public HorarioDTO obtenerPorId(Integer horarioID) {        
+        this.horario = new HorarioDTO();
+        this.horario.setIdHorario(horarioID);
+        super.obtenerPorId();
+        return this.horario;                
     }
 
     @Override
-    public ArrayList<HorarioDTO> listarTodos() {
-        ArrayList<HorarioDTO> lista = new ArrayList<>();
-        try {
-            this.conexion = DBManager.getInstance().getConnection();
-            String sql = this.generarSQLParaListarTodos();
-            this.statement = this.conexion.prepareCall(sql);
-            this.resultSet = this.statement.executeQuery();
-            while (this.resultSet.next()) {
-                HorarioDTO cuentaVar = new HorarioDTO();
-                cuentaVar.setIdHorario(this.resultSet.getInt("id_horario"));
-                cuentaVar.setFecha(this.resultSet.getDate("fecha").toLocalDate());
-                cuentaVar.setHoraInicio(this.resultSet.getTime("hora_inicio").toLocalTime());
-                cuentaVar.setTurno(Turno.valueOf(this.resultSet.getString("turno").toUpperCase()));
-                lista.add(cuentaVar);
-            }
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar listarTodos - " + ex);
-        } finally {
-            try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return lista;
+    public ArrayList<HorarioDTO> listarTodos() {        
+        return (ArrayList<HorarioDTO>) super.listarTodos();
+
     }
 
     @Override
-    public Integer modificar(HorarioDTO cuenta) {
-        int resultado = 0;
-        this.cuenta = cuenta;
-        try {
-            this.conexion = DBManager.getInstance().getConnection();
-            this.conexion.setAutoCommit(false);
-            String sql = this.generarSQLParaModificacion();
-            this.statement = this.conexion.prepareCall(sql);
-            this.statement.setDate(1, java.sql.Date.valueOf(this.cuenta.getFecha()));
-            this.statement.setTime(2, java.sql.Time.valueOf(this.cuenta.getHoraInicio()));
-            this.statement.setString(3,this.cuenta.getTurno().toString());
-            this.statement.setInt(5,this.cuenta.getIdHorario());
-
-            resultado = this.statement.executeUpdate();
-            this.conexion.commit();
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar modificar - " + ex);
-            try {
-                if (this.conexion != null) {
-                    this.conexion.rollback();
-                }
-            } catch (SQLException ex1) {
-                System.err.println("Error al hacer rollback - " + ex1);
-            }
-        } finally {
-            try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return resultado;
+    public Integer modificar(HorarioDTO horario) {        
+        this.horario = horario;
+        return super.modificar();
     }
 
     @Override
     public Integer eliminar(Integer id) {
-        int resultado = 0;
-        try {
-            this.conexion = DBManager.getInstance().getConnection();
-            this.conexion.setAutoCommit(false);
-            String sql = this.generarSQLParaEliminacion();
-            this.statement = this.conexion.prepareCall(sql);
-            this.statement.setInt(1, id);
-            resultado = this.statement.executeUpdate();
-            this.conexion.commit();
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar eliminar - " + ex);
-            try {
-                if (this.conexion != null) {
-                    this.conexion.rollback();
-                }
-            } catch (SQLException ex1) {
-                System.err.println("Error al hacer rollback - " + ex1);
-            }
-        } finally {
-            try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return resultado;
+        this.horario = new HorarioDTO();
+        this.horario.setIdHorario(id);
+        return super.eliminar();
     }
     
     private String generarSQLHoarario(){

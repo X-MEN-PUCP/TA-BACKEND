@@ -47,13 +47,8 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         this.listaColumnas.add(new Columna("id_historia", false, false));
         this.listaColumnas.add(new Columna("estado", false, false));
     }
-
-    @Override
-    public Integer insertar(CitaDTO cita) {
-        this.cita = cita;
-        return super.insertar();
-    }
-
+    
+    
     @Override
     protected void incluirValorDeParametrosParaInsercion() {
         try {
@@ -89,6 +84,17 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
             Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    @Override
+    protected void incluirValorDeParametrosParaEliminacion() throws SQLException {
+        this.statement.setInt(1, this.cita.getIdCita());
+    }
+
+    @Override
+    protected void incluirValorDeParametrosParaObtenerPorId() throws SQLException {
+        this.statement.setInt(1, this.cita.getIdCita());
+    }
+    
 
     @Override
     protected void instanciarObjetoDelResultSet() {
@@ -116,129 +122,56 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
             Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    @Override
+    protected void limpiarObjetoDelResultSet() {
+        this.cita = null;
+    }
+    
+    @Override
+    protected void agregarObjetoALaLista(List lista) throws SQLException {
+        this.instanciarObjetoDelResultSet();
+        lista.add(this.cita);
+    }
+
+    
+    @Override
+    public Integer insertar(CitaDTO cita) {
+        this.cita = cita;
+        return super.insertar();
+    }
+    
+    
+    
+
+    
 
     @Override
     public CitaDTO obtenerPorId(Integer citaID) {
-        System.out.println(citaID);
-
-        try {
-            this.conexion = DBManager.getInstance().getConnection();
-            String sql = this.generarSQLParaObtenerPorId();
-            this.statement = this.conexion.prepareCall(sql);
-            this.statement.setInt(1, citaID);
-            System.out.println(sql);
-
-            this.resultSet = this.statement.executeQuery();
-            if (this.resultSet.next()) {
-                System.out.println("Encontró");
-                this.instanciarObjetoDelResultSet();
-                return cita;
-
-            } else {
-                System.out.println("No Encontró nada");
-                return null;
-            }
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar obtenerPorId - " + ex);
-        } finally {
-            try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return cita;
+        
+        
+        this.cita = new CitaDTO();
+        this.cita.setIdCita(citaID);
+        super.obtenerPorId();
+        return this.cita;
     }
 
     @Override
-    public ArrayList<CitaDTO> listarTodos() {
-        ArrayList<CitaDTO> lista = new ArrayList<>();
-        try {
-            this.conexion = DBManager.getInstance().getConnection();
-            String sql = this.generarSQLParaListarTodos();
-            this.statement = this.conexion.prepareCall(sql);
-            this.resultSet = this.statement.executeQuery();
-            while (this.resultSet.next()) {
-                this.instanciarObjetoDelResultSet();
-                lista.add(cita);
-            }
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar listarTodos - " + ex);
-        } finally {
-            try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return lista;
+    public ArrayList<CitaDTO> listarTodos() {   
+        return (ArrayList<CitaDTO>) super.listarTodos();
     }
 
     @Override
     public Integer modificar(CitaDTO cita) {
-        int resultado = 0;
-        this.cita = cita;
-        try {
-            super.abrirConexion();
-            this.conexion.setAutoCommit(false);
-            String sql = this.generarSQLParaModificacion();
-            this.statement = this.conexion.prepareCall(sql);
-            this.incluirValorDeParametrosParaModificacion();
-            resultado = this.statement.executeUpdate();
-            this.conexion.commit();
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar modificar - " + ex);
-            try {
-                if (this.conexion != null) {
-                    this.conexion.rollback();
-                }
-            } catch (SQLException ex1) {
-                System.err.println("Error al hacer rollback - " + ex1);
-            }
-        } finally {
-            try {
-                this.cerrarConexion();
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return resultado;
+        this.cita = cita;        
+        return super.modificar();
     }
 
     @Override
     public Integer eliminar(Integer id) {
-        int resultado = 0;
-        try {
-            this.conexion = DBManager.getInstance().getConnection();
-            this.conexion.setAutoCommit(false);
-            String sql = this.generarSQLParaEliminacion();
-            this.statement = this.conexion.prepareCall(sql);
-            this.statement.setInt(1, id);
-            resultado = this.statement.executeUpdate();
-            this.conexion.commit();
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar eliminar - " + ex);
-            try {
-                if (this.conexion != null) {
-                    this.conexion.rollback();
-                }
-            } catch (SQLException ex1) {
-                System.err.println("Error al hacer rollback - " + ex1);
-            }
-        } finally {
-            try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return resultado;
+        this.cita = new CitaDTO();
+        cita.setIdCita(id);            
+        return super.eliminar();
     }
 
     @Override
@@ -249,11 +182,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         return (ArrayList<CitaDTO>) super.listarTodos(sql, idMedico, incluirValorDeParametros, parametros);
     }
 
-    @Override
-    protected void agregarObjetoALaLista(List lista) throws SQLException {
-        this.instanciarObjetoDelResultSet();
-        lista.add(this.cita);
-    }
+
 
     private String generarSQLParaListarCitasPorMedicoEstadoYFecha() {
         /*SELECT c.id_cita, c.id_horario, c.id_medico, c.observaciones_medicas, c.id_historia, c.estado
@@ -362,32 +291,14 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
 
     @Override
     public ArrayList<CitaDTO> listarPorPaciente(PacienteDTO paciente) {
-        ArrayList<CitaDTO> lista = new ArrayList<>();
-        CitaDTO cita = new CitaDTO();
-        try {
-            this.conexion = DBManager.getInstance().getConnection();
-            String sql = this.generarSQLParaListarTodosPorColumnaEspecifica("id_historia");//Nombre columna
-            this.statement = this.conexion.prepareCall(sql);
-            int idHistoria = paciente.getHistoriaClinica().getIdHistoriaClinica();
-            this.statement.setInt(1, idHistoria);
-            this.resultSet = this.statement.executeQuery();
-            while (this.resultSet.next()) {
-
-                instanciarObjetoDelResultSet();
-                lista.add(cita);
-            }
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar listarTodos - " + ex);
-        } finally {
-            try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return lista;
+        
+        int idHistoria = paciente.getHistoriaClinica().getIdHistoriaClinica();
+        String sql = super.generarSQLParaListarTodosPorColumnaEspecifica("id_historia");
+        Consumer incluirValorDeParametros = null;
+        Object parametros = null;
+        return (ArrayList<CitaDTO>) super.listarTodos(sql, idHistoria, incluirValorDeParametros, parametros);
+        
+        
 
     }
 

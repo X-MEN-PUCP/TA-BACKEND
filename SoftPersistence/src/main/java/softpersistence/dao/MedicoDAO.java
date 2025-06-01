@@ -18,4 +18,5 @@ public interface MedicoDAO {
     public ArrayList<MedicoDTO> listarPorIdEspecialidad(int idEspecialidad);
     public MedicoDTO obtenerPorId(Integer id);
     public Integer insertar(MedicoDTO medico);
+    public Integer eliminar(Integer id);
 }

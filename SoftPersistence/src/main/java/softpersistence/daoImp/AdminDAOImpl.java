@@ -14,6 +14,7 @@ import softmodel.modelos.MedicoDTO;
 import softmodel.modelos.PersonaDTO;
 
 import softpersistence.dao.AdminDAO;
+import softpersistence.daoImp.Util.Columna;
 
 /**
  *
@@ -31,7 +32,15 @@ public class AdminDAOImpl extends DAOImplBase implements AdminDAO{
 
     @Override
     protected void configurarListaDeColumnas() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.listaColumnas.add(new Columna("id_persona", true, true));
+        this.listaColumnas.add(new Columna("nombres", false, false));
+        this.listaColumnas.add(new Columna("apellido_paterno", false, false));
+        this.listaColumnas.add(new Columna("apellido_materno", false, false));
+        this.listaColumnas.add(new Columna("fecha_nacimiento", false, false));
+        this.listaColumnas.add(new Columna("correoElectronico", false, false));
+        this.listaColumnas.add(new Columna("num_Celular", false, false));
+        this.listaColumnas.add(new Columna("genero", false, false));      
+        this.listaColumnas.add(new Columna("id_cuenta", false, false));
     }
 
     @Override

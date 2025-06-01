@@ -14,7 +14,7 @@ import softdbmanager.util.MotorDeBaseDeDatos;
 
 public abstract class DBManager {
 
-    private static final String ARCHIVO_CONFIGURACION = "jdbc.properties";
+    private static final String ARCHIVO_CONFIGURACION = "MyTest.properties";
     private Connection conexion;
     protected String driver;
     protected String tipo_de_driver;

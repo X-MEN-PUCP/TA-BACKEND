@@ -43,29 +43,9 @@ public class HistoriaClinicaDAOImpl extends DAOImplBase implements HistoriaClini
     }
 
     @Override
-    public ArrayList<HistoriaClinicaDTO> listarTodos() {
-        ArrayList<HistoriaClinicaDTO> lista = new ArrayList<>();
-        try {
-            this.conexion = DBManager.getInstance().getConnection();
-            String sql = this.generarSQLParaListarTodos();
-            this.statement = this.conexion.prepareCall(sql);
-            this.resultSet = this.statement.executeQuery();
-            while (this.resultSet.next()) {
-                this.instanciarObjetoDelResultSet();
-                lista.add(historia);
-            }
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar listarTodos - " + ex);
-        } finally {
-            try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return lista;
+    public ArrayList<HistoriaClinicaDTO> listarTodos() {        
+        return (ArrayList<HistoriaClinicaDTO>) super.listarTodos();
+
     }
     
 }

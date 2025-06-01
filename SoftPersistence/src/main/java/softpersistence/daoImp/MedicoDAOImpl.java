@@ -64,6 +64,17 @@ public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
         this.statement.setInt(9, this.medico.getCodMedico());
         this.statement.setInt(10, this.medico.getCuenta().getIdCuenta());
     }
+    
+    
+    @Override
+    protected void incluirValorDeParametrosParaEliminacion() throws SQLException {
+        this.statement.setInt(1, this.medico.getIdPersona());
+    }
+
+    @Override
+    protected void incluirValorDeParametrosParaObtenerPorId() throws SQLException {
+        this.statement.setInt(1, this.medico.getIdPersona());
+    }
 
     @Override
     protected void instanciarObjetoDelResultSet() throws SQLException {
@@ -110,39 +121,24 @@ public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
     
     @Override
     public MedicoDTO obtenerPorId(Integer id) {
-        System.out.println(id);
-        try {
-            super.abrirConexion();
-            String sql = this.generarSQLParaObtenerPorId();
-            this.statement = this.conexion.prepareCall(sql);
-            this.statement.setInt(1, id);
-            System.out.println(sql);
-
-            this.resultSet = this.statement.executeQuery();
-            if (this.resultSet.next()) {
-                System.out.println("Encontró");
-                this.instanciarObjetoDelResultSet();
-                return medico;
-
-            } else {
-                System.out.println("No Encontró nada");
-                return null;
-            }
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar obtenerPorId - " + ex);
-        } finally {
-            try {
-                super.cerrarConexion();
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return medico;
+        
+        this.medico = new MedicoDTO();
+        this.medico.setIdPersona(id);
+        super.obtenerPorId();
+        return this.medico;
+        
     }
     
     @Override
     public Integer insertar(MedicoDTO medico) {
         this.medico = medico;
         return super.insertar();
+    }
+    
+    
+    public Integer eliminar(Integer id) {
+        this.medico = new MedicoDTO();
+        this.medico.setIdPersona(id);
+        return super.eliminar();
     }
 }

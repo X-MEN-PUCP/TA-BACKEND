@@ -6,6 +6,7 @@ package softpersistence.daoImp;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,7 +44,7 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO{
     protected void incluirValorDeParametrosParaInsercion() throws SQLException {
         this.statement.setString(1, this.especialidad.getNombreEspecialidad());
         this.statement.setDouble(2, this.especialidad.getPrecioConsulta());
-    }
+    }        
     
     @Override
     protected void incluirValorDeParametrosParaModificacion() throws SQLException {
@@ -52,6 +53,16 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO{
         this.statement.setInt(3, this.especialidad.getIdEspecialidad());   
     }
 
+    @Override
+    protected void incluirValorDeParametrosParaEliminacion() throws SQLException {
+        this.statement.setInt(1, this.especialidad.getIdEspecialidad());
+    }
+
+    @Override
+    protected void incluirValorDeParametrosParaObtenerPorId() throws SQLException {
+        this.statement.setInt(1,this.especialidad.getIdEspecialidad());
+    }
+    
     @Override
     protected void instanciarObjetoDelResultSet() {
         try {
@@ -65,65 +76,29 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO{
             Logger.getLogger(EspecialidadDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    @Override
+    protected void limpiarObjetoDelResultSet() {
+        this.especialidad = null;
+    }
+
+    @Override
+    protected void agregarObjetoALaLista(List lista) throws SQLException {
+        this.instanciarObjetoDelResultSet();
+        lista.add(this.especialidad);
+    }
 
     @Override
     public EspecialidadDTO obtenerPorId(Integer especialidadID) {
-        System.out.println(especialidadID);
-        try {
-            this.conexion = DBManager.getInstance().getConnection();
-            String sql = this.generarSQLParaObtenerPorId();
-            this.statement = this.conexion.prepareCall(sql);
-            this.statement.setInt(1, especialidadID);
-            System.out.println(sql);
-
-            this.resultSet = this.statement.executeQuery();
-            if (this.resultSet.next()) {
-                System.out.println("Encontró");
-                this.instanciarObjetoDelResultSet();
-                return especialidad;
-
-            } else {
-                System.out.println("No Encontró nada");
-                return null;
-            }
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar obtenerPorId - " + ex);
-        } finally {
-            try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return especialidad;
+        this.especialidad = new EspecialidadDTO();
+        this.especialidad.setIdEspecialidad(especialidadID);
+        super.obtenerPorId();
+        return this.especialidad;
     }
 
     @Override
     public ArrayList<EspecialidadDTO> listarTodos() {
-        ArrayList<EspecialidadDTO> lista = new ArrayList<>();
-        try {
-            this.conexion = DBManager.getInstance().getConnection();
-            String sql = this.generarSQLParaListarTodos();
-            this.statement = this.conexion.prepareCall(sql);
-            this.resultSet = this.statement.executeQuery();
-            while (this.resultSet.next()) {
-                this.instanciarObjetoDelResultSet();
-                lista.add(especialidad);
-            }
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar listarTodos - " + ex);
-        } finally {
-            try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return lista;
+        return (ArrayList<EspecialidadDTO>) super.listarTodos();
     }
     
     @Override
@@ -134,67 +109,15 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO{
 
     @Override
     public Integer modificar(EspecialidadDTO especialidad) {
-        int resultado = 0;
         this.especialidad = especialidad;
-        try {
-            this.conexion = DBManager.getInstance().getConnection();
-            this.conexion.setAutoCommit(false);
-            String sql = this.generarSQLParaModificacion();
-            this.statement = this.conexion.prepareCall(sql);
-            this.incluirValorDeParametrosParaModificacion();
-            resultado = this.statement.executeUpdate();
-            this.conexion.commit();
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar modificar - " + ex);
-            try {
-                if (this.conexion != null) {
-                    this.conexion.rollback();
-                }
-            } catch (SQLException ex1) {
-                System.err.println("Error al hacer rollback - " + ex1);
-            }
-        } finally {
-            try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return resultado;
+        return super.modificar();
     }
 
     @Override
     public Integer eliminar(Integer id) {
-        int resultado = 0;
-        try {
-            this.conexion = DBManager.getInstance().getConnection();
-            this.conexion.setAutoCommit(false);
-            String sql = this.generarSQLParaEliminacion();
-            this.statement = this.conexion.prepareCall(sql);
-            this.statement.setInt(1, id);
-            resultado = this.statement.executeUpdate();
-            this.conexion.commit();
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar eliminar - " + ex);
-            try {
-                if (this.conexion != null) {
-                    this.conexion.rollback();
-                }
-            } catch (SQLException ex1) {
-                System.err.println("Error al hacer rollback - " + ex1);
-            }
-        } finally {
-            try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-        return resultado;
+        this.especialidad = new EspecialidadDTO();
+        this.especialidad.setIdEspecialidad(id);
+        return super.eliminar();
     }
     
     @Override
