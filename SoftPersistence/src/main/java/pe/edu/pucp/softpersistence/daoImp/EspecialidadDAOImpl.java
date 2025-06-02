@@ -69,7 +69,7 @@ public class EspecialidadDAOImpl extends DAOImplBase implements EspecialidadDAO{
             
             especialidad = new EspecialidadDTO();
             especialidad.setIdEspecialidad(this.resultSet.getInt("id_especialidad"));
-            especialidad.setNombreEspecialidad(this.resultSet.getString("nombreEspecialidad"));
+            especialidad.setNombreEspecialidad(this.resultSet.getString("nombre_especialidad"));
             especialidad.setPrecioConsulta(this.resultSet.getDouble("precio_consulta"));
             
         } catch (SQLException ex) {

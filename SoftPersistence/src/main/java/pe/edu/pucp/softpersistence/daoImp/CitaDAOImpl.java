@@ -11,6 +11,7 @@ import pe.edu.pucp.softmodel.modelos.HistoriaClinicaDTO;
 import pe.edu.pucp.softmodel.modelos.HorarioDTO;
 import pe.edu.pucp.softmodel.modelos.MedicoDTO;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -21,6 +22,9 @@ import pe.edu.pucp.softpersistence.daoImp.Util.Columna;
 import pe.edu.pucp.softdbmanager.db.DBManager;
 import pe.edu.pucp.softmodel.modelos.PacienteDTO;
 import pe.edu.pucp.softmodel.util.Estado;
+import pe.edu.pucp.softpersistence.dao.HistoriaClinicaDAO;
+import pe.edu.pucp.softpersistence.dao.HorarioDAO;
+import pe.edu.pucp.softpersistence.dao.MedicoDAO;
 import pe.edu.pucp.softpersistence.daoImp.Util.ParametrosCita;
 
 /**
@@ -29,7 +33,7 @@ import pe.edu.pucp.softpersistence.daoImp.Util.ParametrosCita;
  */
 public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
 
-    CitaDTO cita;
+    private CitaDTO cita;
     private final boolean retornarLlavePrimaria;
 
     public CitaDAOImpl() {
@@ -47,8 +51,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         this.listaColumnas.add(new Columna("id_historia", false, false));
         this.listaColumnas.add(new Columna("estado", false, false));
     }
-    
-    
+
     @Override
     protected void incluirValorDeParametrosParaInsercion() {
         try {
@@ -84,7 +87,7 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
             Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
     protected void incluirValorDeParametrosParaEliminacion() throws SQLException {
         this.statement.setInt(1, this.cita.getIdCita());
@@ -94,7 +97,6 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
     protected void incluirValorDeParametrosParaObtenerPorId() throws SQLException {
         this.statement.setInt(1, this.cita.getIdCita());
     }
-    
 
     @Override
     protected void instanciarObjetoDelResultSet() {
@@ -103,11 +105,13 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
             this.cita.setIdCita(this.resultSet.getInt("id_cita"));
             //Horario
             HorarioDTO horario = new HorarioDTO();
-            horario.setIdHorario(this.resultSet.getInt("id_horario"));
+            HorarioDAO daoHor = new HorarioDAOImpl();
+            horario = daoHor.obtenerPorId(this.resultSet.getInt("id_horario"));
             this.cita.setHorario(horario);
             //Medico
             MedicoDTO medico = new MedicoDTO();
-            medico.setIdPersona(this.resultSet.getInt("id_medico"));
+            MedicoDAO daoMed = new MedicoDAOImpl();
+            medico = daoMed.obtenerPorId(this.resultSet.getInt("id_medico"));
             this.cita.setMedico(medico);
 
             this.cita.setObservacionesMedicas(this.resultSet.getString("observaciones_medicas"));
@@ -122,34 +126,27 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
             Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
     protected void limpiarObjetoDelResultSet() {
         this.cita = null;
     }
-    
+
     @Override
     protected void agregarObjetoALaLista(List lista) throws SQLException {
         this.instanciarObjetoDelResultSet();
         lista.add(this.cita);
     }
 
-    
     @Override
     public Integer insertar(CitaDTO cita) {
         this.cita = cita;
         return super.insertar();
     }
-    
-    
-    
-
-    
 
     @Override
     public CitaDTO obtenerPorId(Integer citaID) {
-        
-        
+
         this.cita = new CitaDTO();
         this.cita.setIdCita(citaID);
         super.obtenerPorId();
@@ -157,20 +154,20 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
     }
 
     @Override
-    public ArrayList<CitaDTO> listarTodos() {   
+    public ArrayList<CitaDTO> listarTodos() {
         return (ArrayList<CitaDTO>) super.listarTodos();
     }
 
     @Override
     public Integer modificar(CitaDTO cita) {
-        this.cita = cita;        
+        this.cita = cita;
         return super.modificar();
     }
 
     @Override
     public Integer eliminar(Integer id) {
         this.cita = new CitaDTO();
-        cita.setIdCita(id);            
+        cita.setIdCita(id);
         return super.eliminar();
     }
 
@@ -181,8 +178,6 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         Object parametros = null;
         return (ArrayList<CitaDTO>) super.listarTodos(sql, idMedico, incluirValorDeParametros, parametros);
     }
-
-
 
     private String generarSQLParaListarCitasPorMedicoEstadoYFecha() {
         /*SELECT c.id_cita, c.id_horario, c.id_medico, c.observaciones_medicas, c.id_historia, c.estado
@@ -231,10 +226,10 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
 
         ArrayList<CitaDTO> lista = new ArrayList<>();
         try {
-            StringBuilder sql = new StringBuilder("SELECT c.* FROM Cita c " +
-            "JOIN Horario h ON c.id_horario = h.id_horario " +
-            "JOIN Persona p ON c.id_medico = p.id_persona " +
-            "WHERE 1=1");
+            StringBuilder sql = new StringBuilder("SELECT c.* FROM Cita c "
+                    + "JOIN Horario h ON c.id_horario = h.id_horario "
+                    + "JOIN Persona p ON c.id_medico = p.id_persona "
+                    + "WHERE 1=1");
             List<Object> parametros = new ArrayList<>();
             List<String> condiciones = new ArrayList<>();
 
@@ -291,15 +286,69 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
 
     @Override
     public ArrayList<CitaDTO> listarPorPaciente(PacienteDTO paciente) {
-        
+
         int idHistoria = paciente.getHistoriaClinica().getIdHistoriaClinica();
         String sql = super.generarSQLParaListarTodosPorColumnaEspecifica("id_historia");
         Consumer incluirValorDeParametros = null;
         Object parametros = null;
         return (ArrayList<CitaDTO>) super.listarTodos(sql, idHistoria, incluirValorDeParametros, parametros);
-        
-        
 
+    }
+
+    public ArrayList<CitaDTO> buscarCitasDisponibles(Integer idEspecialidad, Integer codMedico, LocalDate fecha) {
+        ArrayList<CitaDTO> citas = new ArrayList<>();
+        StringBuilder sql = new StringBuilder(
+                "SELECT c.id_cita, c.id_horario, c.id_medico, c.observaciones_medicas, c.id_historia, c.estado "
+                + "FROM cita c "
+                + "JOIN horario h ON c.id_horario = h.id_horario "
+                + "JOIN persona p ON c.id_medico = p.id_persona "
+                + "JOIN especialidad e ON p.id_especialidad = e.id_especialidad "
+                + "WHERE c.estado = 'disponible' "
+        );
+
+        List<Object> params = new ArrayList<>();
+
+        if (idEspecialidad != null) {
+            sql.append("AND e.id_especialidad = ? ");
+            params.add(idEspecialidad);
+        }
+        if (codMedico != null) {
+            sql.append("AND p.cod_medico = ? ");
+            params.add(codMedico);
+        }
+        if (fecha != null) {
+            sql.append("AND DATE(h.fecha) = ? ");
+            params.add(Date.valueOf(fecha));
+        }
+
+        try {
+
+            this.conexion = DBManager.getInstance().getConnection();
+            this.statement = this.conexion.prepareCall(sql.toString());
+
+            for (int i = 0; i < params.size(); i++) {
+                this.statement.setObject(i + 1, params.get(i));
+            }
+
+            this.resultSet = this.statement.executeQuery();
+            while (this.resultSet.next()) {
+                this.instanciarObjetoDelResultSet();
+                citas.add(cita);
+            }
+
+        } catch (SQLException ex) {
+            System.err.println("Error al intentar ReporteResumenGeneral - " + ex);
+        } finally {
+            try {
+                if (this.conexion != null) {
+                    this.conexion.close();
+                }
+            } catch (SQLException ex) {
+                System.err.println("Error al cerrar la conexión - " + ex);
+            }
+        }
+
+        return citas;
     }
 
 }

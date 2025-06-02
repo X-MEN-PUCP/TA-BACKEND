@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 import pe.edu.pucp.softpersistence.dao.MedicoDAO;
@@ -26,7 +28,7 @@ import pe.edu.pucp.softpersistence.daoImp.Util.Columna;
 public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
     
     
-    MedicoDTO medico;
+    private MedicoDTO medico;
     
     public MedicoDAOImpl() {
         super("persona");
@@ -77,7 +79,8 @@ public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
     }
 
     @Override
-    protected void instanciarObjetoDelResultSet() throws SQLException {
+    protected void instanciarObjetoDelResultSet(){
+        try{
         medico = new MedicoDTO();
         PersonaDTO cuentaVar = new PersonaDTO();
         cuentaVar = this.cargarLecturaPersona();
@@ -87,6 +90,9 @@ public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
         especialidad = espdao.obtenerPorId(this.resultSet.getInt("id_especialidad"));
         medico.setEspecialidad(especialidad);
         medico.setCodMedico(this.resultSet.getInt("cod_medico"));
+        } catch (SQLException ex) {
+            Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override

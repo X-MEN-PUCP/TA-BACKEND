@@ -366,19 +366,19 @@ public abstract class DAOImplBase {
     }
 
     protected void incluirValorDeParametrosParaObtenerPorId() throws SQLException {
-        throw new UnsupportedOperationException("Método no sobreescrito.");
+        throw new UnsupportedOperationException("Método no sobreescrito. obtener por id");
     }
 
     protected void instanciarObjetoDelResultSet() throws SQLException {
-        throw new UnsupportedOperationException("Método no sobreescrito.");
+        throw new UnsupportedOperationException("Método no sobreescrito. result set");
     }
 
     protected void limpiarObjetoDelResultSet() {
-        throw new UnsupportedOperationException("Método no sobreescrito.");
+        throw new UnsupportedOperationException("Método no sobreescrito.limpiar result set");
     }
 
     protected void agregarObjetoALaLista(List lista) throws SQLException {
-        throw new UnsupportedOperationException("Método no sobreescrito.");
+        throw new UnsupportedOperationException("Método no sobreescrito. agregar a la lista");
     }
 
     protected void ejecutarProcedimientoAlmacenado(String sql, Boolean conTransaccion) {
@@ -428,7 +428,7 @@ public abstract class DAOImplBase {
         persona.setApellido_paterno(this.resultSet.getString("apellido_paterno")); //3
         persona.setApellido_materno(this.resultSet.getString("apellido_materno")); //4
         persona.setFechaNaciemiento(this.resultSet.getDate("fecha_nacimiento")); //5
-        persona.setCorreoElectronico(this.resultSet.getString("correoElectronico")); //6
+        persona.setCorreoElectronico(this.resultSet.getString("correo_electronico")); //6
         persona.setNumCelular(this.resultSet.getString("num_celular")); //7
         persona.setGenero(Genero.valueOf(this.resultSet.getString("genero").toUpperCase())); //8
         CuentaDTO cuenta = new CuentaDTO();

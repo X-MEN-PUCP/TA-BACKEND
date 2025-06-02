@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pe.edu.pucp.softpersistence.dao.HorarioDAO;
@@ -19,7 +20,7 @@ import pe.edu.pucp.softdbmanager.db.DBManager;
 
 public class HorarioDAOImpl extends DAOImplBase implements HorarioDAO {
 
-    HorarioDTO horario;
+    private HorarioDTO horario;
     private final boolean retornarLlavePrimaria;
 
     public HorarioDAOImpl() {
@@ -47,40 +48,71 @@ public class HorarioDAOImpl extends DAOImplBase implements HorarioDAO {
         try {
             this.statement.setDate(1, java.sql.Date.valueOf(this.horario.getFecha()));
             this.statement.setTime(2, java.sql.Time.valueOf(this.horario.getHoraInicio()));
-            this.statement.setString(3,this.horario.getTurno().toString());
+            this.statement.setString(3, this.horario.getTurno().toString());
         } catch (SQLException ex) {
             Logger.getLogger(HorarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    
     protected void incluirValorDeParametrosParaModificacion() {
         try {
             this.statement.setDate(1, java.sql.Date.valueOf(this.horario.getFecha()));
             this.statement.setTime(2, java.sql.Time.valueOf(this.horario.getHoraInicio()));
-            this.statement.setString(3,this.horario.getTurno().toString());
+            this.statement.setString(3, this.horario.getTurno().toString());
             this.statement.setInt(4, this.horario.getIdHorario());
         } catch (SQLException ex) {
             Logger.getLogger(HorarioDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
-    public HorarioDTO obtenerPorId(Integer horarioID) {        
-        this.horario = new HorarioDTO();
-        this.horario.setIdHorario(horarioID);
-        super.obtenerPorId();
-        return this.horario;                
+    protected void incluirValorDeParametrosParaEliminacion() throws SQLException {
+        this.statement.setInt(1, this.horario.getIdHorario());
     }
 
     @Override
-    public ArrayList<HorarioDTO> listarTodos() {        
+    protected void incluirValorDeParametrosParaObtenerPorId() throws SQLException {
+        this.statement.setInt(1, this.horario.getIdHorario());
+    }
+
+    @Override
+    protected void instanciarObjetoDelResultSet() throws SQLException {
+        this.horario = new HorarioDTO();
+        this.horario.setIdHorario(this.resultSet.getInt("id_horario"));
+        this.horario.setFecha(this.resultSet.getDate("fecha").toLocalDate());
+        this.horario.setHoraInicio(this.resultSet.getTime("hora_inicio").toLocalTime());
+        
+        String turno = this.resultSet.getString("turno");
+        this.horario.setTurno(Turno.valueOf(turno.toUpperCase()));
+    }
+
+    @Override
+    protected void limpiarObjetoDelResultSet() {
+        this.horario = null;
+    }
+
+    @Override
+    protected void agregarObjetoALaLista(List lista) throws SQLException {
+        this.instanciarObjetoDelResultSet();
+        lista.add(this.horario);
+    }
+
+    @Override
+    public HorarioDTO obtenerPorId(Integer horarioID) {
+        this.horario = new HorarioDTO();
+        this.horario.setIdHorario(horarioID);
+        super.obtenerPorId();
+        return this.horario;
+    }
+
+    @Override
+    public ArrayList<HorarioDTO> listarTodos() {
         return (ArrayList<HorarioDTO>) super.listarTodos();
 
     }
 
     @Override
-    public Integer modificar(HorarioDTO horario) {        
+    public Integer modificar(HorarioDTO horario) {
         this.horario = horario;
         return super.modificar();
     }
@@ -91,8 +123,8 @@ public class HorarioDAOImpl extends DAOImplBase implements HorarioDAO {
         this.horario.setIdHorario(id);
         return super.eliminar();
     }
-    
-    private String generarSQLHoarario(){
+
+    private String generarSQLHoarario() {
         //SELECT * FROM tu_tabla WHERE fecha = ? AND turno = ? AND horaInicio = ?;
         String sql = "SELECT ";
         String sql_columnas = "";
@@ -110,17 +142,18 @@ public class HorarioDAOImpl extends DAOImplBase implements HorarioDAO {
         sql = sql.concat(sql_predicado);
         return sql;
     }
-    
+
     @Override
-    public HorarioDTO buscarHorario(HorarioDTO horario){
+    public HorarioDTO buscarHorario(HorarioDTO horario) {
         String sql = this.generarSQLHoarario();
-        ArrayList<HorarioDTO> horar= (ArrayList<HorarioDTO>) super.listarTodos(sql, this::incluirValorDeParametros, horario);
-        if(horar.size()>0)
+        ArrayList<HorarioDTO> horar = (ArrayList<HorarioDTO>) super.listarTodos(sql, this::incluirValorDeParametros, horario);
+        if (horar.size() > 0) {
             return horar.get(0);
+        }
         return horario;
     }
-    
-    private void incluirValorDeParametros(Object objetoParametros){
+
+    private void incluirValorDeParametros(Object objetoParametros) {
         HorarioDTO parametros = (HorarioDTO) objetoParametros;
         try {
             LocalDate fecha = parametros.getFecha();

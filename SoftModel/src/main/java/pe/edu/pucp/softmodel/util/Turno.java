@@ -9,5 +9,5 @@ package pe.edu.pucp.softmodel.util;
  * @author Mcerv
  */
 public enum Turno {
-    MANHANA, TARDE
+    MAÑANA, TARDE
 }
