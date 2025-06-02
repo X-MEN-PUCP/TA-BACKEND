@@ -13,6 +13,5 @@ import pe.edu.pucp.softmodel.modelos.PacienteDTO;
 public interface PacienteDAO {
     public PacienteDTO buscarPorIdCuenta(int idCuenta);
     public Integer insertar(PacienteDTO paciente);
-    
-    
+    public PacienteDTO obtenerPorId(Integer personaId);
 }

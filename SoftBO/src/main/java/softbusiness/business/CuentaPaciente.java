@@ -16,6 +16,7 @@ import pe.edu.pucp.softmodel.modelos.EspecialidadDTO;
 import pe.edu.pucp.softmodel.modelos.HistoriaClinicaDTO;
 import pe.edu.pucp.softmodel.modelos.MedicoDTO;
 import pe.edu.pucp.softmodel.modelos.PagoDTO;
+import pe.edu.pucp.softmodel.modelos.PersonaDTO;
 import pe.edu.pucp.softmodel.util.Estado;
 import pe.edu.pucp.softmodel.util.EstadoPago;
 import pe.edu.pucp.softmodel.util.MetodoPago;
@@ -202,4 +203,14 @@ public class CuentaPaciente extends CuentaBO {
         cuenta.setContrasenha(Cifrado.cifrarMD5(contrasenha));
         return cuentaDAO.modificar(cuenta);
     } //se debería actualizar tmb celular y correo?
+    
+    public ArrayList<CitaDTO> listarCitasPorPersona(int idPersona){
+        ArrayList<CitaDTO> citas = null;
+        PacienteDTO paciente = this.pacienteDAO.obtenerPorId(idPersona);
+        if(paciente!=null){
+            citas = this.citaDAO.listarPorPaciente(paciente);
+        }
+        return citas;
+    }
+    
 }

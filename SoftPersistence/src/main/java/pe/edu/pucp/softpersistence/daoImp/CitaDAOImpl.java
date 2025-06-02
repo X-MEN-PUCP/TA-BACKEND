@@ -286,7 +286,6 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
 
     @Override
     public ArrayList<CitaDTO> listarPorPaciente(PacienteDTO paciente) {
-
         int idHistoria = paciente.getHistoriaClinica().getIdHistoriaClinica();
         String sql = super.generarSQLParaListarTodosPorColumnaEspecifica("id_historia");
         Consumer incluirValorDeParametros = null;

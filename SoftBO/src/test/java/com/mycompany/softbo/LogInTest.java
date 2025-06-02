@@ -243,7 +243,7 @@ public class LogInTest {
                 HorarioDTO horario = new HorarioDTO();
                 LocalDate fechaHorario = LocalDate.now();
                 horario.setFecha(fechaHorario);
-                horario.setTurno(Turno.MANHANA);
+                horario.setTurno(Turno.MAÑANA);
                 LocalTime horaHorario = LocalTime.now();
                 horario.setHoraInicio(horaHorario);
                 cita.setMedico(medico);
