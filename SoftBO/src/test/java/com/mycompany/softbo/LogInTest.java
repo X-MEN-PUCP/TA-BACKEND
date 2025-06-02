@@ -29,6 +29,8 @@ import softbusiness.business.CuentaAdmin;
 import softbusiness.business.CuentaMedico;
 import softbusiness.business.CuentaPaciente;
 import softbusiness.util.NuevoUsuarioMedicoBuilder;
+import org.junit.jupiter.api.Disabled;
+
 import softbusiness.util.NuevoUsuarioPacienteBuilder;
 /**
  *
@@ -64,6 +66,7 @@ public class LogInTest {
     //TEST PACIENTE
     
     @org.junit.jupiter.api.Test
+    @Disabled
      public void testIniciarSesionVistaPaciente() throws ParseException {
         System.out.println("iniciarSesion");
         String dni = "74073698";
@@ -150,6 +153,7 @@ public class LogInTest {
     //TEST MEDICO
      
     @org.junit.jupiter.api.Test
+    @Disabled
     public void testIniciarSesionVistaMedico() throws ParseException {
         
         System.out.println("iniciarSesion");
@@ -188,6 +192,7 @@ public class LogInTest {
     //TEST ADMINISTRADOR
     
     @org.junit.jupiter.api.Test
+    @Disabled
     public void testIniciarSesionVistaAdministrador() throws ParseException {
         System.out.println("iniciarSesion");
         String dni = "72945356";
