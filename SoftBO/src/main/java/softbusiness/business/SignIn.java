@@ -4,8 +4,8 @@
  */
 package softbusiness.business;
 
-import softbusiness.util.NuevoUsuarioBuilder;
-import softmodel.modelos.PersonaDTO;
+import softbusiness.util.NuevoUsuarioPacienteBuilder;
+import pe.edu.pucp.softmodel.modelos.PersonaDTO;
 
 /**
  *

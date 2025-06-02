@@ -4,6 +4,7 @@
  */
 package softdbmanager;
 
+import pe.edu.pucp.softdbmanager.db.DBManager;
 import java.sql.Connection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

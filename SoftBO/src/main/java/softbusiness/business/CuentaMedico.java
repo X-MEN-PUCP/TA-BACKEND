@@ -4,16 +4,16 @@
  */
 package softbusiness.business;
 
-import softmodel.modelos.CitaDTO;
-import softmodel.modelos.EspecialidadDTO;
-import softmodel.modelos.MedicoDTO;
+import pe.edu.pucp.softmodel.modelos.CitaDTO;
+import pe.edu.pucp.softmodel.modelos.EspecialidadDTO;
+import pe.edu.pucp.softmodel.modelos.MedicoDTO;
 import java.util.ArrayList;
 import java.util.Date;
-import softmodel.util.Estado;
-import softpersistence.dao.CitaDAO;
-import softpersistence.dao.MedicoDAO;
-import softpersistence.daoImp.CitaDAOImpl;
-import softpersistence.daoImp.MedicoDAOImpl;
+import pe.edu.pucp.softmodel.util.Estado;
+import pe.edu.pucp.softpersistence.dao.CitaDAO;
+import pe.edu.pucp.softpersistence.dao.MedicoDAO;
+import pe.edu.pucp.softpersistence.daoImp.CitaDAOImpl;
+import pe.edu.pucp.softpersistence.daoImp.MedicoDAOImpl;
 
 /**
  *

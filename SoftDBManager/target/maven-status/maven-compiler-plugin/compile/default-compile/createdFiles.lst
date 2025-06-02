@@ -1,5 +1,5 @@
-softdbmanager\DBManager.class
-softdbmanager\util\MotorDeBaseDeDatos.class
-softdbmanager\DBManagerMSSQL.class
-softdbmanager\DBManagerMySQL.class
-softdbmanager\util\Cifrado.class
+pe\edu\pucp\softdbmanager\db\DBManager.class
+pe\edu\pucp\softdbmanager\db\DBManagerMySQL.class
+pe\edu\pucp\softdbmanager\db\DBManagerMSSQL.class
+pe\edu\pucp\softdbmanager\util\MotorDeBaseDeDatos.class
+pe\edu\pucp\softdbmanager\util\Cifrado.class
