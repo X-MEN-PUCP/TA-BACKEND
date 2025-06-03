@@ -36,7 +36,7 @@ public class PacienteDAOImpl extends DAOImplBase implements PacienteDAO{
         this.listaColumnas.add(new Columna("num_Celular", false, false));
         this.listaColumnas.add(new Columna("genero", false, false));
         this.listaColumnas.add(new Columna("id_cuenta", false, false));
-        this.listaColumnas.add(new Columna("id_historia", false, false));
+        //this.listaColumnas.add(new Columna("id_historia", false, false));
         
         
     }
@@ -61,7 +61,7 @@ public class PacienteDAOImpl extends DAOImplBase implements PacienteDAO{
             this.statement.setString(7, this.paciente.getNumCelular());
             this.statement.setString(8, this.paciente.getGenero().toString());
             this.statement.setInt(9, this.paciente.getCuenta().getIdCuenta());
-            this.statement.setInt(10, this.paciente.getHistoriaClinica().getIdHistoriaClinica());
+            //this.statement.setInt(10, this.paciente.getHistoriaClinica().getIdHistoriaClinica());
             
         } catch (SQLException ex) {
             Logger.getLogger(PacienteDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -69,13 +69,18 @@ public class PacienteDAOImpl extends DAOImplBase implements PacienteDAO{
     }
     
     @Override
+    protected void incluirValorDeParametrosParaObtenerPorId() throws SQLException {
+        this.statement.setInt(1, this.paciente.getIdPersona());
+    }
+    
+    @Override
     protected void instanciarObjetoDelResultSet() throws SQLException{
         PersonaDTO cuentaVar = this.cargarLecturaPersona();
         paciente = new PacienteDTO();
         paciente.copiarDesde(cuentaVar);
-        HistoriaClinicaDTO historia = new HistoriaClinicaDTO();
-        historia.setIdHistoriaClinica(this.resultSet.getInt("id_historia"));
-        paciente.setHistoriaClinica(historia);
+        //HistoriaClinicaDTO historia = new HistoriaClinicaDTO();
+        //historia.setIdHistoriaClinica(this.resultSet.getInt("id_historia"));
+        //paciente.setHistoriaClinica(historia);
     }
     
     @Override
@@ -108,6 +113,14 @@ public class PacienteDAOImpl extends DAOImplBase implements PacienteDAO{
             }
         }
         System.out.println("Paciente encontrada");
+        return this.paciente;
+    }
+    
+    @Override
+    public PacienteDTO obtenerPorId(Integer personaId){
+        this.paciente = new PacienteDTO();
+        this.paciente.setIdPersona(personaId);
+        super.obtenerPorId();
         return this.paciente;
     }
 }

@@ -30,11 +30,11 @@ public class CitaDAOImplTest {
     @Test
     public void testBuscarCitasDisponibles() {
 
-        Integer idEspecialidad = 1;
+        Integer idEspecialidad = 2;
         Integer codMedico = 1234;
-        LocalDate fecha = LocalDate.of(2025, 6, 13);
+        LocalDate fecha = LocalDate.of(2025, 6, 3);
 
-        this.citas = citadao.buscarCitasDisponibles(idEspecialidad, null, fecha);
+        this.citas = citadao.buscarCitasDisponibles(idEspecialidad, null, null);
         if (citas.size() > 0) {
             System.out.println("Hay datos, son: " + citas.size() + " datos");
         } else {

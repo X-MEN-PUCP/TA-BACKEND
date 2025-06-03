@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package softbusiness.business;
+package pe.edu.pucp.softbusiness.bo;
 
 import java.util.ArrayList;
 import pe.edu.pucp.softmodel.modelos.CitaDTO;
@@ -93,6 +93,9 @@ public class CuentaAdmin extends CuentaBO{
         return citaDAO.insertar(cita);
     }
     
+    public int insertarNuevaEspecialidad(EspecialidadDTO especialidad){
+        return especialidadDAO.insertar(especialidad);
+    }    
     
     
     public ArrayList<CitaDTO> GenerarReporteResumenGeneral(Integer especialidad, Estado estado, java.util.Date fechaInicio, java.util.Date fechaFin){
@@ -110,7 +113,7 @@ public class CuentaAdmin extends CuentaBO{
     
     public ArrayList<CitaDTO> ReporteCitasPaciente(PacienteDTO paciente){
         ArrayList<CitaDTO> lista;
-        lista = citaDAO.listarPorPaciente( paciente);
+        lista = citaDAO.listarPorPaciente(paciente);
         
         return lista;
     }

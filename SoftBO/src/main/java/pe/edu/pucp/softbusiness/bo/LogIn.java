@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package softbusiness.business;
+package pe.edu.pucp.softbusiness.bo;
 
 
 import pe.edu.pucp.softmodel.util.Rol;
@@ -22,21 +22,13 @@ public class LogIn {
         cuentaDAO = new CuentaDAOImpl();
     }
     
-    public CuentaBO iniciarSesion(String numeroDoc, String contrasenha){
+    public CuentaDTO iniciarSesion(String numeroDoc, String contrasenha){
         CuentaDTO cuenta;
         cuenta= cuentaDAO.buscarPorNumeroDocumento(numeroDoc);
+        System.out.println(">"+ Cifrado.cifrarMD5(contrasenha)+"<");
         if(cuenta!=null){
             if(Cifrado.descifrarMD5(cuenta.getContrasenha()).equals(contrasenha)){
-                switch (cuenta.getRol()) {
-                    case ADMINISTRADOR:
-                        return (CuentaAdmin) new CuentaAdmin(cuenta.getIdCuenta());
-                    case MEDICO:
-                        return (CuentaMedico) new CuentaMedico(cuenta.getIdCuenta());
-                    case PACIENTE:
-                        return (CuentaPaciente)new CuentaPaciente(cuenta.getIdCuenta());
-                    default:
-                        throw new AssertionError();
-                }
+                return cuenta;
             }else{
                 System.out.print("Contraseña incorrecta\n");
                 return null;

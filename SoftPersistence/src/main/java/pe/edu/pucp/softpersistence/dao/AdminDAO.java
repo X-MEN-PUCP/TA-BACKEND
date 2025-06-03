@@ -14,6 +14,5 @@ import pe.edu.pucp.softmodel.modelos.AdminDTO;
 public interface AdminDAO {
     
     public AdminDTO buscarPorIdCuenta(int idCuenta);
-    
-    
+
 }

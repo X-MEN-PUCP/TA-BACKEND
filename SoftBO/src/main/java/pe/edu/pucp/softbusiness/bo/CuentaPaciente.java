@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package softbusiness.business;
+package pe.edu.pucp.softbusiness.bo;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -16,12 +16,14 @@ import pe.edu.pucp.softmodel.modelos.EspecialidadDTO;
 import pe.edu.pucp.softmodel.modelos.HistoriaClinicaDTO;
 import pe.edu.pucp.softmodel.modelos.MedicoDTO;
 import pe.edu.pucp.softmodel.modelos.PagoDTO;
+import pe.edu.pucp.softmodel.modelos.PersonaDTO;
 import pe.edu.pucp.softmodel.util.Estado;
 import pe.edu.pucp.softmodel.util.EstadoPago;
 import pe.edu.pucp.softmodel.util.MetodoPago;
 import pe.edu.pucp.softpersistence.dao.CitaDAO;
 import pe.edu.pucp.softpersistence.dao.CuentaDAO;
 import pe.edu.pucp.softpersistence.dao.EspecialidadDAO;
+import pe.edu.pucp.softpersistence.dao.HistoriaClinicaDAO;
 import pe.edu.pucp.softpersistence.dao.HorarioDAO;
 import pe.edu.pucp.softpersistence.dao.MedicoDAO;
 import pe.edu.pucp.softpersistence.dao.PacienteDAO;
@@ -33,6 +35,7 @@ import pe.edu.pucp.softpersistence.daoImp.MedicoDAOImpl;
 import pe.edu.pucp.softpersistence.daoImp.PacienteDAOImpl;
 import pe.edu.pucp.softpersistence.daoImp.PagoDAOImpl;
 import pe.edu.pucp.softpersistence.dao.PagoDAO;
+import pe.edu.pucp.softpersistence.daoImp.HistoriaClinicaDAOImpl;
 
 /**
  *
@@ -48,12 +51,13 @@ public class CuentaPaciente extends CuentaBO {
     private CuentaDAO cuentaDAO;
     private PagoDAO pagosDAO;
     private HorarioDAO horarioDAO;
-
+    private HistoriaClinicaDAO historiaCilicaDAO;
+    
     public CuentaPaciente(Integer id) {
         super.setIdCuenta(id);
         pacienteDAO = new PacienteDAOImpl();
         PacienteDTO paciente = pacienteDAO.buscarPorIdCuenta(id);
-        this.idHistoria = paciente.getHistoriaClinica().getIdHistoriaClinica();
+        //this.idHistoria = paciente.getHistoriaClinica().getIdHistoriaClinica();
         super.setIdPersona(paciente.getIdPersona());
         this.especialidadDAO = new EspecialidadDAOImpl();
         this.medicoDAO = new MedicoDAOImpl();
@@ -61,6 +65,7 @@ public class CuentaPaciente extends CuentaBO {
         this.cuentaDAO = new CuentaDAOImpl();
         this.pagosDAO = new PagoDAOImpl();
         this.horarioDAO = new HorarioDAOImpl();
+        this.historiaCilicaDAO = new HistoriaClinicaDAOImpl();
     }
 
     @Override
@@ -76,44 +81,45 @@ public class CuentaPaciente extends CuentaBO {
         return medicoDAO.listarPorIdEspecialidad(idEspecialidad);
     }
 
-    public ArrayList<CitaDTO> listarCitasPorEspecialidadYFecha(Integer idEspecialidad, Date fecha) {
-        Integer idMedico = null;
-        return listarCitas(idEspecialidad, fecha, idMedico);
-    }
+//    public ArrayList<CitaDTO> listarCitasPorEspecialidadYFecha(Integer idEspecialidad, Date fecha) {
+//        Integer idMedico = null;
+//        return listarCitas(idEspecialidad, fecha, idMedico);
+//    }
 
-    public ArrayList<CitaDTO> listarCitas(Integer idEspecialidad, Date fecha, Integer idMedico) {
-        ArrayList<CitaDTO> citas = new ArrayList<>();
-        ArrayList<CitaDTO> citasPorMedico;
-        if (idMedico != null) {
-            //busca en la tabla de citas por id Persona y filtra por fecha devuelve un ArryList
-            citasPorMedico = citaDAO.listarPorIdMedicoEstadoFecha(idMedico, Estado.DISPONIBLE, fecha);//generico
-            citas.addAll(citasPorMedico);
-        } else if (idEspecialidad != null) {
-            //busca en el idPersona por Id_especialidad
-            ArrayList<MedicoDTO> medicos = medicoDAO.listarPorIdEspecialidad(idEspecialidad);//generico
-            //busca en la tabla de citas por Id Persona y filtra por fecha devuelve un ArryList
-            for (MedicoDTO medico : medicos) {
-                Integer idM = medico.getIdPersona();
-                citasPorMedico = citaDAO.listarPorIdMedicoEstadoFecha(idM, Estado.DISPONIBLE, fecha);
-                if (!citasPorMedico.isEmpty()) {
-                    citas.addAll(citasPorMedico);
-                }
-            }
-        } else {
-            System.out.println("Debe seleccionar una especialidad o un médico. Error listar Citas");
-        }
-        return citas;
-    }
+//    public ArrayList<CitaDTO> listarCitas(Integer idEspecialidad, Date fecha, Integer idMedico) {
+//        ArrayList<CitaDTO> citas = new ArrayList<>();
+//        ArrayList<CitaDTO> citasPorMedico;
+//        if (idMedico != null) {
+//            //busca en la tabla de citas por id Persona y filtra por fecha devuelve un ArryList
+//            citasPorMedico = citaDAO.listarPorIdMedicoEstadoFecha(idMedico, Estado.DISPONIBLE, fecha);//generico
+//            citas.addAll(citasPorMedico);
+//        } else if (idEspecialidad != null) {
+//            //busca en el idPersona por Id_especialidad
+//            ArrayList<MedicoDTO> medicos = medicoDAO.listarPorIdEspecialidad(idEspecialidad);//generico
+//            //busca en la tabla de citas por Id Persona y filtra por fecha devuelve un ArryList
+//            for (MedicoDTO medico : medicos) {
+//                Integer idM = medico.getIdPersona();
+//                citasPorMedico = citaDAO.listarPorIdMedicoEstadoFecha(idM, Estado.DISPONIBLE, fecha);
+//                if (!citasPorMedico.isEmpty()) {
+//                    citas.addAll(citasPorMedico);
+//                }
+//            }
+//        } else {
+//            System.out.println("Debe seleccionar una especialidad o un médico. Error listar Citas");
+//        }
+//        return citas;
+//    }
 
     //devuelve valor mayor que 0 si se realizó correctamente lo solicitado, si es 0 entonces no hizo nada
     //o tal vez solo debería pasar el id?
-    public int reservarCita(CitaDTO cita) {
+    public int reservarCita(CitaDTO cita, int id) {//es id de cuenta o id persona?
         //actualizar cita (Estado: reservado)
         System.out.println("Modificando estado de cita");
         cita.setEstado(Estado.RESERVADO);
-        Integer id = super.getIdCuenta();
+        //Integer id = super.getIdCuenta();
         PacienteDTO paciente = pacienteDAO.buscarPorIdCuenta(id);
-        HistoriaClinicaDTO historia = paciente.getHistoriaClinica();
+        Integer idPaciente = paciente.getIdPersona();
+        HistoriaClinicaDTO historia = this.historiaCilicaDAO.obtenerPorIdPaciente(idPaciente);
         cita.setHistoriaClinicaPaciente(historia);
         if (historia == null || historia.getIdHistoriaClinica() == null) {
             System.out.println("Error: Historia clínica no encontrada para el paciente");
@@ -202,4 +208,14 @@ public class CuentaPaciente extends CuentaBO {
         cuenta.setContrasenha(Cifrado.cifrarMD5(contrasenha));
         return cuentaDAO.modificar(cuenta);
     } //se debería actualizar tmb celular y correo?
+    
+    public ArrayList<CitaDTO> listarCitasPorPersona(int idPersona){
+        ArrayList<CitaDTO> citas = null;
+        PacienteDTO paciente = this.pacienteDAO.obtenerPorId(idPersona);
+        if(paciente!=null){
+            citas = this.citaDAO.listarPorPaciente(paciente);
+        }
+        return citas;
+    }
+    
 }

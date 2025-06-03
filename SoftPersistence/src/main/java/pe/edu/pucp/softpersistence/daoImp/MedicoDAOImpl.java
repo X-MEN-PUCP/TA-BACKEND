@@ -127,12 +127,10 @@ public class MedicoDAOImpl extends DAOImplBase implements MedicoDAO {
     
     @Override
     public MedicoDTO obtenerPorId(Integer id) {
-        
         this.medico = new MedicoDTO();
         this.medico.setIdPersona(id);
         super.obtenerPorId();
         return this.medico;
-        
     }
     
     @Override
