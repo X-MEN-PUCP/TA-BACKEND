@@ -16,10 +16,7 @@ import pe.edu.pucp.softmodel.modelos.PersonaDTO;
 import pe.edu.pucp.softpersistence.dao.AdminDAO;
 import pe.edu.pucp.softpersistence.daoImp.Util.Columna;
 
-/**
- *
- * @author salva
- */
+
 public class AdminDAOImpl extends DAOImplBase implements AdminDAO{
 
     private AdminDTO admin;
@@ -45,26 +42,22 @@ public class AdminDAOImpl extends DAOImplBase implements AdminDAO{
 
     @Override
     protected void instanciarObjetoDelResultSet() throws SQLException {
-        admin = new AdminDTO();
-        PersonaDTO cuentaVar = new PersonaDTO();
+        this.admin = new AdminDTO();
+        PersonaDTO cuentaVar;
         cuentaVar = this.cargarLecturaPersona();
-        admin.copiarDesde(cuentaVar);
-        
+        this.admin.copiarDesde(cuentaVar);
     }
 
 
     @Override
     public AdminDTO buscarPorIdCuenta(int idCuenta) {
-
         String sql = this.generarSQLParaListarTodosPorColumnaEspecifica("id_cuenta");//Nombre columna
         Consumer incluirValorDeParametros = null;
         Object parametros = null;
         ArrayList<AdminDTO> admins = (ArrayList<AdminDTO>) super.listarTodos(sql, idCuenta, incluirValorDeParametros, parametros);
-        if(admins.size()>0)
-            return admins.get(0);
-        return null;
-
+        if(!admins.isEmpty())
+            this.admin = admins.get(0);
+        return this.admin;
     }
        
-    
 }

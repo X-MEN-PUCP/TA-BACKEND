@@ -133,18 +133,12 @@ public abstract class DAOImplBase {
             System.err.println("Error al intentar ejecutar consulta - " + tipo_Operacion.toString() + ": " + ex);
             try {
                 this.rollbackTransaccion();
-                //if (this.conexion != null) {
-                //    this.conexion.rollback();
-                //}
             } catch (SQLException ex1) {
                 System.err.println("Error al hacer rollback - " + ex);
             }
         } finally {
             try {
                 this.cerrarConexion();
-                //if (this.conexion != null) {
-                //    this.conexion.close();
-                //}
             } catch (SQLException ex) {
                 System.err.println("Error al cerrar la conexión - " + ex);
             }
@@ -487,6 +481,15 @@ public abstract class DAOImplBase {
         sql = sql.concat(sql_predicado);
         return sql;
     }
+    
+//    protected Object obtenerPorOtraColumna(String sql,Object columnaBuscada){
+//        try{
+//            this.colocarSQLenStatement(sql);
+//            
+//        }catch{
+//            
+//        }
+//    }
     
 //        public List listarTodosPorColumnaEspecifica(String columna, int id){
 //            List lista = new ArrayList<>();

@@ -7,7 +7,6 @@ package pe.edu.pucp.softws;
 import jakarta.jws.WebService;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
-import jakarta.xml.ws.WebServiceException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,12 +58,12 @@ public class PacienteWS {
     }
     
     @WebMethod(operationName = "listarEspecialidades")
-    public ArrayList<EspecialidadDTO> listarCitasPorPersona() {
+    public ArrayList<EspecialidadDTO> listarEspecialidades() {
         return pacienteBO.listaDeEspecialidades();
     }
     
-    @WebMethod(operationName = "listarCitasPorPersona")
-    public ArrayList<CitaDTO> listarCitasPorPersona(@WebParam(name = "idEspecialidad") Integer idEspecialidad, 
+    @WebMethod(operationName = "listarCitasDisponibles")
+    public ArrayList<CitaDTO> listarCitasDisponibles(@WebParam(name = "idEspecialidad") Integer idEspecialidad, 
             @WebParam(name = "fecha") LocalDate fecha, 
             @WebParam(name = "CodMedico") Integer idMedico) {
         return pacienteBO.listarCitas(idEspecialidad, fecha, idMedico);

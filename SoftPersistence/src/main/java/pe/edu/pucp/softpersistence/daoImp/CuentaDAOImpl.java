@@ -16,10 +16,6 @@ import pe.edu.pucp.softmodel.modelos.MedicoDTO;
 import pe.edu.pucp.softpersistence.daoImp.Util.Columna;
 import pe.edu.pucp.softpersistence.dao.CuentaDAO;
 
-/**
- *
- * @author Mcerv
- */
 public class CuentaDAOImpl extends DAOImplBase implements CuentaDAO{
     private CuentaDTO cuenta;
     
@@ -47,14 +43,11 @@ public class CuentaDAOImpl extends DAOImplBase implements CuentaDAO{
     
     @Override
     protected void incluirValorDeParametrosParaModificacion() throws SQLException{
-        
         this.statement.setString(1, cuenta.getTipoDocumento().toString());
         this.statement.setString(2,cuenta.getNumeroDocumento());
         this.statement.setString(3,cuenta.getContrasenha());
         this.statement.setString(4,cuenta.getRol().toString());
         this.statement.setInt(5, cuenta.getIdCuenta());
-        
-        
     }
     
     
