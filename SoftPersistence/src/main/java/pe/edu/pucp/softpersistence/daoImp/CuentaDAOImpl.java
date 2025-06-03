@@ -100,7 +100,7 @@ public class CuentaDAOImpl extends DAOImplBase implements CuentaDAO{
             System.out.println("Buscando cuenta...");
             this.abrirConexion();
             String sql = "SELECT id_cuenta, tipo_documento, nro_documento, "
-                    + "contrasena, rol FROM Cuenta WHERE nro_documento = ?";
+                    + "contrasena, rol FROM cuenta WHERE nro_documento = ?";
             this.colocarSQLenStatement(sql);
             this.statement.setString(1, numeroDoc);
             this.ejecutarConsultaEnBD();
