@@ -25,6 +25,7 @@ public class LogIn {
     public CuentaDTO iniciarSesion(String numeroDoc, String contrasenha){
         CuentaDTO cuenta;
         cuenta= cuentaDAO.buscarPorNumeroDocumento(numeroDoc);
+        System.out.println(">"+ Cifrado.cifrarMD5(contrasenha)+"<");
         if(cuenta!=null){
             if(Cifrado.descifrarMD5(cuenta.getContrasenha()).equals(contrasenha)){
                 return cuenta;
