@@ -29,8 +29,11 @@ import pe.edu.pucp.softbusiness.bo.CuentaAdmin;
 import pe.edu.pucp.softbusiness.bo.CuentaMedico;
 import pe.edu.pucp.softbusiness.bo.CuentaPaciente;
 import pe.edu.pucp.softbusiness.bo.util.NuevoUsuarioMedicoBuilder;
+<<<<<<< Updated upstream
 import org.junit.jupiter.api.Disabled;
 
+=======
+>>>>>>> Stashed changes
 import pe.edu.pucp.softbusiness.bo.util.NuevoUsuarioPacienteBuilder;
 /**
  *

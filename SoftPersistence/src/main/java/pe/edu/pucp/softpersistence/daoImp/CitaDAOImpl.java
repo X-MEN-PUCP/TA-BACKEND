@@ -25,6 +25,7 @@ import pe.edu.pucp.softmodel.util.Estado;
 import pe.edu.pucp.softpersistence.dao.HistoriaClinicaDAO;
 import pe.edu.pucp.softpersistence.dao.HorarioDAO;
 import pe.edu.pucp.softpersistence.dao.MedicoDAO;
+import pe.edu.pucp.softpersistence.dao.PacienteDAO;
 import pe.edu.pucp.softpersistence.daoImp.Util.ParametrosCita;
 
 /**
@@ -295,7 +296,10 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
 
     @Override
     public ArrayList<CitaDTO> listarPorPaciente(PacienteDTO paciente) {
-        int idHistoria = paciente.getHistoriaClinica().getIdHistoriaClinica();
+        Integer idPaciente = paciente.getIdPersona();
+        HistoriaClinicaDAO historiaDao = new HistoriaClinicaDAOImpl();
+        HistoriaClinicaDTO historia = historiaDao.obtenerPorIdPaciente(idPaciente);
+        int idHistoria = historia.getIdHistoriaClinica();
         String sql = super.generarSQLParaListarTodosPorColumnaEspecifica("id_historia");
         Consumer incluirValorDeParametros = null;
         Object parametros = null;
