@@ -70,13 +70,7 @@ public class CitaWS {
         return cita.listarPorIdMedico(idMedico);
     }
 
-    @WebMethod(operationName = "ListarPorIdMedicoEstadoFecha")
-    public ArrayList<CitaDTO> listarCitasPorIdMedicoEstadoFecha(
-            @WebParam(name = "idMedico") Integer idMedico,
-            @WebParam(name = "estado") String estado,
-            @WebParam(name = "fecha") Date fecha) {
-        return cita.listarPorIdMedicoEstadoFecha(idMedico, Estado.valueOf(estado), fecha);
-    }
+
 
     @WebMethod(operationName = "ReporteResumenGeneral")
     public ArrayList<CitaDTO> reporteResumenGeneral(

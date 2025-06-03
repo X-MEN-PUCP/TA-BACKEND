@@ -75,12 +75,12 @@ public class MedicoBO {
         return this.eliminar(id);
     }
     
-    public ArrayList<CitaDTO> listarCitasProgramadas(Integer idMedico){
+    public ArrayList<CitaDTO> listarCitasProgramadas(Integer codMedico){
         ArrayList<CitaDTO> citas;
         //ya tengo el id_persona en la clase base
         //busco las citas con estado: Pagado, Id_persona, fecha
         //int id = super.getIdPersona();
-        citas = citaDao.listarPorIdMedicoEstado(idMedico, Estado.PAGADO);
+        citas = citaDao.listarCitasProgramadas(codMedico);
         
         return citas;
     }

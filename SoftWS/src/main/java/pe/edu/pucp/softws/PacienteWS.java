@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import pe.edu.pucp.softbusiness.bo.PacienteBO;
 import pe.edu.pucp.softmodel.modelos.CitaDTO;
+import pe.edu.pucp.softmodel.modelos.EspecialidadDTO;
 import pe.edu.pucp.softmodel.modelos.PacienteDTO;
 import pe.edu.pucp.softmodel.util.MetodoPago;
 
@@ -55,6 +56,18 @@ public class PacienteWS {
     @WebMethod(operationName = "buscarPacientePorIdCuenta")
     public PacienteDTO buscarPacientePorIdCuenta(@WebParam(name = "idCuenta") int idCuenta) {
         return pacienteBO.buscarPorIdCuenta(idCuenta);
+    }
+    
+    @WebMethod(operationName = "listarEspecialidades")
+    public ArrayList<EspecialidadDTO> listarCitasPorPersona() {
+        return pacienteBO.listaDeEspecialidades();
+    }
+    
+    @WebMethod(operationName = "listarCitasPorPersona")
+    public ArrayList<CitaDTO> listarCitasPorPersona(@WebParam(name = "idEspecialidad") Integer idEspecialidad, 
+            @WebParam(name = "fecha") LocalDate fecha, 
+            @WebParam(name = "CodMedico") Integer idMedico) {
+        return pacienteBO.listarCitas(idEspecialidad, fecha, idMedico);
     }
 
     @WebMethod(operationName = "listarCitasPorPersona")

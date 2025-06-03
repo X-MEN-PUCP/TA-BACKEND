@@ -90,10 +90,7 @@ public class citaBO {
         return this.citaDao.listarPorIdMedico(idMedico);
     }
     
-    public ArrayList<CitaDTO> listarPorIdMedicoEstadoFecha(Integer idMedico, Estado estado, java.util.Date fecha){
-        return this.citaDao.listarPorIdMedicoEstadoFecha(idMedico, estado, fecha);
-    }
-    
+
     public ArrayList<CitaDTO> ReporteResumenGeneral(Integer especialidad, Estado estado, java.util.Date fechaInicio, java.util.Date fechaFin){
         return this.citaDao.ReporteResumenGeneral(especialidad, estado, fechaInicio, fechaFin);
     }

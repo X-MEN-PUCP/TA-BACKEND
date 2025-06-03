@@ -93,33 +93,21 @@ public class PacienteBO {
         return especialidadDAO.listarTodos();
     }
 
-    public ArrayList<MedicoDTO> listaDeMedicoPorEspecialidad(Integer idEspecialidad) {
-        return medicoDAO.listarPorIdEspecialidad(idEspecialidad);
-    }
-
-    public ArrayList<CitaDTO> listarCitasPorEspecialidadYFecha(Integer idEspecialidad, Date fecha) {
-        Integer idMedico = null;
-        return listarCitas(idEspecialidad, fecha, idMedico);
-    }
-
-    public ArrayList<CitaDTO> listarCitas(Integer idEspecialidad, Date fecha, Integer idMedico) {
+//    public ArrayList<MedicoDTO> listaDeMedicoPorEspecialidad(Integer idEspecialidad) {
+//        return medicoDAO.listarPorIdEspecialidad(idEspecialidad);
+//    }
+//
+//    public ArrayList<CitaDTO> listarCitasPorEspecialidadYFecha(Integer idEspecialidad, Date fecha) {
+//        Integer idMedico = null;
+//        return listarCitas(idEspecialidad, fecha, idMedico);
+//    }
+//
+    public ArrayList<CitaDTO> listarCitas(Integer idEspecialidad, LocalDate fecha, Integer idMedico) {
         ArrayList<CitaDTO> citas = new ArrayList<>();
         ArrayList<CitaDTO> citasPorMedico;
-        if (idMedico != null) {
-            //busca en la tabla de citas por id Persona y filtra por fecha devuelve un ArryList
-            citasPorMedico = citaDAO.listarPorIdMedicoEstadoFecha(idMedico, Estado.DISPONIBLE, fecha);//generico
-            citas.addAll(citasPorMedico);
-        } else if (idEspecialidad != null) {
-            //busca en el idPersona por Id_especialidad
-            ArrayList<MedicoDTO> medicos = medicoDAO.listarPorIdEspecialidad(idEspecialidad);//generico
-            //busca en la tabla de citas por Id Persona y filtra por fecha devuelve un ArryList
-            for (MedicoDTO medico : medicos) {
-                Integer idM = medico.getIdPersona();
-                citasPorMedico = citaDAO.listarPorIdMedicoEstadoFecha(idM, Estado.DISPONIBLE, fecha);
-                if (!citasPorMedico.isEmpty()) {
-                    citas.addAll(citasPorMedico);
-                }
-            }
+       
+        if (idMedico != null || idEspecialidad != null) {
+           citas = this.citaDAO.buscarCitasDisponibles(idEspecialidad, idMedico, fecha);
         } else {
             System.out.println("Debe seleccionar una especialidad o un médico. Error listar Citas");
         }
