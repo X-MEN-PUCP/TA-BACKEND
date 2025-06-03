@@ -38,31 +38,31 @@ public class CuentaMedico extends CuentaBO{
         System.out.println("com.mycompany.softbo.CuentaMedico.QuienSoy()");
     }
     
-    public ArrayList<CitaDTO> listarCitasProgramadas(Date fecha){
+    public ArrayList<CitaDTO> listarCitasProgramadas(Integer idMedico){
         ArrayList<CitaDTO> citas;
         //ya tengo el id_persona en la clase base
         //busco las citas con estado: Pagado, Id_persona, fecha
-        int id = super.getIdPersona();
-        citas = citaDAO.listarPorIdMedicoEstadoFecha(id, Estado.PAGADO, fecha);
+        //int id = super.getIdPersona();
+        citas = citaDAO.listarPorIdMedicoEstado(idMedico, Estado.PAGADO);
         
         return citas;
     }
     
-    public ArrayList<CitaDTO> listarCitasDisponibles(Date fecha){
-        ArrayList<CitaDTO> citas;
-        //ya tengo el id_persona en la clase base
-        //busco las citas con estado: Disponible, Id_persona, fecha
-        int id = super.getIdPersona();
-        citas = citaDAO.listarPorIdMedicoEstadoFecha(id, Estado.DISPONIBLE, fecha);
-        return citas;
-    }
-    
-    public ArrayList<CitaDTO> listarCitas(Date fecha){
-        ArrayList<CitaDTO> citas = new ArrayList<>();
-        ArrayList<CitaDTO> citasProg= this.listarCitasProgramadas(fecha);
-        ArrayList<CitaDTO> citasDis= this.listarCitasDisponibles(fecha);
-        citas.addAll(citasProg);
-        citas.addAll(citasDis);
-        return citas;
-    }
+//    public ArrayList<CitaDTO> listarCitasDisponibles(Date fecha){
+//        ArrayList<CitaDTO> citas;
+//        //ya tengo el id_persona en la clase base
+//        //busco las citas con estado: Disponible, Id_persona, fecha
+//        int id = super.getIdPersona();
+//        citas = citaDAO.listarPorIdMedicoEstadoFecha(id, Estado.DISPONIBLE, fecha);
+//        return citas;
+//    }
+//    
+//    public ArrayList<CitaDTO> listarCitas(Date fecha){
+//        ArrayList<CitaDTO> citas = new ArrayList<>();
+//        ArrayList<CitaDTO> citasProg= this.listarCitasProgramadas(fecha);
+//        ArrayList<CitaDTO> citasDis= this.listarCitasDisponibles(fecha);
+//        citas.addAll(citasProg);
+//        citas.addAll(citasDis);
+//        return citas;
+//    }
 }

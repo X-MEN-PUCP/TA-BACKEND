@@ -10,10 +10,22 @@ package pe.edu.pucp.softmodel.modelos;
  */
 public class HistoriaClinicaDTO {
     private Integer idHistoriaClinica;
+    private PacienteDTO paciente;
+    
     
     public HistoriaClinicaDTO(){
         this.idHistoriaClinica= null;
+        this.paciente = null;
     }
+
+    public PacienteDTO getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(PacienteDTO paciente) {
+        this.paciente = paciente;
+    }
+    
     /**
      * @return the idHistoriaClinica
      */

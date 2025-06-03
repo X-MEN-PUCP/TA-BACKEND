@@ -14,6 +14,12 @@ public class ParametrosCita {
     private Integer idMedico;
     private Estado estado;
     private java.sql.Date fecha;
+    
+    public ParametrosCita(Integer idMedico, Estado estado){
+        this.idMedico = idMedico;
+        this.estado = estado;
+        this.fecha = null;
+    }
 
     public ParametrosCita(Integer idMedico, Estado estado, java.util.Date fecha) {
         this.idMedico = idMedico;

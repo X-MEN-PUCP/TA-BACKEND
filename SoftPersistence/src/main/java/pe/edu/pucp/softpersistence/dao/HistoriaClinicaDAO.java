@@ -14,5 +14,5 @@ import pe.edu.pucp.softmodel.modelos.HistoriaClinicaDTO;
 public interface HistoriaClinicaDAO {
     
     public ArrayList<HistoriaClinicaDTO> listarTodos();
-    
+    public HistoriaClinicaDTO obtenerPorIdPaciente(Integer idPaciente);
 }

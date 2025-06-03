@@ -146,7 +146,6 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
 
     @Override
     public CitaDTO obtenerPorId(Integer citaID) {
-
         this.cita = new CitaDTO();
         this.cita.setIdCita(citaID);
         super.obtenerPorId();
@@ -179,14 +178,14 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         return (ArrayList<CitaDTO>) super.listarTodos(sql, idMedico, incluirValorDeParametros, parametros);
     }
 
-    private String generarSQLParaListarCitasPorMedicoEstadoYFecha() {
+    private String generarSQLParaListarCitasPorMedicoEstado() {
         /*SELECT c.id_cita, c.id_horario, c.id_medico, c.observaciones_medicas, c.id_historia, c.estado
             FROM Cita c JOIN Horario h ON c.id_horario = h.id_horario
             WHERE c.id_medico = ? AND c.estado = ? AND DATE(h.fecha) = ?*/
         String sql = "SELECT ";
         String sql_columnas = "";
         String sql_predicado = "";
-        sql_predicado = sql_predicado.concat("c.id_medico = ? AND c.estado = ? AND DATE(h.fecha) = ?");
+        sql_predicado = sql_predicado.concat("c.id_medico = ? AND c.estado = ?");
         for (Columna columna : this.listaColumnas) {
             if (!sql_columnas.isBlank()) {
                 sql_columnas = sql_columnas.concat(", ");
@@ -204,18 +203,28 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
     }
 
     @Override
-    public ArrayList<CitaDTO> listarPorIdMedicoEstadoFecha(Integer idMedico, Estado estado, java.util.Date fecha) {
-        String sql = this.generarSQLParaListarCitasPorMedicoEstadoYFecha();
-        ParametrosCita parametros = new ParametrosCita(idMedico, estado, fecha);
+    public ArrayList<CitaDTO> listarPorIdMedicoEstado(Integer idMedico, Estado estado) {
+        String sql = this.generarSQLParaListarCitasPorMedicoEstado();
+        ParametrosCita parametros = new ParametrosCita(idMedico, estado);
         return (ArrayList<CitaDTO>) super.listarTodos(sql, this::incluirValorDeParametros, parametros);
     }
-
+    
+    @Override
+    public ArrayList<CitaDTO> listarPorIdMedicoEstadoFecha(Integer idMedico, Estado estado, java.util.Date fecha){
+        String sql = this.generarSQLParaListarCitasPorMedicoEstado();
+        sql = sql.concat("AND DATE(h.fecha) = ?");
+        ParametrosCita parametros = new ParametrosCita(idMedico, estado);
+        return (ArrayList<CitaDTO>) super.listarTodos(sql, this::incluirValorDeParametros, parametros);
+    }
+    
     private void incluirValorDeParametros(Object objetoParametros) {
         ParametrosCita parametros = (ParametrosCita) objetoParametros;
         try {
             this.statement.setInt(1, parametros.getIdMedico());
             this.statement.setString(2, parametros.getEstado().toString());
-            this.statement.setDate(3, parametros.getFecha());
+            if(parametros.getFecha() != null){
+                this.statement.setDate(3,parametros.getFecha());
+            }
         } catch (SQLException ex) {
             Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

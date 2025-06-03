@@ -93,6 +93,9 @@ public class CuentaAdmin extends CuentaBO{
         return citaDAO.insertar(cita);
     }
     
+    public int insertarNuevaEspecialidad(EspecialidadDTO especialidad){
+        return especialidadDAO.insertar(especialidad);
+    }    
     
     
     public ArrayList<CitaDTO> GenerarReporteResumenGeneral(Integer especialidad, Estado estado, java.util.Date fechaInicio, java.util.Date fechaFin){

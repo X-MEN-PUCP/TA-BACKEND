@@ -23,6 +23,7 @@ import pe.edu.pucp.softmodel.util.MetodoPago;
 import pe.edu.pucp.softpersistence.dao.CitaDAO;
 import pe.edu.pucp.softpersistence.dao.CuentaDAO;
 import pe.edu.pucp.softpersistence.dao.EspecialidadDAO;
+import pe.edu.pucp.softpersistence.dao.HistoriaClinicaDAO;
 import pe.edu.pucp.softpersistence.dao.HorarioDAO;
 import pe.edu.pucp.softpersistence.dao.MedicoDAO;
 import pe.edu.pucp.softpersistence.dao.PacienteDAO;
@@ -34,6 +35,7 @@ import pe.edu.pucp.softpersistence.daoImp.MedicoDAOImpl;
 import pe.edu.pucp.softpersistence.daoImp.PacienteDAOImpl;
 import pe.edu.pucp.softpersistence.daoImp.PagoDAOImpl;
 import pe.edu.pucp.softpersistence.dao.PagoDAO;
+import pe.edu.pucp.softpersistence.daoImp.HistoriaClinicaDAOImpl;
 
 /**
  *
@@ -49,12 +51,13 @@ public class CuentaPaciente extends CuentaBO {
     private CuentaDAO cuentaDAO;
     private PagoDAO pagosDAO;
     private HorarioDAO horarioDAO;
-
+    private HistoriaClinicaDAO historiaCilicaDAO;
+    
     public CuentaPaciente(Integer id) {
         super.setIdCuenta(id);
         pacienteDAO = new PacienteDAOImpl();
         PacienteDTO paciente = pacienteDAO.buscarPorIdCuenta(id);
-        this.idHistoria = paciente.getHistoriaClinica().getIdHistoriaClinica();
+        //this.idHistoria = paciente.getHistoriaClinica().getIdHistoriaClinica();
         super.setIdPersona(paciente.getIdPersona());
         this.especialidadDAO = new EspecialidadDAOImpl();
         this.medicoDAO = new MedicoDAOImpl();
@@ -62,6 +65,7 @@ public class CuentaPaciente extends CuentaBO {
         this.cuentaDAO = new CuentaDAOImpl();
         this.pagosDAO = new PagoDAOImpl();
         this.horarioDAO = new HorarioDAOImpl();
+        this.historiaCilicaDAO = new HistoriaClinicaDAOImpl();
     }
 
     @Override
@@ -108,13 +112,14 @@ public class CuentaPaciente extends CuentaBO {
 
     //devuelve valor mayor que 0 si se realizó correctamente lo solicitado, si es 0 entonces no hizo nada
     //o tal vez solo debería pasar el id?
-    public int reservarCita(CitaDTO cita) {
+    public int reservarCita(CitaDTO cita, int id) {//es id de cuenta o id persona?
         //actualizar cita (Estado: reservado)
         System.out.println("Modificando estado de cita");
         cita.setEstado(Estado.RESERVADO);
-        Integer id = super.getIdCuenta();
+        //Integer id = super.getIdCuenta();
         PacienteDTO paciente = pacienteDAO.buscarPorIdCuenta(id);
-        HistoriaClinicaDTO historia = paciente.getHistoriaClinica();
+        Integer idPaciente = paciente.getIdPersona();
+        HistoriaClinicaDTO historia = this.historiaCilicaDAO.obtenerPorIdPaciente(idPaciente);
         cita.setHistoriaClinicaPaciente(historia);
         if (historia == null || historia.getIdHistoriaClinica() == null) {
             System.out.println("Error: Historia clínica no encontrada para el paciente");

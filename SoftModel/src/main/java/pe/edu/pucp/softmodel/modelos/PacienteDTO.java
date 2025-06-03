@@ -9,20 +9,20 @@ package pe.edu.pucp.softmodel.modelos;
  * @author Mcerv
  */
 public class PacienteDTO extends PersonaDTO{
-    private HistoriaClinicaDTO historiaClinica;
+    //private HistoriaClinicaDTO historiaClinica;
 
     /**
      * @return the historiaClinica
      */
-    public HistoriaClinicaDTO getHistoriaClinica() {
-        return historiaClinica;
-    }
-
-    /**
-     * @param historiaClinica the historiaClinica to set
-     */
-    public void setHistoriaClinica(HistoriaClinicaDTO historiaClinica) {
-        this.historiaClinica = historiaClinica;
-    }
+//    public HistoriaClinicaDTO getHistoriaClinica() {
+//        return historiaClinica;
+//    }
+//
+//    /**
+//     * @param historiaClinica the historiaClinica to set
+//     */
+//    public void setHistoriaClinica(HistoriaClinicaDTO historiaClinica) {
+//        this.historiaClinica = historiaClinica;
+//    }
     
 }
