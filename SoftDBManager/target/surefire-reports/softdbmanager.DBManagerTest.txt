@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: softdbmanager.DBManagerTest
 -------------------------------------------------------------------------------
-<<<<<<< Updated upstream
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.090 s -- in softdbmanager.DBManagerTest
-=======
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.311 s -- in softdbmanager.DBManagerTest
->>>>>>> Stashed changes
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.817 s - in softdbmanager.DBManagerTest
