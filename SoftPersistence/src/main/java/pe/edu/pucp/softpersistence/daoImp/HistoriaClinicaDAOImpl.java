@@ -43,6 +43,11 @@ public class HistoriaClinicaDAOImpl extends DAOImplBase implements HistoriaClini
         paciente.setIdPersona(this.resultSet.getInt("id_persona"));
         this.historia.setPaciente(paciente);
     }
+    
+    @Override
+    protected void limpiarObjetoDelResultSet() {
+        this.historia = null;
+    }
 
     @Override
     public ArrayList<HistoriaClinicaDTO> listarTodos() {        
@@ -51,7 +56,6 @@ public class HistoriaClinicaDAOImpl extends DAOImplBase implements HistoriaClini
     
     @Override
     public HistoriaClinicaDTO obtenerPorIdPaciente(Integer idPaciente){
-        //historia = new HistoriaClinicaDTO();
         String sql = this.generarSQLParaListarTodosPorColumnaEspecifica("id_persona");//Nombre columna
         Consumer incluirValorDeParametros = null;
         Object parametros = null;
