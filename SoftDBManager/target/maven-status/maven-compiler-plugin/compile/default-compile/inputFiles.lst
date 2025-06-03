@@ -1,5 +1,13 @@
+<<<<<<< Updated upstream
 C:\Users\Cesar\Documents\PUCP\Programación 3\TA\TA-BACKEND\SoftDBManager\src\main\java\pe\edu\pucp\softdbmanager\db\DBManager.java
 C:\Users\Cesar\Documents\PUCP\Programación 3\TA\TA-BACKEND\SoftDBManager\src\main\java\pe\edu\pucp\softdbmanager\db\DBManagerMSSQL.java
 C:\Users\Cesar\Documents\PUCP\Programación 3\TA\TA-BACKEND\SoftDBManager\src\main\java\pe\edu\pucp\softdbmanager\db\DBManagerMySQL.java
 C:\Users\Cesar\Documents\PUCP\Programación 3\TA\TA-BACKEND\SoftDBManager\src\main\java\pe\edu\pucp\softdbmanager\util\Cifrado.java
 C:\Users\Cesar\Documents\PUCP\Programación 3\TA\TA-BACKEND\SoftDBManager\src\main\java\pe\edu\pucp\softdbmanager\util\MotorDeBaseDeDatos.java
+=======
+C:\Porgra3\TA\TA-BACKEND\SoftDBManager\src\main\java\pe\edu\pucp\softdbmanager\db\DBManagerMySQL.java
+C:\Porgra3\TA\TA-BACKEND\SoftDBManager\src\main\java\pe\edu\pucp\softdbmanager\db\DBManagerMSSQL.java
+C:\Porgra3\TA\TA-BACKEND\SoftDBManager\src\main\java\pe\edu\pucp\softdbmanager\util\Cifrado.java
+C:\Porgra3\TA\TA-BACKEND\SoftDBManager\src\main\java\pe\edu\pucp\softdbmanager\util\MotorDeBaseDeDatos.java
+C:\Porgra3\TA\TA-BACKEND\SoftDBManager\src\main\java\pe\edu\pucp\softdbmanager\db\DBManager.java
+>>>>>>> Stashed changes

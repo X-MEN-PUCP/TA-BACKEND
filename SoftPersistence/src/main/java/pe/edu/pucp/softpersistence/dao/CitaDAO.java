@@ -24,8 +24,8 @@ public interface CitaDAO {
     public CitaDTO obtenerPorId(Integer id);
     public ArrayList<CitaDTO> listarTodos();
     public ArrayList<CitaDTO> listarPorIdMedico(Integer idMedico);
-    public ArrayList<CitaDTO> listarPorIdMedicoEstado(Integer idMedico, Estado estado);
-    public ArrayList<CitaDTO> listarPorIdMedicoEstadoFecha(Integer idMedico, Estado estado, java.util.Date fecha);
+    public ArrayList<CitaDTO> listarCitasProgramadas(Integer codMedico);
+//    public ArrayList<CitaDTO> listarPorIdMedicoEstadoFecha(Integer idMedico, Estado estado, java.util.Date fecha);
 
     
     public ArrayList<CitaDTO> ReporteResumenGeneral(Integer especialidad, Estado estado, java.util.Date fechaInicio, java.util.Date fechaFin);

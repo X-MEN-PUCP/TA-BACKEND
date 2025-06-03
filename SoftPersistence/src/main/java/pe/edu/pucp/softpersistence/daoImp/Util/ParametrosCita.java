@@ -4,68 +4,64 @@
  */
 package pe.edu.pucp.softpersistence.daoImp.Util;
 
-import pe.edu.pucp.softmodel.util.Estado;
+import java.sql.Date;
 
 /**
  *
  * @author Mcerv
  */
 public class ParametrosCita {
-    private Integer idMedico;
-    private Estado estado;
-    private java.sql.Date fecha;
+    private Integer codMedico;
+    private Integer idEspecialidad;
+    private Date fecha;
     
-    public ParametrosCita(Integer idMedico, Estado estado){
-        this.idMedico = idMedico;
-        this.estado = estado;
-        this.fecha = null;
-    }
 
-    public ParametrosCita(Integer idMedico, Estado estado, java.util.Date fecha) {
-        this.idMedico = idMedico;
-        this.estado = estado;
-        this.fecha = new java.sql.Date(fecha.getTime());
+    public ParametrosCita() {
+        this.codMedico = null;
+        this.idEspecialidad = null;
+        this.fecha = null;
+        //this.fecha = new java.sql.Date(fecha.getTime());
     }
 
     /**
-     * @return the idMedico
+     * @return the codMedico
      */
     public Integer getIdMedico() {
-        return idMedico;
+        return codMedico;
     }
 
     /**
-     * @param idMedico the idMedico to set
+     * @param idMedico the codMedico to set
      */
     public void setIdMedico(Integer idMedico) {
-        this.idMedico = idMedico;
+        this.codMedico = idMedico;
     }
 
     /**
      * @return the estado
      */
-    public Estado getEstado() {
-        return estado;
+    public Integer getIdEspecialidad() {
+        return idEspecialidad;
     }
 
     /**
-     * @param estado the estado to set
+     * @param idEspecialidad the estado to set
      */
-    public void setEstado(Estado estado) {
-        this.estado = estado;
+    public void setIdEspecialidad(Integer idEspecialidad) {
+        this.idEspecialidad = idEspecialidad;
     }
 
     /**
      * @return the fecha
      */
-    public java.sql.Date getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
     /**
      * @param fecha the fecha to set
      */
-    public void setFecha(java.sql.Date fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
    

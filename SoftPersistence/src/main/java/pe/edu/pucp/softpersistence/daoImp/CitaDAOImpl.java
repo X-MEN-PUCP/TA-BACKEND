@@ -27,15 +27,12 @@ import pe.edu.pucp.softpersistence.dao.HorarioDAO;
 import pe.edu.pucp.softpersistence.dao.MedicoDAO;
 import pe.edu.pucp.softpersistence.dao.PacienteDAO;
 import pe.edu.pucp.softpersistence.daoImp.Util.ParametrosCita;
+import pe.edu.pucp.softpersistence.daoImp.Util.ParametrosCitaBuilder;
 
-/**
- *
- * @author salva
- */
+
 public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
 
     private CitaDTO cita;
-    private final boolean retornarLlavePrimaria;
 
     public CitaDAOImpl() {
         super("cita");
@@ -54,39 +51,32 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
     }
 
     @Override
-    protected void incluirValorDeParametrosParaInsercion() {
-        try {
-
-            this.statement.setInt(1, this.cita.getHorario().getIdHorario());
-            this.statement.setInt(2, this.cita.getMedico().getIdPersona());
-            this.statement.setString(3, this.cita.getObservacionesMedicas());
-            if (this.cita.getHistoriaClinicaPaciente() != null) {
-                this.statement.setInt(4, this.cita.getHistoriaClinicaPaciente().getIdHistoriaClinica());
-            } else {
-                this.statement.setNull(4, java.sql.Types.INTEGER);
-            }
-            this.statement.setString(5, this.cita.getEstado().toString());
-        } catch (SQLException ex) {
-            Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    protected void incluirValorDeParametrosParaInsercion() throws SQLException {
+        this.statement.setInt(1, this.cita.getHorario().getIdHorario());
+        this.statement.setInt(2, this.cita.getMedico().getIdPersona());
+        this.statement.setNull(3, java.sql.Types.VARCHAR);
+        this.statement.setNull(4, java.sql.Types.INTEGER);
+        this.statement.setString(5, this.cita.getEstado().toString());      
     }
 
     @Override
-    protected void incluirValorDeParametrosParaModificacion() {
-        try {
-            this.statement.setInt(1, this.cita.getHorario().getIdHorario());
-            this.statement.setInt(2, this.cita.getMedico().getIdPersona());
+    protected void incluirValorDeParametrosParaModificacion() throws SQLException {
+
+        this.statement.setInt(1, this.cita.getHorario().getIdHorario());
+        this.statement.setInt(2, this.cita.getMedico().getIdPersona());
+        //Puede que solo se desee modificar el horario o el médico
+        if(this.cita.getObservacionesMedicas() != null){
             this.statement.setString(3, this.cita.getObservacionesMedicas());
-            if (this.cita.getHistoriaClinicaPaciente() != null) {
-                this.statement.setInt(4, this.cita.getHistoriaClinicaPaciente().getIdHistoriaClinica());
-            } else {
-                this.statement.setNull(4, java.sql.Types.INTEGER);
-            }
-            this.statement.setString(5, this.cita.getEstado().toString());
-            this.statement.setInt(6, this.cita.getIdCita());
-        } catch (SQLException ex) {
-            Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }else{
+            this.statement.setNull(3, java.sql.Types.VARCHAR);
         }
+        if (this.cita.getHistoriaClinicaPaciente() != null){
+            this.statement.setInt(4, this.cita.getHistoriaClinicaPaciente().getIdHistoriaClinica());
+        } else {
+            this.statement.setNull(4, java.sql.Types.INTEGER);
+        }
+        this.statement.setString(5, this.cita.getEstado().toString());
+        this.statement.setInt(6, this.cita.getIdCita());
     }
 
     @Override
@@ -100,32 +90,29 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
     }
 
     @Override
-    protected void instanciarObjetoDelResultSet() {
-        try {
-            this.cita = new CitaDTO();
-            this.cita.setIdCita(this.resultSet.getInt("id_cita"));
-            //Horario
-            HorarioDTO horario = new HorarioDTO();
-            HorarioDAO daoHor = new HorarioDAOImpl();
-            horario = daoHor.obtenerPorId(this.resultSet.getInt("id_horario"));
-            this.cita.setHorario(horario);
-            //Medico
-            MedicoDTO medico = new MedicoDTO();
-            MedicoDAO daoMed = new MedicoDAOImpl();
-            medico = daoMed.obtenerPorId(this.resultSet.getInt("id_medico"));
-            this.cita.setMedico(medico);
+    protected void instanciarObjetoDelResultSet() throws SQLException {
+        this.cita = new CitaDTO();
+        this.cita.setIdCita(this.resultSet.getInt("id_cita"));
+        //Horario
+        HorarioDTO horario;
+        HorarioDAO daoHor = new HorarioDAOImpl();
+        horario = daoHor.obtenerPorId(this.resultSet.getInt("id_horario"));
+        this.cita.setHorario(horario);
+        //Medico
+        MedicoDTO medico;
+        MedicoDAO daoMed = new MedicoDAOImpl();
+        medico = daoMed.obtenerPorId(this.resultSet.getInt("id_medico"));
+        this.cita.setMedico(medico);
 
-            this.cita.setObservacionesMedicas(this.resultSet.getString("observaciones_medicas"));
-            //Historia
-            HistoriaClinicaDTO historia = new HistoriaClinicaDTO();
-            historia.setIdHistoriaClinica(this.resultSet.getInt("id_historia"));
-            this.cita.setHistoriaClinicaPaciente(historia);
+        this.cita.setObservacionesMedicas(this.resultSet.getString("observaciones_medicas"));
+        //Historia
+        HistoriaClinicaDTO historia;
+        HistoriaClinicaDAO daoHistMed = new HistoriaClinicaDAOImpl();
+        historia = daoHistMed.obtenerPorId(this.resultSet.getInt("id_historia"));
+        this.cita.setHistoriaClinicaPaciente(historia);
 
-            String estado = this.resultSet.getString("estado");
-            this.cita.setEstado(Estado.valueOf(estado.toUpperCase()));
-        } catch (SQLException ex) {
-            Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String estado = this.resultSet.getString("estado");
+        this.cita.setEstado(Estado.valueOf(estado.toUpperCase()));
     }
 
     @Override
@@ -179,14 +166,20 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         return (ArrayList<CitaDTO>) super.listarTodos(sql, idMedico, incluirValorDeParametros, parametros);
     }
 
-    private String generarSQLParaListarCitasPorMedicoEstado() {
-        /*SELECT c.id_cita, c.id_horario, c.id_medico, c.observaciones_medicas, c.id_historia, c.estado
-            FROM Cita c JOIN Horario h ON c.id_horario = h.id_horario
-            WHERE c.id_medico = ? AND c.estado = ? AND DATE(h.fecha) = ?*/
+    private String generarSQLParaBuscarCitas(Boolean conEspecialidad,Boolean conCodMedico,Boolean conFecha) {
+        /*
+        "SELECT c.id_cita, c.id_horario, c.id_medico, c.observaciones_medicas, c.id_historia, c.estado "
+                + "FROM cita c "
+                + "JOIN horario h ON c.id_horario = h.id_horario "
+                + "JOIN persona p ON c.id_medico = p.id_persona "
+                + "JOIN especialidad e ON p.id_especialidad = e.id_especialidad "
+                + "WHERE c.estado = 'disponible' "
+        
+        */
         String sql = "SELECT ";
         String sql_columnas = "";
         String sql_predicado = "";
-        sql_predicado = sql_predicado.concat("c.id_medico = ? AND c.estado = ?");
+        sql_predicado = sql_predicado.concat(" c.estado = 'disponible' ");
         for (Columna columna : this.listaColumnas) {
             if (!sql_columnas.isBlank()) {
                 sql_columnas = sql_columnas.concat(", ");
@@ -197,34 +190,44 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
         sql = sql.concat(sql_columnas);
         sql = sql.concat(" FROM ");
         sql = sql.concat(this.nombre_tabla);
-        sql = sql.concat(" c JOIN Horario h ON c.id_horario = h.id_horario");
+        sql = sql.concat(" c JOIN horario h ON c.id_horario = h.id_horario");
+        sql = sql.concat(" JOIN persona p ON c.id_medico = p.id_persona");
+        sql = sql.concat(" JOIN especialidad e ON p.id_especialidad = e.id_especialidad");
         sql = sql.concat(" WHERE ");
+        
+        if (conEspecialidad) {
+            sql_predicado= sql_predicado.concat("AND e.id_especialidad = ? ");
+        }
+        if (conCodMedico) {
+            sql_predicado= sql_predicado.concat("AND p.cod_medico = ? ");
+        }
+        if (conFecha) {
+            sql_predicado= sql_predicado.concat("AND DATE(h.fecha) = ? ");
+        }
         sql = sql.concat(sql_predicado);
         return sql;
     }
 
     @Override
-    public ArrayList<CitaDTO> listarPorIdMedicoEstado(Integer idMedico, Estado estado) {
-        String sql = this.generarSQLParaListarCitasPorMedicoEstado();
-        ParametrosCita parametros = new ParametrosCita(idMedico, estado);
-        return (ArrayList<CitaDTO>) super.listarTodos(sql, this::incluirValorDeParametros, parametros);
+    public ArrayList<CitaDTO> listarCitasProgramadas(Integer codMedico){
+        Integer idEspecialidad = null;
+        LocalDate fecha = null;
+        return this.buscarCitasDisponibles(idEspecialidad, codMedico, fecha);
     }
     
-    @Override
-    public ArrayList<CitaDTO> listarPorIdMedicoEstadoFecha(Integer idMedico, Estado estado, java.util.Date fecha){
-        String sql = this.generarSQLParaListarCitasPorMedicoEstado();
-        sql = sql.concat("AND DATE(h.fecha) = ?");
-        ParametrosCita parametros = new ParametrosCita(idMedico, estado);
-        return (ArrayList<CitaDTO>) super.listarTodos(sql, this::incluirValorDeParametros, parametros);
-    }
+//    @Override
+//    public ArrayList<CitaDTO> listarPorIdMedicoEstadoFecha(Integer idMedico, Estado estado, java.util.Date fecha){
+//        String sql = this.generarSQLParaListarCitasPorMedicoEstado();
+//        sql = sql.concat("AND DATE(h.fecha) = ?");
+//        ParametrosCita parametros = new ParametrosCita(idMedico, estado, fecha);
+//        return (ArrayList<CitaDTO>) super.listarTodos(sql, this::incluirValorDeParametros, parametros);
+//    }
     
     private void incluirValorDeParametros(Object objetoParametros) {
-        ParametrosCita parametros = (ParametrosCita) objetoParametros;
+        List<Object> params = (List<Object>) objetoParametros;
         try {
-            this.statement.setInt(1, parametros.getIdMedico());
-            this.statement.setString(2, parametros.getEstado().toString());
-            if(parametros.getFecha() != null){
-                this.statement.setDate(3,parametros.getFecha());
+            for (int i = 0; i < params.size(); i++) {
+                this.statement.setObject(i + 1, params.get(i));
             }
         } catch (SQLException ex) {
             Logger.getLogger(CitaDAOImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -232,6 +235,48 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
     }
 
     @Override
+    public ArrayList<CitaDTO> listarPorMedico(int idMedico) {
+        String sql = this.generarSQLParaListarTodosPorColumnaEspecifica("id_medico");//Nombre columna
+        Consumer incluirValorDeParametros = null;
+        Object parametros = null;
+        return (ArrayList<CitaDTO>) super.listarTodos(sql, idMedico, incluirValorDeParametros, parametros);
+    }
+
+    @Override
+    public ArrayList<CitaDTO> listarPorPaciente(PacienteDTO paciente) {
+        Integer idPaciente = paciente.getIdPersona();
+        HistoriaClinicaDAO historiaDao = new HistoriaClinicaDAOImpl();
+        HistoriaClinicaDTO historia = historiaDao.obtenerPorIdPaciente(idPaciente);
+        int idHistoria = historia.getIdHistoriaClinica();
+        String sql = super.generarSQLParaListarTodosPorColumnaEspecifica("id_historia");
+        Consumer incluirValorDeParametros = null;
+        Object parametros = null;
+        return (ArrayList<CitaDTO>) super.listarTodos(sql, idHistoria, incluirValorDeParametros, parametros);
+
+    }
+
+    @Override
+    public ArrayList<CitaDTO> buscarCitasDisponibles(Integer idEspecialidad, Integer codMedico, LocalDate fecha) {
+        Boolean conEspecialidad = (idEspecialidad!=null);
+        Boolean conCodMedico = (codMedico!=null);
+        Boolean conFecha = (fecha!=null);
+        
+        String sql = this.generarSQLParaBuscarCitas(conEspecialidad, conCodMedico, conFecha);
+        Date fechaD = (fecha!=null?Date.valueOf(fecha):null);
+        List<Object> params = new ArrayList<>();
+
+        if (idEspecialidad != null)
+            params.add(idEspecialidad);
+        if (codMedico != null) 
+            params.add(codMedico);
+        if (fecha != null) 
+            params.add(fechaD);
+        
+        Integer id = null;
+        return (ArrayList<CitaDTO>) super.listarTodos(sql, id, this::incluirValorDeParametros, params);
+    }
+    
+        @Override
     public ArrayList<CitaDTO> ReporteResumenGeneral(Integer especialidad, Estado estado, java.util.Date fechaInicio, java.util.Date fechaFin) {
 
         ArrayList<CitaDTO> lista = new ArrayList<>();
@@ -284,83 +329,6 @@ public class CitaDAOImpl extends DAOImplBase implements CitaDAO {
             }
         }
         return lista;
-    }
-
-    @Override
-    public ArrayList<CitaDTO> listarPorMedico(int idMedico) {
-        String sql = this.generarSQLParaListarTodosPorColumnaEspecifica("id_medico");//Nombre columna
-        Consumer incluirValorDeParametros = null;
-        Object parametros = null;
-        return (ArrayList<CitaDTO>) super.listarTodos(sql, idMedico, incluirValorDeParametros, parametros);
-    }
-
-    @Override
-    public ArrayList<CitaDTO> listarPorPaciente(PacienteDTO paciente) {
-        Integer idPaciente = paciente.getIdPersona();
-        HistoriaClinicaDAO historiaDao = new HistoriaClinicaDAOImpl();
-        HistoriaClinicaDTO historia = historiaDao.obtenerPorIdPaciente(idPaciente);
-        int idHistoria = historia.getIdHistoriaClinica();
-        String sql = super.generarSQLParaListarTodosPorColumnaEspecifica("id_historia");
-        Consumer incluirValorDeParametros = null;
-        Object parametros = null;
-        return (ArrayList<CitaDTO>) super.listarTodos(sql, idHistoria, incluirValorDeParametros, parametros);
-
-    }
-
-    public ArrayList<CitaDTO> buscarCitasDisponibles(Integer idEspecialidad, Integer codMedico, LocalDate fecha) {
-        ArrayList<CitaDTO> citas = new ArrayList<>();
-        StringBuilder sql = new StringBuilder(
-                "SELECT c.id_cita, c.id_horario, c.id_medico, c.observaciones_medicas, c.id_historia, c.estado "
-                + "FROM cita c "
-                + "JOIN horario h ON c.id_horario = h.id_horario "
-                + "JOIN persona p ON c.id_medico = p.id_persona "
-                + "JOIN especialidad e ON p.id_especialidad = e.id_especialidad "
-                + "WHERE c.estado = 'disponible' "
-        );
-
-        List<Object> params = new ArrayList<>();
-
-        if (idEspecialidad != null) {
-            sql.append("AND e.id_especialidad = ? ");
-            params.add(idEspecialidad);
-        }
-        if (codMedico != null) {
-            sql.append("AND p.cod_medico = ? ");
-            params.add(codMedico);
-        }
-        if (fecha != null) {
-            sql.append("AND DATE(h.fecha) = ? ");
-            params.add(Date.valueOf(fecha));
-        }
-
-        try {
-
-            this.conexion = DBManager.getInstance().getConnection();
-            this.statement = this.conexion.prepareCall(sql.toString());
-
-            for (int i = 0; i < params.size(); i++) {
-                this.statement.setObject(i + 1, params.get(i));
-            }
-
-            this.resultSet = this.statement.executeQuery();
-            while (this.resultSet.next()) {
-                this.instanciarObjetoDelResultSet();
-                citas.add(cita);
-            }
-
-        } catch (SQLException ex) {
-            System.err.println("Error al intentar ReporteResumenGeneral - " + ex);
-        } finally {
-            try {
-                if (this.conexion != null) {
-                    this.conexion.close();
-                }
-            } catch (SQLException ex) {
-                System.err.println("Error al cerrar la conexión - " + ex);
-            }
-        }
-
-        return citas;
     }
 
 }

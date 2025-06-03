@@ -113,7 +113,7 @@ public class CuentaAdmin extends CuentaBO{
     
     public ArrayList<CitaDTO> ReporteCitasPaciente(PacienteDTO paciente){
         ArrayList<CitaDTO> lista;
-        lista = citaDAO.listarPorPaciente( paciente);
+        lista = citaDAO.listarPorPaciente(paciente);
         
         return lista;
     }

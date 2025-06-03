@@ -15,4 +15,5 @@ public interface HistoriaClinicaDAO {
     
     public ArrayList<HistoriaClinicaDTO> listarTodos();
     public HistoriaClinicaDTO obtenerPorIdPaciente(Integer idPaciente);
+    public HistoriaClinicaDTO obtenerPorId(Integer id) ;
 }

@@ -36,11 +36,17 @@ public class HistoriaClinicaDAOImpl extends DAOImplBase implements HistoriaClini
     }
     
     @Override
+    protected void incluirValorDeParametrosParaObtenerPorId() throws SQLException {
+        this.statement.setInt(1, this.historia.getIdHistoriaClinica());
+    }
+    
+    @Override
     public void instanciarObjetoDelResultSet() throws SQLException{
         this.historia = new HistoriaClinicaDTO();
         this.historia.setIdHistoriaClinica(this.resultSet.getInt("id_historia"));
         PacienteDTO paciente = new PacienteDTO();
         paciente.setIdPersona(this.resultSet.getInt("id_persona"));
+        
         this.historia.setPaciente(paciente);
     }
     
@@ -63,5 +69,13 @@ public class HistoriaClinicaDAOImpl extends DAOImplBase implements HistoriaClini
         if(!historiasClinicas.isEmpty())
             this.historia = historiasClinicas.get(0);
         return this.historia; 
+    }
+    
+    @Override
+    public HistoriaClinicaDTO obtenerPorId(Integer id) {
+        this.historia = new HistoriaClinicaDTO();
+        this.historia.setIdHistoriaClinica(id);
+        super.obtenerPorId();
+        return this.historia;
     }
 }
