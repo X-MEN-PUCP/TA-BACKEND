@@ -6,11 +6,15 @@ package pe.edu.pucp.softbusiness.bo;
 
 import java.util.ArrayList;
 import java.util.Date;
+import pe.edu.pucp.softmodel.modelos.CitaDTO;
 import pe.edu.pucp.softmodel.modelos.CuentaDTO;
 import pe.edu.pucp.softmodel.modelos.EspecialidadDTO;
 import pe.edu.pucp.softmodel.modelos.MedicoDTO;
+import pe.edu.pucp.softmodel.util.Estado;
 import pe.edu.pucp.softmodel.util.Genero;
+import pe.edu.pucp.softpersistence.dao.CitaDAO;
 import pe.edu.pucp.softpersistence.dao.MedicoDAO;
+import pe.edu.pucp.softpersistence.daoImp.CitaDAOImpl;
 import pe.edu.pucp.softpersistence.daoImp.MedicoDAOImpl;
 
 /**
@@ -20,9 +24,11 @@ import pe.edu.pucp.softpersistence.daoImp.MedicoDAOImpl;
 public class MedicoBO {
     
     private MedicoDAO dao;
+    private CitaDAO citaDao;
     
     public MedicoBO(){
         dao = new MedicoDAOImpl();
+        citaDao = new CitaDAOImpl();
     }
     
     
@@ -69,6 +75,15 @@ public class MedicoBO {
         return this.eliminar(id);
     }
     
+    public ArrayList<CitaDTO> listarCitasProgramadas(Integer idMedico){
+        ArrayList<CitaDTO> citas;
+        //ya tengo el id_persona en la clase base
+        //busco las citas con estado: Pagado, Id_persona, fecha
+        //int id = super.getIdPersona();
+        citas = citaDao.listarPorIdMedicoEstado(idMedico, Estado.PAGADO);
+        
+        return citas;
+    }
     
     
 }
