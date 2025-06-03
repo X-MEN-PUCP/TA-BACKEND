@@ -4,6 +4,7 @@
  */
 package softbusiness.util;
 
+import pe.edu.pucp.softbusiness.bo.util.NuevoUsuarioPacienteBuilder;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import pe.edu.pucp.softmodel.modelos.PersonaDTO;

@@ -1,4 +1,4 @@
-package softbusiness.util;
+package pe.edu.pucp.softbusiness.bo.util;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

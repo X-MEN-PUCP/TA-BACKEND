@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package softbusiness.business;
+package pe.edu.pucp.softbusiness.bo;
 
 import java.util.ArrayList;
 import pe.edu.pucp.softmodel.modelos.CitaDTO;

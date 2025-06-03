@@ -21,17 +21,17 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
-import softbusiness.business.CuentaBO;
-import softbusiness.business.LogIn;
+import pe.edu.pucp.softbusiness.bo.CuentaBO;
+import pe.edu.pucp.softbusiness.bo.LogIn;
 
 import java.util.Random;
-import softbusiness.business.CuentaAdmin;
-import softbusiness.business.CuentaMedico;
-import softbusiness.business.CuentaPaciente;
-import softbusiness.util.NuevoUsuarioMedicoBuilder;
+import pe.edu.pucp.softbusiness.bo.CuentaAdmin;
+import pe.edu.pucp.softbusiness.bo.CuentaMedico;
+import pe.edu.pucp.softbusiness.bo.CuentaPaciente;
+import pe.edu.pucp.softbusiness.bo.util.NuevoUsuarioMedicoBuilder;
 import org.junit.jupiter.api.Disabled;
 
-import softbusiness.util.NuevoUsuarioPacienteBuilder;
+import pe.edu.pucp.softbusiness.bo.util.NuevoUsuarioPacienteBuilder;
 /**
  *
  * @author Mcerv

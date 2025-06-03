@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package softbusiness.business;
+package pe.edu.pucp.softbusiness.bo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class citaBO {
     }
     
     public Integer insertar(Integer idHorario,Integer idPersona,String observaciones,
-            int idHistoria,String estado){
+            Integer idHistoria,String estado){
         
         HorarioDTO horario = new HorarioDTO();
         horario.setIdHorario(idHorario);
@@ -51,7 +51,7 @@ public class citaBO {
     }
      
     public Integer modificar(Integer idCita,Integer idHorario,Integer idPersona,String observaciones,
-            int idHistoria,String estado){
+            Integer idHistoria,String estado){
         
         HorarioDTO horario = new HorarioDTO();
         horario.setIdHorario(idHorario);
@@ -98,7 +98,7 @@ public class citaBO {
         return this.citaDao.ReporteResumenGeneral(especialidad, estado, fechaInicio, fechaFin);
     }
     
-    public ArrayList<CitaDTO> listarPorMedico(int idMedico){
+    public ArrayList<CitaDTO> listarPorMedico(Integer idMedico){
         return this.citaDao.listarPorIdMedico(idMedico);
     }
     
