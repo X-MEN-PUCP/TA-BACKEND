@@ -46,19 +46,19 @@ public class LogInTest {
 //    
 //    /*==============================================================*/
 //    //TEST INICIAR SESSIÓN
-////    @org.junit.jupiter.api.Test
-////    public void testIniciarSesion() {
-////        System.out.println("iniciarSesion");
-////        String dni = "74073698";
-////        String contrasenha = "pass1";
-////        CuentaBO cuenta=null;
-////        LogIn instance = new LogIn();
-////        cuenta = instance.iniciarSesion(dni, contrasenha);
-////        if(cuenta!=null){
-////            System.out.println("Bienvenido");
-////            cuenta.QuienSoy();
-////        }
-////    }
+//    @org.junit.jupiter.api.Test
+//    public void testIniciarSesion() {
+//        System.out.println("iniciarSesion");
+//        String dni = "74073698";
+//        String contrasenha = "pass1";
+//        CuentaBO cuenta=null;
+//        LogIn instance = new LogIn();
+//        cuenta = instance.iniciarSesion(dni, contrasenha);
+//        if(cuenta!=null){
+//            System.out.println("Bienvenido");
+//            cuenta.QuienSoy();
+//        }
+//    }
 ////    
 //    
 //    /*==============================================================*/
